@@ -22,6 +22,8 @@ TESTS_DIR				:=	tests/
 
 $(NAME)_MAIN_SRC		:=	$(SRC_DIR)Main.cpp
 $(NAME)_SRCS			:=	$(addprefix $(SRC_DIR), $(addsuffix .cpp,	\
+								$(addprefix Core/,						\
+									ModuleLibrary)						\
 							))
 $($(NAME)_TESTS)_SRCS	:=	$(shell find $(TESTS_DIR) -type f			\
 							-name '*.cpp' ! -name ".*" 2>/dev/null)
