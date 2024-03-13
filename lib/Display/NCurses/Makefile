@@ -1,6 +1,6 @@
 ##
 ## EPITECH PROJECT, 2024
-## B-c-400-REN-4-1-cminilibc-guillaume.blaizot
+## Arcade
 ## File description:
 ## Makefile
 ##

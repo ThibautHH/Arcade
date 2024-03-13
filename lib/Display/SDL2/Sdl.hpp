@@ -8,10 +8,17 @@
 #ifndef SDL_HPP_
 #define SDL_HPP_
 
-class Sdl {
+#include <stdio.h>
+#include <iostream>
+#include "../IDisplayModule.hpp"
+
+class Sdl : public Arcade::Displays::IDisplayModule{
     public:
         Sdl();
-        ~Sdl();
+        ~Sdl() = default;
+
+        void drawMap(Arcade::Data data) override;
+        void drawScore(Arcade::Data data) override;
 
     protected:
     private:

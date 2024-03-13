@@ -10,11 +10,15 @@
 
 #include <stdio.h>
 #include <iostream>
+#include "../IDisplayModule.hpp"
 
-class Ncurses{
+class Ncurses : public Arcade::Displays::IDisplayModule {
     public:
         Ncurses();
-        ~Ncurses();
+        ~Ncurses() = default;
+
+        void drawMap(Arcade::Data data) override;
+        void drawScore(Arcade::Data data) override;
 };
 
 

@@ -1,33 +1,52 @@
 ##
 ## EPITECH PROJECT, 2024
-## B-c-400-REN-4-1-cminilibc-guillaume.blaizot
+## Arcade
 ## File description:
 ## Makefile
 ##
 
+EXEC = arcade
 VPATH := ./src
+CC = g++
 
 vpath %.cpp $(VPATH)
 
-CFLAGS = -Wall -Werror
+INC_DIR = ./src
+INC = -I $(INC_DIR)
 
-BUILD_DIR = build
+SRC := main.cpp
 
-all: $(GRAPHICALS)
+CFLAGS = -Wall -Werror -g -std=c++20 -fPIC -fno-gnu-unique
+
+BUILD_DIR	= build
+OBJ			:= $(SRC:%.cpp=$(BUILD_DIR)/%.o)
+
+all: graphicals games core
+
 	@echo	"Shared library creation done"
 
-$(BUILD_DIR)/%.o: %.cpp
-	@mkdir -p $(@D)
-	@g++ -c -o $@ $< -fPIC
-
 graphicals:
-	@make -C ./libs/NCurses
-	@make -C ./libs/SFML
-	@make -C ./libs/SDL2
+	@make -C ./lib/Display/NCurses
+	@make -C ./lib/Display/SFML
+	@make -C ./lib/Display/SDL2
 	@echo "Creating shared library NCurses"
 	@echo "Creating shared library SFML"
 	@echo "Creating shared library SDL2"
 
+core: $(OBJ)
+	@echo $(OBJ)
+	@$(CC) $^ $(CFLAGS) $(INC) -o $(EXEC)
+	@echo "Creating core"
+
+$(BUILD_DIR)/%.o: %.cpp
+	@mkdir -p $(@D)
+	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
+
+games:
+	@make -C ./lib/Games/Pacman
+	@make -C ./lib/Games/Nibbler
+	@echo "Creating shared library Pacman"
+	@echo "Creating shared library Nibbler"
 
 clean:
 	@ $(RM) *.gcda
@@ -40,8 +59,16 @@ clean:
 
 fclean: clean
 	@rm -f $(EXEC)
-	@echo "Removed library $(LIB_FOO)"
-	@echo "Removed library $(LIB_BAR)"
+	make fclean -C ./lib/Display/NCurses
+	make fclean -C ./lib/Display/SFML
+	make fclean -C ./lib/Display/SDL2
+	make fclean -C ./lib/Games/Pacman
+	make fclean -C ./lib/Games/Nibbler
+	@echo "Removed library NCurses"
+	@echo "Removed library SFML"
+	@echo "Removed library SDL2"
+	@echo "Removed library Pacman"
+	@echo "Removed library Nibbler"
 
 re: fclean all
 

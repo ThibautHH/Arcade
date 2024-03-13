@@ -5,29 +5,29 @@
 ## Makefile
 ##
 
-LIB_SDL = libsdl.so
+LIB_NIBBLER = libnibbler.so
 
 VPATH := ./src
 
 vpath %.cpp $(VPATH)
 
-SRC_SDL := Sdl.cpp
+SRC_NIBBLER := Nibbler.cpp
 
 CFLAGS = -Wall -Werror
 
 BUILD_DIR = build
-OBJ_SDL := $(SRC_SDL:%.cpp=$(BUILD_DIR)/%.o)
+OBJ_NIBBLER := $(SRC_NIBBLER:%.cpp=$(BUILD_DIR)/%.o)
 
-all: $(LIB_SDL)
+all: $(LIB_NIBBLER)
 	@echo	"Shared library creation done"
 
 $(BUILD_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
 	@g++ -c -o $@ $< -fPIC
 
-$(LIB_SDL): $(OBJ_SDL)
-	@ld -shared -ldl -o $(LIB_SDL) $(OBJ_SDL)
-	@echo "Creating shared library   $(LIB_SDL)"
+$(LIB_NIBBLER): $(OBJ_NIBBLER)
+	@ld -shared -ldl -o $(LIB_NIBBLER) $(OBJ_NIBBLER)
+	@echo "Creating shared library   $(LIB_NIBBLER)"
 
 clean:
 	@ $(RM) *.gcda
@@ -39,10 +39,10 @@ clean:
 	@echo "Cleaned up build directory"
 
 fclean: clean
-	@rm -f $(LIB_SDL)
+	@rm -f $(LIB_NIBBLER)
 	@rm -f $(LIB_BAR)
 	@rm -f $(EXEC)
-	@echo "Removed library $(LIB_SDL)"
+	@echo "Removed library $(LIB_NIBBLER)"
 	@echo "Removed library $(LIB_BAR)"
 
 re: fclean all
