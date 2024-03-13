@@ -9,6 +9,7 @@
     #define IGAMEMODULE_HPP_
 
 #include <string>
+#include "../Data.hpp"
 
 namespace Arcade::Games {
 
@@ -19,6 +20,7 @@ namespace Arcade::Games {
             virtual void loadMap() = 0;
             virtual size_t getScore() = 0;
             virtual void setScore(size_t score) = 0;
+            virtual Arcade::Data tick() = 0;
         private:
     };
 
