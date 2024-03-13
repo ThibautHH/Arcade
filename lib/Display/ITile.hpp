@@ -9,7 +9,7 @@
     #define ITILE_HPP_
 
 #include <string>
-#include "../Sprite/ISprite.hpp"
+#include "ISprite.hpp"
 
 namespace Arcade::Displays {
 

@@ -8,8 +8,8 @@
 #ifndef CORE_HPP_
     #define CORE_HPP_
 
-#include "../Displays/IDisplayModule.hpp"
-#include "../Games/IGameModule.hpp"
+#include "../../lib/Display/IDisplayModule.hpp"
+#include "../../lib/Games/IGameModule.hpp"
 
 namespace Core {
 
