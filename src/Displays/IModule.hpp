@@ -12,8 +12,8 @@ namespace Arcade::Displays {
 
     class IModule {
         public:
-            IModule();
-            ~IModule();
+            virtual ~IModule() = default;
+
         private:
     };
 
