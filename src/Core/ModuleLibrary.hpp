@@ -8,6 +8,7 @@
 #ifndef ARCADE_CORE_MODULELIBRARY_HPP_
     #define ARCADE_CORE_MODULELIBRARY_HPP_
 
+    #include <dlfcn.h>
     #include <functional>
     #include <memory>
     #include <string>
@@ -25,13 +26,15 @@ namespace Arcade::Core {
         protected:
             static constexpr const char ModuleCreatorSymbol[] = "createModule";
 
-            typedef std::unique_ptr<void, std::function<int(void *)>> handle_ptr;
+            static void *dlexec(std::function<void *(void)> f);
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wignored-attributes"
+            typedef std::unique_ptr<void, decltype(dlclose) *> handle_ptr;
+#pragma GCC diagnostic pop
             const handle_ptr _handle;
 
             ModuleLibraryBase(const std::string &path);
-
-        private:
-            static const handle_ptr openLibrary(const std::string &path);
     };
 
     template<typename T>
@@ -42,10 +45,8 @@ namespace Arcade::Core {
             std::unique_ptr<T> createModule() const final;
 
         private:
-            typedef std::function<T *(void)> module_creator;
-            const module_creator _moduleCreator;
-
-            module_creator loadModuleCreator() const;
+            typedef T *(module_creator)(void);
+            const std::function<module_creator> _moduleCreator;
     };
 }
 
