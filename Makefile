@@ -22,6 +22,7 @@ TESTS_DIR				:=	tests/
 
 $(NAME)_MAIN_SRC		:=	$(SRC_DIR)Main.cpp
 $(NAME)_SRCS			:=	$(addprefix $(SRC_DIR), $(addsuffix .cpp,	\
+								Termination								\
 								$(addprefix Core/,						\
 									ModuleLibrary)						\
 							))
