@@ -11,7 +11,6 @@
     #include <dlfcn.h>
     #include <functional>
     #include <memory>
-    #include <string>
 
 namespace Arcade::Core {
     template<typename T>
@@ -34,13 +33,13 @@ namespace Arcade::Core {
 #pragma GCC diagnostic pop
             const handle_ptr _handle;
 
-            ModuleLibraryBase(const std::string &path);
+            ModuleLibraryBase(const char *path);
     };
 
     template<typename T>
     class ModuleLibrary : public IModuleLibrary<T>, public ModuleLibraryBase {
         public:
-            ModuleLibrary(const std::string &path);
+            ModuleLibrary(const char *path);
 
             std::unique_ptr<T> createModule() const final;
 

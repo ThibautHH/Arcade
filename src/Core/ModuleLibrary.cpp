@@ -19,13 +19,13 @@ void *ModuleLibraryBase::dlexec(std::function<void *(void)> dlfunc)
     return result;
 }
 
-ModuleLibraryBase::ModuleLibraryBase(const std::string &path)
-    : _handle(dlexec(std::bind(dlopen, path.c_str(), RTLD_LAZY)), dlclose)
+ModuleLibraryBase::ModuleLibraryBase(const char *path)
+    : _handle(dlexec(std::bind(dlopen, path, RTLD_LAZY)), dlclose)
 {
 }
 
 template<typename T>
-ModuleLibrary<T>::ModuleLibrary(const std::string &path)
+ModuleLibrary<T>::ModuleLibrary(const char *path)
     : ModuleLibraryBase(path),
     _moduleCreator((module_creator *)dlexec(std::bind(dlsym, _handle.get(), ModuleCreatorSymbol)))
 {
