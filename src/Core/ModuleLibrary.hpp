@@ -16,14 +16,6 @@
     #include "../Games/IModule.hpp"
 
 namespace Arcade::Core {
-    template<typename T>
-    class IModuleLibrary {
-        public:
-          virtual ~IModuleLibrary() = default;
-
-          virtual std::unique_ptr<T> createModule() const = 0;
-    };
-
     class ModuleLibraryBase {
         public:
             class DynamicLibraryException : public std::runtime_error {
@@ -48,11 +40,11 @@ namespace Arcade::Core {
     };
 
     template<typename T>
-    class ModuleLibrary : public IModuleLibrary<T>, public ModuleLibraryBase {
+    class ModuleLibrary : public ModuleLibraryBase {
         public:
             ModuleLibrary(const char *path);
 
-            std::unique_ptr<T> createModule() const final;
+            std::unique_ptr<T> createModule() const;
 
         private:
             typedef T *(module_creator)(void);
