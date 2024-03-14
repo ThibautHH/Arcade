@@ -11,6 +11,9 @@
     #include <exception>
 
 namespace Arcade {
+    /**
+     * @brief Class responsible for handling termination of the program
+     */
     class Termination {
         private:
             static const std::terminate_handler DefaultTerminateHandler;
