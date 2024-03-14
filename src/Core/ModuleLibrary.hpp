@@ -26,8 +26,6 @@ namespace Arcade::Core {
             };
 
         protected:
-            static constexpr const char ModuleCreatorSymbol[] = "createModule";
-
             static void *dlexec(std::function<void *(void)> f);
 
 #pragma GCC diagnostic push
@@ -47,6 +45,8 @@ namespace Arcade::Core {
             std::unique_ptr<T> createModule() const;
 
         private:
+            static constexpr const char ModuleCreatorSymbol[] = "createModule";
+
             typedef T *(module_creator)(void);
             const std::function<module_creator> _moduleCreator;
     };
