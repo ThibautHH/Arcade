@@ -22,6 +22,14 @@ namespace Arcade::Core {
     };
 
     class ModuleLibraryBase {
+        public:
+            class DynamicLibraryException : public std::runtime_error {
+                public:
+                    DynamicLibraryException(const char *message)
+                        : std::runtime_error(message)
+                    {}
+            };
+
         protected:
             static constexpr const char ModuleCreatorSymbol[] = "createModule";
 

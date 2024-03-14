@@ -15,7 +15,7 @@ void *ModuleLibraryBase::dlexec(std::function<void *(void)> dlfunc)
     void * const result = dlfunc();
     const char *error = dlerror();
     if (error)
-        throw std::runtime_error(error);
+        throw DynamicLibraryException(error);
     return result;
 }
 
