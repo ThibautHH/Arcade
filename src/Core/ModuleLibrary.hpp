@@ -12,6 +12,9 @@
     #include <functional>
     #include <memory>
 
+    #include "../Displays/IModule.hpp"
+    #include "../Games/IModule.hpp"
+
 namespace Arcade::Core {
     template<typename T>
     class IModuleLibrary {
@@ -55,6 +58,9 @@ namespace Arcade::Core {
             typedef T *(module_creator)(void);
             const std::function<module_creator> _moduleCreator;
     };
+
+    template class ModuleLibrary<Displays::IModule>;
+    template class ModuleLibrary<Games::IModule>;
 }
 
 #endif /* !ARCADE_CORE_MODULELIBRARY_HPP_ */
