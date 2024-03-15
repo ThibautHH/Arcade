@@ -1,1 +1,44 @@
-.vscode
+##
+## EPITECH PROJECT, 2024
+## Arcade
+## File description:
+## .gitignore
+##
+
+# Ignore object files
+obj/Main.o
+obj/Termination.o
+obj/Core/ModuleLibrary.o
+obj/Core/Processor.o
+
+
+# Ignore dependency files
+obj/Main.d
+obj/Termination.d
+obj/Core/ModuleLibrary.d
+obj/Core/Processor.d
+
+
+# Ignore binary files
+arcade
+arcade_tests
+a.out
+
+# Ignore logs and reports
+*.gc*
+vgcore.*
+
+# Ignore coding-style logs
+coding-style-reports.log
+
+# Ignore temporary files
+*tmp*
+*~
+\#*#
+.#*
+*.swp
+
+# Miscellanous
+compile_commands.json
+.cache
+
