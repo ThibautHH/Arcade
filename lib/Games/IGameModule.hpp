@@ -9,7 +9,12 @@
     #define IGAMEMODULE_HPP_
 
 #include <string>
-#include "../Data.hpp"
+#include "IInput.hpp"
+#include <memory>
+#include <vector>
+#include <map>
+#include "ITile.hpp"
+#include "ISprite.hpp"
 
 namespace Arcade::Games {
 
@@ -20,7 +25,9 @@ namespace Arcade::Games {
             virtual void loadMap() = 0;
             virtual size_t getScore() = 0;
             virtual void setScore(size_t score) = 0;
-            virtual Arcade::Data tick() = 0;
+            virtual void tick(Arcade::Games::IInput&) = 0;
+            virtual std::vector<std::vector<std::unique_ptr<Arcade::Displays::ITile>>> &getMap() = 0;
+            virtual std::map<std::string, std::pair<std::weak_ptr<Arcade::Displays::ISprite>, std::string>> &getHeaderData() = 0;
         private:
     };
 

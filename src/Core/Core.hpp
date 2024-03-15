@@ -11,15 +11,15 @@
 #include "../../lib/Display/IDisplayModule.hpp"
 #include "../../lib/Games/IGameModule.hpp"
 
-namespace Core {
+namespace Arcade {
 
     class Core {
         public:
             Core();
             ~Core();
         private:
-            Arcade::Displays::IDisplayModule *display;
-            Arcade::Games::IGameModule *game;
+            Arcade::Displays::IDisplayModule *_currentLib;
+            Arcade::Games::IGameModule *_currentGame;
     };
 }
 
