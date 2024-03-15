@@ -30,7 +30,7 @@ $($(NAME)_TESTS)_SRCS	:=	$(shell find $(TESTS_DIR) -type f			\
 							-name '*.cpp' ! -name ".*" 2>/dev/null)
 
 IGNORE_FILE				:=	.gitignore
-IGNORED_FILES			:=	compile_commands.json .cache
+IGNORED_FILES			:=	compile_commands.json .cache docs/html
 ifndef $(NAME)_LINK
 IGNORED_FILES			+=  $($(NAME)_MAIN_SRC)
 endif
@@ -116,6 +116,10 @@ $(BUILD_DIR)%.o:			$(SRC_DIR)%.cpp $$(PCH)
 	@-echo 'Compiling $<...' >&2
 	@mkdir -p $(dir $@)
 	@$(CXX) -c $(CXXFLAGS) $< -o $@
+
+docs:						$(IGNORE_FILE)
+	@-echo 'Generating documentation...' >&2
+	@doxygen
 
 coding-style:				fclean
 	@-echo 'Checking coding style...' >&2
