@@ -7,6 +7,7 @@
 
 EXEC = arcade
 VPATH := ./src
+VPATH += ./src/Core/
 CC = g++
 
 vpath %.cpp $(VPATH)
@@ -14,7 +15,11 @@ vpath %.cpp $(VPATH)
 INC_DIR = ./src
 INC = -I $(INC_DIR)
 
-SRC := main.cpp
+SRC := Main.cpp
+SRC	+= Termination.cpp
+SRC += Core.cpp
+SRC += ModuleLibrary.cpp
+SRC += Processor.cpp
 
 CFLAGS = -Wall -Werror -g -std=c++20 -fPIC -fno-gnu-unique
 

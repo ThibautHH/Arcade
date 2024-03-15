@@ -16,8 +16,6 @@ class Ncurses : public Arcade::Displays::IDisplayModule {
     public:
         Ncurses();
         ~Ncurses() = default;
-
 };
-
 
 #endif /* !Ncurses_HPP_ */
