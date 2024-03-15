@@ -48,6 +48,9 @@ games:
 	@echo "Creating shared library Snake"
 	@echo "Creating shared library Nibbler"
 
+doc:
+	@doxygen doc/Doxyfile
+
 clean:
 	@ $(RM) *.gcda
 	@ $(RM) *.gcno
@@ -64,6 +67,7 @@ fclean: clean
 	make fclean -C ./lib/Display/SDL2
 	make fclean -C ./lib/Games/Snake
 	make fclean -C ./lib/Games/Nibbler
+	@rm -rf doc/html
 	@echo "Removed library NCurses"
 	@echo "Removed library SFML"
 	@echo "Removed library SDL2"

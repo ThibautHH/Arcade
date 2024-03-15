@@ -40,5 +40,6 @@ coding-style-reports.log
 
 # Miscellanous
 compile_commands.json
+.vscode
 .cache
 
