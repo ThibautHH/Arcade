@@ -42,4 +42,4 @@ coding-style-reports.log
 compile_commands.json
 .vscode
 .cache
-
+doc/html
