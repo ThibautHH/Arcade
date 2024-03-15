@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-LIB_SFML = libsfml.so
+LIB_SFML = arcade_sfml.so
 
 VPATH := ./src
 

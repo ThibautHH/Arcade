@@ -26,9 +26,3 @@ void Nibbler::setScore(size_t score)
 {
     _score = score;
 }
-
-Arcade::Data Nibbler::tick()
-{
-    std::cout << "Nibbler tick" << std::endl;
-    return Arcade::Data();
-}

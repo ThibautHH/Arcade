@@ -17,8 +17,6 @@ class Ncurses : public Arcade::Displays::IDisplayModule {
         Ncurses();
         ~Ncurses() = default;
 
-        void drawMap(Arcade::Data data) override;
-        void drawScore(Arcade::Data data) override;
 };
 
 

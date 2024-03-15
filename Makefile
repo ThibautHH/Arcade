@@ -43,9 +43,9 @@ $(BUILD_DIR)/%.o: %.cpp
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 games:
-	@make -C ./lib/Games/Pacman
+	@make -C ./lib/Games/Snake
 	@make -C ./lib/Games/Nibbler
-	@echo "Creating shared library Pacman"
+	@echo "Creating shared library Snake"
 	@echo "Creating shared library Nibbler"
 
 clean:
@@ -62,12 +62,12 @@ fclean: clean
 	make fclean -C ./lib/Display/NCurses
 	make fclean -C ./lib/Display/SFML
 	make fclean -C ./lib/Display/SDL2
-	make fclean -C ./lib/Games/Pacman
+	make fclean -C ./lib/Games/Snake
 	make fclean -C ./lib/Games/Nibbler
 	@echo "Removed library NCurses"
 	@echo "Removed library SFML"
 	@echo "Removed library SDL2"
-	@echo "Removed library Pacman"
+	@echo "Removed library Snake"
 	@echo "Removed library Nibbler"
 
 re: fclean all

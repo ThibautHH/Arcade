@@ -17,8 +17,6 @@ class Sfml : public Arcade::Displays::IDisplayModule{
         Sfml();
         ~Sfml() = default;
 
-        void drawMap(Arcade::Data data) override;
-        void drawScore(Arcade::Data data) override;
     protected:
     private:
 };

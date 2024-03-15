@@ -5,29 +5,29 @@
 ## Makefile
 ##
 
-LIB_PACMAN = libpacman.so
+LIB_SNAKE = arcade_snake.so
 
 VPATH := ./src
 
 vpath %.cpp $(VPATH)
 
-SRC_PACMAN := Pacman.cpp
+SRC_SNAKE := Snake.cpp
 
 CFLAGS = -Wall -Werror
 
 BUILD_DIR = build
-OBJ_PACMAN := $(SRC_PACMAN:%.cpp=$(BUILD_DIR)/%.o)
+OBJ_SNAKE := $(SRC_SNAKE:%.cpp=$(BUILD_DIR)/%.o)
 
-all: $(LIB_PACMAN)
+all: $(LIB_SNAKE)
 	@echo	"Shared library creation done"
 
 $(BUILD_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
 	@g++ -c -o $@ $< -fPIC
 
-$(LIB_PACMAN): $(OBJ_PACMAN)
-	@ld -shared -ldl -o $(LIB_PACMAN) $(OBJ_PACMAN)
-	@echo "Creating shared library   $(LIB_PACMAN)"
+$(LIB_SNAKE): $(OBJ_SNAKE)
+	@ld -shared -ldl -o $(LIB_SNAKE) $(OBJ_SNAKE)
+	@echo "Creating shared library   $(LIB_SNAKE)"
 
 clean:
 	@ $(RM) *.gcda
@@ -39,10 +39,10 @@ clean:
 	@echo "Cleaned up build directory"
 
 fclean: clean
-	@rm -f $(LIB_PACMAN)
+	@rm -f $(LIB_SNAKE)
 	@rm -f $(LIB_BAR)
 	@rm -f $(EXEC)
-	@echo "Removed library $(LIB_PACMAN)"
+	@echo "Removed library $(LIB_SNAKE)"
 	@echo "Removed library $(LIB_BAR)"
 
 re: fclean all

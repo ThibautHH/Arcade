@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-LIB_NIBBLER = libnibbler.so
+LIB_NIBBLER = arcade_nibbler.so
 
 VPATH := ./src
 

@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-LIB_SDL = libsdl.so
+LIB_SDL = arcade_sdl2.so
 
 VPATH := ./src
 

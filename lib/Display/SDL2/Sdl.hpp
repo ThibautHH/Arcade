@@ -17,9 +17,6 @@ class Sdl : public Arcade::Displays::IDisplayModule{
         Sdl();
         ~Sdl() = default;
 
-        void drawMap(Arcade::Data data) override;
-        void drawScore(Arcade::Data data) override;
-
     protected:
     private:
 };

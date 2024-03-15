@@ -20,7 +20,6 @@ class Nibbler : public Arcade::Games::IGameModule {
         void loadMap() override;
         size_t getScore() override;
         void setScore(size_t score) override;
-        Arcade::Data tick() override;
 
     protected:
     private:

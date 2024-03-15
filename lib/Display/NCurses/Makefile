@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-LIB_NC = libnc.so
+LIB_NC = arcade_ncurses.so
 
 VPATH := ./src
 

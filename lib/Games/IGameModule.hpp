@@ -13,8 +13,8 @@
 #include <memory>
 #include <vector>
 #include <map>
-#include "ITile.hpp"
-#include "ISprite.hpp"
+#include "../Display/ITile.hpp"
+#include "../Display/ISprite.hpp"
 
 namespace Arcade::Games {
 
