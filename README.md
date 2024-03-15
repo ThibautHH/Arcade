@@ -23,21 +23,21 @@ program.
 
 ## Table of Contents
 
-- [LIBRARIES](doc/LIBRARIES.md)
-  - [DYNAMIC LIBRARIES](doc/LIBRARIES.md#dynamic-libraries)
-  - [GRAPHICS LIBRARIES](doc/LIBRARIES.md#graphics-libraries)
-  - [GAMES](doc/LIBRARIES.md#games)
-- [USAGE](doc/USAGE.md)
-- [BUILD](doc/BUILD.md)
-  - [Makefile](doc/BUILD.md#makefile)
-  - [CMake](doc/BUILD.md#cmake)
-- [GAMES](doc/GAMES.md)
-  - [Snake](doc/GAMES.md#snake)
-  - [Nibbler](doc/GAMES.md#nibbler)
-  - [Pacman](doc/GAMES.md#pacman)
-  - [Qix](doc/GAMES.md#qix)
-  - [Centipede](doc/GAMES.md#centipede)
-  - [Solarfox](doc/GAMES.md#solarfox)
+- [LIBRARIES](docs/LIBRARIES.md)
+  - [DYNAMIC LIBRARIES](docs/LIBRARIES.md#dynamic-libraries)
+  - [GRAPHICS LIBRARIES](docs/LIBRARIES.md#graphics-libraries)
+  - [GAMES](docs/LIBRARIES.md#games)
+- [USAGE](docs/USAGE.md)
+- [BUILD](docs/BUILD.md)
+  - [Makefile](docs/BUILD.md#makefile)
+  - [CMake](docs/BUILD.md#cmake)
+- [GAMES](docs/GAMES.md)
+  - [Snake](docs/GAMES.md#snake)
+  - [Nibbler](docs/GAMES.md#nibbler)
+  - [Pacman](docs/GAMES.md#pacman)
+  - [Qix](docs/GAMES.md#qix)
+  - [Centipede](docs/GAMES.md#centipede)
+  - [Solarfox](docs/GAMES.md#solarfox)
 
 ## Contributions
 
