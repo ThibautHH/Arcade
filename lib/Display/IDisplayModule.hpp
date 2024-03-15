@@ -19,7 +19,18 @@ namespace Arcade::Displays {
         public:
             virtual ~IDisplayModule() = default;
 
+            /**
+             * @brief Display the map
+             * 
+             * @param map
+             */
             virtual void displayMap(std::vector<std::vector<std::unique_ptr<Arcade::Displays::ITile>>> &map) = 0;
+
+            /**
+             * @brief Display the header
+             * 
+             * @param headerData
+             */
             virtual void displayHeader(std::map<std::string, std::pair<std::weak_ptr<Arcade::Displays::ISprite>, std::string>> &headerData) = 0;
         private:
     };
