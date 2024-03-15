@@ -24,7 +24,7 @@ namespace Arcade::Core {
             /**
              * @brief Represents an exception thrown when a libdl function fails
              *
-             * @remark @see std::exception#what() will return the error message from @see dlerror
+             * @remark @ref std::exception::what "what()" will return the error message from @ref dlerror "dlerror()"
              */
             class DynamicLibraryException : public std::runtime_error {
                 public:
@@ -48,7 +48,7 @@ namespace Arcade::Core {
             /**
              * @brief libdl handle to the loaded shared library
              *
-             * @remark This handle will automatically @see dlclose the library when destroyed
+             * @remark This pointer will automatically call @ref dlclose "dlclose(void *)" on the raw handle when destroyed
              */
             typedef std::unique_ptr<void, decltype(dlclose) *> handle_ptr;
 #pragma GCC diagnostic pop
