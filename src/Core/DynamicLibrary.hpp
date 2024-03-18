@@ -30,6 +30,13 @@ namespace Arcade::Core {
                     {}
             };
 
+            /**
+             * @brief Check if a library is loaded
+             *
+             * @return true if a library is loaded, false otherwise
+             */
+            bool isLoaded() const noexcept;
+
         protected:
             /**
              * @brief Execute a libdl function and check for errors
@@ -49,9 +56,31 @@ namespace Arcade::Core {
              */
             typedef std::unique_ptr<void, decltype(dlclose) *> handle_ptr;
 #pragma GCC diagnostic pop
-            const handle_ptr _handle;
+            handle_ptr _handle;
 
+            /**
+             * @brief Create the object without loading any shared library
+             */
+            DynamicLibrary();
+
+            /**
+             * @brief Create the object and load a shared library
+             *
+             * @param path The path to the shared library to load
+             */
             DynamicLibrary(const char *path);
+
+            /**
+             * @brief Load a shared library into the object
+             *
+             * @remark This method will automatically @ref dlclose any previously loaded library
+             * @param path The path to the shared library to load
+             * @throw DynamicLibraryException If the library fails to load
+             */
+            void loadLibrary(const char *path);
+
+        private:
+            static void *open(const char *path);
     };
 }
 
