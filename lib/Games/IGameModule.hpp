@@ -29,12 +29,12 @@ namespace Arcade::Games {
              * @brief Construct a new IGameModule object
              *
              */
-            IGameModule();
+            IGameModule() = default;
 
             /**
              * @brief Destroy the IGameModule object
             */
-            ~IGameModule();
+            virtual ~IGameModule() = default;
 
 
             /**

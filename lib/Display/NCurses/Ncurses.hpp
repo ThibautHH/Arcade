@@ -20,10 +20,10 @@ class Ncurses : public Arcade::Displays::IDisplayModule {
 
         std::map<KeyType, bool> getInputs(void) const final;
         void clear(void) final;
-        void setHeader(std::string name, std::string value, Arcade::Displays::ISprite sprite) final;
+        void setHeader(std::string name, std::string value, Arcade::Displays::ISprite* sprite) final;
         void displayHeader(void) final;
         void setMapSize(int x, int y) final;
-        void displayTile(int x, int y, Arcade::Displays::ISprite sprite) final;
+        void displayTile(int x, int y, Arcade::Displays::ISprite* sprite) final;
         void setBox(Arcade::Displays::Box box) final;
         void displayBox(void) final;
         bool clickedOnBoxElement(std::string name) final;

@@ -10,6 +10,7 @@
 
 #include "../../lib/Display/IDisplayModule.hpp"
 #include "../../lib/Games/IGameModule.hpp"
+#include "ModuleLibrary.hpp"
 
 
 /**
@@ -28,13 +29,28 @@ namespace Arcade::Core {
              * @brief Construct a new Core object
              *
             */
-            Core();
+            Core(
+                std::vector<std::shared_ptr<Displays::IDisplayModule>> displayModules,
+                std::vector<std::shared_ptr<Games::IGameModule>> gameModules
+            );
 
             /**
              * @brief Destroy the Core object
              *
              */
             ~Core();
+
+            /**
+             * @brief Run the arcade game
+             *
+             */
+            void coreLoop();
+
+            /**
+             * @brief Loop for the menu
+             *
+             */
+            void menuLoop();
 
         private:
             /**
@@ -48,6 +64,18 @@ namespace Arcade::Core {
              *
              */
             Arcade::Games::IGameModule *_currentGame;
+
+            /**
+             * @brief List of available display modules
+             *
+             */
+            std::vector<std::shared_ptr<Displays::IDisplayModule>> _displayModules;
+
+            /**
+             * @brief List of available game modules
+             *
+             */
+            std::vector<std::shared_ptr<Games::IGameModule>> _gameModules;
     };
 }
 

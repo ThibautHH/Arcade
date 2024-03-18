@@ -73,13 +73,17 @@ namespace Arcade::Displays {
              * @param value
              * @param selected
              */
-            BoxElement(std::string name, std::string value, bool selected);
+            BoxElement(std::string name, std::string value, bool selected)
+            {
+            }
 
             /**
              * @brief Destroy the Box Element object
              *
              */
-            ~BoxElement();
+            ~BoxElement()
+            {
+            }
 
 
             /**
@@ -114,13 +118,17 @@ namespace Arcade::Displays {
              * @param value
              * @param selected
              */
-            Box(std::string name, std::string value, bool selected);
+            Box(std::string name, std::string value, bool selected)
+            {
+            }
 
             /**
              * @brief Destroy the Box object
              *
              */
-            ~Box();
+            ~Box()
+            {
+            }
 
             /**
              * @brief Name of the Box
@@ -148,13 +156,20 @@ namespace Arcade::Displays {
              * @param value
              * @param selected
              */
-            HeaderElement(std::string name, std::string value, bool selected);
+            HeaderElement(std::string name, std::string value, bool selected)
+            {
+                this->name = name;
+                this->value = value;
+                this->sprite = nullptr;
+            }
 
             /**
              * @brief Destroy the Header Element object
              *
              */
-            ~HeaderElement();
+            ~HeaderElement()
+            {
+            }
 
             /**
              * @brief Name of the HeaderElement
@@ -185,7 +200,7 @@ namespace Arcade::Displays {
              * @brief Construct a new IDisplayModule object
              *
              */
-            ~IDisplayModule();
+            IDisplayModule() = default;
 
             /**
             * @brief Get the Inputs object
@@ -207,7 +222,7 @@ namespace Arcade::Displays {
              * @param value
              * @return void
              */
-            virtual void setHeader(std::string name, std::string value, ISprite sprite) = 0;
+            virtual void setHeader(std::string name, std::string value, ISprite* sprite) = 0;
 
             /**
              * @brief Display the header
@@ -230,7 +245,7 @@ namespace Arcade::Displays {
              * @param sprite
              * @return void
              */
-            virtual void displayTile(int x, int y, ISprite sprite) = 0;
+            virtual void displayTile(int x, int y, ISprite* sprite) = 0;
 
             virtual void setBox(Box box) = 0;
             virtual void displayBox(void) = 0;

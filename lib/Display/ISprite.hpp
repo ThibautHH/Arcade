@@ -27,13 +27,12 @@ namespace Arcade::Displays {
              * @brief Construct a new ISprite object
              *
              */
-            ISprite();
+            ISprite() = default;
 
             /**
              * @brief Destroy the ISprite object
-             *
              */
-            ~ISprite();
+            virtual ~ISprite() = default;
 
             /**
             * @brief Set the ascii of the sprite
