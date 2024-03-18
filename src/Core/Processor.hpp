@@ -36,7 +36,10 @@ namespace Arcade::Core {
             void run();
 
         private:
-            const ModuleLibrary<Displays::IModule> _moduleLibrary;
+            ModuleLibrary<Displays::IModule> _displayModuleLibrary;
+            ModuleLibrary<Games::IModule> _gameModuleLibrary;
+            std::unique_ptr<Displays::IModule> _displayModule;
+            std::unique_ptr<Games::IModule> _gameModule;
     };
 }
 
