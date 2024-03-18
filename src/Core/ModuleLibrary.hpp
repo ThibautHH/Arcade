@@ -21,7 +21,7 @@ namespace Arcade::Core {
     /**
      * @brief A class to load and create Arcade shared library modules
      *
-     * @tparam T The type of module to load, either a display or a game module.
+     * @tparam T The type of module to load, either a display or a game module
      */
     template<typename T>
     class ModuleLibrary : public DynamicLibrary {
@@ -39,7 +39,7 @@ namespace Arcade::Core {
             ModuleLibrary(const char *path);
 
             /**
-             * @brief Reload the module library using the shared library at @ref path
+             * @brief Reload the module library using the shared library at the given path
              *
              * @remark This method will automatically @ref dlclose any previously loaded module
              * @param path The path to tthe Arcade shared library module to load
