@@ -12,8 +12,8 @@
     #include <functional>
     #include <memory>
 
-    #include "../Displays/IModule.hpp"
-    #include "../Games/IModule.hpp"
+    #include "../../lib/Display/IDisplayModule.hpp"
+    #include "../../Games/IGameModule.hpp"
 
 namespace Arcade::Core {
     /**
@@ -86,8 +86,8 @@ namespace Arcade::Core {
             const std::function<module_creator> _moduleCreator;
     };
 
-    template class ModuleLibrary<Displays::IModule>;
-    template class ModuleLibrary<Games::IModule>;
+    template class ModuleLibrary<Displays::IDisplayModule>;
+    template class ModuleLibrary<Games::IGameModule>;
 }
 
 #endif /* !ARCADE_CORE_MODULELIBRARY_HPP_ */

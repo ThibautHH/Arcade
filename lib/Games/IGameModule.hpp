@@ -1,51 +1,78 @@
 /*
 ** EPITECH PROJECT, 2024
-** Arcade
+** arcade
 ** File description:
-** IGameModule
+** IGame
 */
 
 #ifndef IGAMEMODULE_HPP_
-    #define IGAMEMODULE_HPP_
+#define IGAMEMODULE_HPP_
 
-#include <string>
-#include "IInput.hpp"
-#include <memory>
+#include <iostream>
+#include "../Display/IDisplayModule.hpp"
 #include <vector>
-#include <map>
-#include "../Display/ITile.hpp"
-#include "../Display/ISprite.hpp"
 
+/**
+ * @namespace Arcade::Games
+ * @brief Contains all the games
+ */
 namespace Arcade::Games {
 
-    /***
-     * @brief Interface for game modules
-    */
+
+    /**
+     * @class IGameModule
+     * @brief Interface for the game modules
+     */
     class IGameModule {
         public:
-            virtual ~IGameModule() = default;
-
-            virtual void loadMap() = 0;
-            virtual size_t getScore() = 0;
-            virtual void setScore(size_t score) = 0;
-            virtual void tick(Arcade::Games::IInput&) = 0;
+            /**
+             * @brief Construct a new IGameModule object
+             *
+             */
+            IGameModule();
 
             /**
-             * @brief Get the Map object
-             * 
-             * @return std::vector<std::vector<std::unique_ptr<Arcade::Displays::ITile>>>& 
-             */
-            virtual std::vector<std::vector<std::unique_ptr<Arcade::Displays::ITile>>> &getMap() = 0;
+             * @brief Destroy the IGameModule object
+            */
+            ~IGameModule();
+
 
             /**
-             * @brief Get the Header Data object
-             * 
-             * @return std::map<std::string, std::pair<std::weak_ptr<Arcade::Displays::ISprite>, std::string>>& 
+            * @brief update the game with inputs
+            * @param inputs map of inputs
+            * @return void
+            */
+            virtual void update(std::map<KeyType, bool> inputs) = 0;
+
+
+            /**
+            * @brief Get the map of the game
+            * @return std::vector<std::string>
+            */
+            virtual std::vector<std::vector<Arcade::Displays::ISprite>> getMap(void) = 0;
+
+            /**
+            * @brief Get the size of the map
+            * @return void
+            */
+            virtual void getMapSize(void) = 0;
+
+
+            /**
+             * @brief Get the score of the game
+             * @return unsigned int
              */
-            virtual std::map<std::string, std::pair<std::weak_ptr<Arcade::Displays::ISprite>, std::string>> &getHeaderData() = 0;
+            virtual unsigned int getScore(void) = 0;
+
+
+            /**
+             * @brief Get the header of the game
+             * @return std::vector<Displays::HeaderElement>
+             */
+            virtual std::vector<Displays::HeaderElement> getHeader(void) = 0;
+        protected:
         private:
     };
-
 }
 
 #endif /* !IGAMEMODULE_HPP_ */
