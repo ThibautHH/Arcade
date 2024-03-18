@@ -17,9 +17,10 @@ class Nibbler : public Arcade::Games::IGameModule {
         Nibbler();
         ~Nibbler() = default;
 
-        void loadMap() override;
-        size_t getScore() override;
-        void setScore(size_t score) override;
+        std::vector<std::vector<Arcade::Displays::ISprite>> getMap(void);
+        void getMapSize(void);
+        void setMap(void);
+        void setScore(size_t score);
 
     protected:
     private:

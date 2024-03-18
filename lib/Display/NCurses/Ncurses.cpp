@@ -6,7 +6,16 @@
 */
 
 #include "Ncurses.hpp"
+#include "../IDisplayModule.hpp"
 
 Ncurses::Ncurses()
 {
+}
+
+extern "C"
+{
+    Arcade::Displays::IDisplayModule *createModule()
+    {
+        return new Ncurses();
+    }
 }

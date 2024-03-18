@@ -12,17 +12,3 @@ Nibbler::Nibbler()
 {
 }
 
-void Nibbler::loadMap()
-{
-    std::cout << "Nibbler loadMap" << std::endl;
-}
-
-size_t Nibbler::getScore()
-{
-    return _score;
-}
-
-void Nibbler::setScore(size_t score)
-{
-    _score = score;
-}
