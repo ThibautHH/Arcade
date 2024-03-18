@@ -10,10 +10,28 @@
 using namespace Arcade::Core;
 
 template<typename T>
-ModuleLibrary<T>::ModuleLibrary(const char *path)
-    : DynamicLibrary(path),
-    _moduleCreator((module_creator *)dlexec(std::bind(dlsym, _handle.get(), ModuleCreatorSymbol)))
+ModuleLibrary<T>::ModuleLibrary()
+    : DynamicLibrary(), _moduleCreator(nullptr)
 {
+}
+
+template<typename T>
+ModuleLibrary<T>::ModuleLibrary(const char *path)
+    : DynamicLibrary(path), _moduleCreator(this->getModuleCreator())
+{
+}
+
+template<typename T>
+ModuleLibrary<T>::module_creator *ModuleLibrary<T>::getModuleCreator() const
+{
+    return (module_creator *)dlexec(std::bind(dlsym, this->_handle.get(), ModuleCreatorSymbol));
+}
+
+template<typename T>
+void ModuleLibrary<T>::reload(const char *path)
+{
+    this->loadLibrary(path);
+    this->_moduleCreator = this->getModuleCreator();
 }
 
 template<typename T>

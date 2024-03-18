@@ -27,11 +27,25 @@ namespace Arcade::Core {
     class ModuleLibrary : public DynamicLibrary {
         public:
             /**
+             * @brief Create an empty ModuleLibrary
+             */
+            ModuleLibrary();
+
+            /**
              * @brief Create a new ModuleLibrary
              *
              * @param path The path to the Arcade shared library module to load
              */
             ModuleLibrary(const char *path);
+
+            /**
+             * @brief Reload the module library using the shared library at @ref path
+             *
+             * @remark This method will automatically @ref dlclose any previously loaded module
+             * @param path The path to tthe Arcade shared library module to load
+             * @throw DynamicLibraryException If the library fails to load
+             */
+            void reload(const char *path);
 
             /**
              * @brief Create a new module instance
@@ -44,7 +58,9 @@ namespace Arcade::Core {
             static constexpr const char ModuleCreatorSymbol[] = "createModule";
 
             typedef T *(module_creator)(void);
-            const std::function<module_creator> _moduleCreator;
+            std::function<module_creator> _moduleCreator;
+
+            module_creator *getModuleCreator() const;
     };
 
     template class ModuleLibrary<Displays::IDisplayModule>;
