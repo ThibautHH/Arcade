@@ -13,7 +13,9 @@
 using namespace Arcade::Core;
 
 Processor::Processor(const char *path)
-    : _moduleLibrary(path)
+    : _displayModuleLibrary(path), _gameModuleLibrary(),
+    _displayModule(_displayModuleLibrary.createModule()),
+    _gameModule(nullptr)
 {
 }
 
