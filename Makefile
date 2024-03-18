@@ -65,7 +65,8 @@ CXXFLAGS				=	$(PCHFLAGS) $(PROJECT_INCLUDE_DIRS:%=-iquote %)	\
 							-W -Wall -Wextra -Wduplicated-cond				\
 							-Wduplicated-branches -Wlogical-op				\
 							-Wnull-dereference -Wdouble-promotion -Wshadow	\
-							-Wformat=2 -Wpedantic
+							-Wformat=2 -Wpedantic							\
+							-fno-gnu-unique
 LDLIBS					=	$(LIBS:%=-l%)
 LDFLAGS					=	$(LIB_DIRS:%=-L%)
 
