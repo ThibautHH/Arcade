@@ -1,0 +1,5 @@
+<map id="Arcade::Core::ModuleLibraryBase::DynamicLibraryException" name="Arcade::Core::ModuleLibraryBase::DynamicLibraryException">
+<area shape="rect" id="node1" title="Represents an exception thrown when a libdl function fails." alt="" coords="5,155,235,196"/>
+<area shape="rect" id="node2" href="/home/runner/work/Arcade/Arcade/docs/cppreference-doxygen-web.tag.xml$cpp/error/runtime_error.html" title=" " alt="" coords="51,80,189,107"/>
+<area shape="rect" id="node3" href="/home/runner/work/Arcade/Arcade/docs/cppreference-doxygen-web.tag.xml$cpp/error/exception.html" title=" " alt="" coords="63,5,177,32"/>
+</map>
