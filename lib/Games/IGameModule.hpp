@@ -12,38 +12,44 @@
 #include "../Display/IDisplayModule.hpp"
 #include <vector>
 
-/**
- * @namespace Arcade::Games
- * @brief Contains all the games
- */
 namespace Arcade::Games {
 
 
-    /**
-     * @class IGameModule
-     * @brief Interface for the game modules
-     */
     class IGameModule {
         public:
             /**
-             * @brief Construct a new IGameModule object
-             *
-             */
-            IGameModule() = default;
-
-            /**
              * @brief Destroy the IGameModule object
-            */
+             * @return void
+             */
             virtual ~IGameModule() = default;
 
+            /**
+             * @brief init the game
+             * @return void
+             */
+            virtual void init(void) = 0;
+            /**
+             * @brief update the game with inputs
+             * @param inputs map of inputs
+             * @return void
+             */
+            virtual void update(std::map<KeyType, bool> inputs) = 0;
+            /**
+             * @brief Close the game
+             * @return void
+             */
+            virtual void close(void) = 0;
 
             /**
-            * @brief update the game with inputs
-            * @param inputs map of inputs
-            * @return void
-            */
-            virtual void update(std::map<KeyType, bool> inputs) = 0;
-
+             * @brief Get the height of the map
+             * @return void
+             */
+            virtual void getMapHeight(void) = 0;
+            /**
+             * @brief Get the width of the map
+             * @return void
+             */
+            virtual void getMapWidth(void) = 0;
 
             /**
             * @brief Get the map of the game
@@ -52,24 +58,16 @@ namespace Arcade::Games {
             virtual std::vector<std::vector<Arcade::Displays::ISprite>> getMap(void) = 0;
 
             /**
-            * @brief Get the size of the map
-            * @return void
-            */
-            virtual void getMapSize(void) = 0;
-
-
+             * @brief Get the list of boxes for the game header
+             * @return std::vector<Displays::Box>
+             */
+            virtual std::vector<Displays::Box> getHeader(void) = 0;
             /**
              * @brief Get the score of the game
              * @return unsigned int
              */
             virtual unsigned int getScore(void) = 0;
 
-
-            /**
-             * @brief Get the header of the game
-             * @return std::vector<Displays::HeaderElement>
-             */
-            virtual std::vector<Displays::HeaderElement> getHeader(void) = 0;
         protected:
         private:
     };

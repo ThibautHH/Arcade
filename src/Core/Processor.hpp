@@ -37,30 +37,6 @@ namespace Arcade::Core {
 
         private:
             const ModuleLibrary<Displays::IDisplayModule> _moduleLibrary;
-
-            std::vector<std::shared_ptr<Displays::IDisplayModule>> _displayModules;
-            std::vector<std::shared_ptr<Games::IGameModule>> _gameModules;
-
-            bool libraryExists(const char* path) {
-                void* handle = dlopen(path, RTLD_NOW | RTLD_GLOBAL);
-                if (handle) {
-                    dlclose(handle);
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-
-            static constexpr std::string_view DISPLAYS_PATH[] = {
-                "./lib/Display/NCurses/arcade_ncurses.so",
-                //"./lib/Display/SFML/arcade_sfml.so",
-                //"./lib/Display/SDL2/arcade_sdl2.so"
-            };
-
-            static constexpr std::string_view GAMES_PATH[] = {
-                //"./lib/Games/Snake/arcade_snake.so",
-                //"./lib/Games/Nibbler/arcade_nibbler.so"
-            };
     };
 }
 

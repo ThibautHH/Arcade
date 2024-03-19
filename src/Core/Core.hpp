@@ -29,10 +29,7 @@ namespace Arcade::Core {
              * @brief Construct a new Core object
              *
             */
-            Core(
-                std::vector<std::shared_ptr<Displays::IDisplayModule>> displayModules,
-                std::vector<std::shared_ptr<Games::IGameModule>> gameModules
-            );
+            Core();
 
             /**
              * @brief Destroy the Core object

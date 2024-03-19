@@ -7,16 +7,13 @@
 
 #ifndef IDISPLAYMODULE_HPP_
 #define IDISPLAYMODULE_HPP_
+
 #include <map>
 #include "ISprite.hpp"
 #include <iostream>
 #include <vector>
 #include <memory>
 
-/**
- * @brief Enum of the different key types
- *
- */
 enum class KeyType {
     UP,
     DOWN,
@@ -59,198 +56,126 @@ enum class KeyType {
  * @brief Contains all the display modules
  */
 namespace Arcade::Displays {
-
-    /**
-     * @brief Class of the BoxElement
-     *
-     */
-    class BoxElement {
-        public:
-            /**
-             * @brief Construct a new Box Element object
-             *
-             * @param name
-             * @param value
-             * @param selected
-             */
-            BoxElement(std::string name, std::string value, bool selected)
-            {
-            }
-
-            /**
-             * @brief Destroy the Box Element object
-             *
-             */
-            ~BoxElement()
-            {
-            }
-
-
-            /**
-             * @brief Name of the BoxElement
-             *
-             */
-            std::string name;
-
-            /**
-             * @brief Value of the BoxElement
-             *
-             */
-            std::string value;
-
-            /**
-             * @brief If the BoxElement is selected
-             *
-             */
-            bool selected;
-    };
-
-    /**
-     * @brief Class of the Box
-     *
-     */
     class Box {
         public:
-            /**
-             * @brief Construct a new Box object
-             *
-             * @param name
-             * @param value
-             * @param selected
-             */
-            Box(std::string name, std::string value, bool selected)
-            {
-            }
+            Box(std::string name, std::string value, bool selected);
+            ~Box();
 
-            /**
-             * @brief Destroy the Box object
-             *
-             */
-            ~Box()
-            {
-            }
-
-            /**
-             * @brief Name of the Box
-             *
-             */
-            std::string value;
-
-            /**
-             * @brief Value of the Box
-             *
-             */
-            std::vector<BoxElement> elements;
-    };
-
-    /**
-     * @brief Class of the HeaderElement
-     *
-     */
-    class HeaderElement {
-        public:
-            /**
-             * @brief Construct a new Header Element object
-             *
-             * @param name
-             * @param value
-             * @param selected
-             */
-            HeaderElement(std::string name, std::string value, bool selected)
-            {
-                this->name = name;
-                this->value = value;
-                this->sprite = nullptr;
-            }
-
-            /**
-             * @brief Destroy the Header Element object
-             *
-             */
-            ~HeaderElement()
-            {
-            }
-
-            /**
-             * @brief Name of the HeaderElement
-             *
-             */
             std::string name;
-
-            /**
-             * @brief Value of the HeaderElement
-             *
-             */
             std::string value;
-
-            /**
-             * @brief If the HeaderElement is selected
-             *
-             */
+            std::vector<Box> subBoxes;
             std::shared_ptr<ISprite> sprite;
     };
 
-    /**
-     * @brief Interface for the display modules
-     */
+    // class HeaderElement {
+    //     public:
+    //         HeaderElement(std::string name, std::string value, bool selected);
+    //         ~HeaderElement();
+
+    //         std::string name;
+    //         std::string value;
+    //         std::shared_ptr<ISprite> sprite;
+    // };
+
     class IDisplayModule {
         public:
-
             /**
-             * @brief Construct a new IDisplayModule object
-             *
-             */
-            IDisplayModule() = default;
-
-            /**
-            * @brief Get the Inputs object
-            * @return std::map<KeyType, bool>
-            */
-            virtual std::map<KeyType, bool> getInputs() const = 0;
-
-            /**
-             * @brief Clear the display
-             * @param inputs
+             * @brief Destroy the IDisplayModule object
              * @return void
              */
-            virtual void clear() = 0;
+            virtual ~IDisplayModule() = default;
 
             /**
-             * @brief Set Header of the display
-             * @param name
-             * @param sprite
-             * @param value
+             * @brief Init the display
              * @return void
              */
-            virtual void setHeader(std::string name, std::string value, ISprite* sprite) = 0;
+            virtual void init(void) = 0;
+            /**
+             * @brief close, responsible to close the display, free all
+             * @return void
+             */
+            virtual void close(void) = 0;
 
             /**
-             * @brief Display the header
+             * @brief Get the Inputs object
+             * @return std::map<KeyType, bool>
+             */
+            virtual std::map<KeyType, bool> getInputs(void) const = 0;
+
+            // /**
+            //  * @brief Set Header of the display
+            //  * @param name the name of the header, if there is no sprite the name will be displayed
+            //  * @param sprite the icon of the header
+            //  * @param value string that correspond the value of the header
+            //  * @return void
+            //  */
+            // virtual void setHeader(std::string name, std::string value, ISprite sprite) = 0;
+            // /**
+            //  * @brief Display the header
+            //  * @return void
+            //  */
+            // virtual void displayHeader(void) = 0;
+
+
+            /**
+             * @brief Set the name of the game
+             * @param name the name of the game
              * @return void
              */
-            virtual void displayHeader(void) = 0;
+            virtual void setGameName(std::string name) = 0;
+
+            /**
+             * @brief reset the list of boxes
+             * @return void
+             */
+            virtual void resetBoxes(void) = 0;
+            /**
+             * @brief Add a box to the menu or modify it if it already exists
+             * @return void
+             */
+            virtual void setBox(Box box) = 0;
+
+            // /**
+            //  * @brief Display all thes boxes
+            //  * @return void
+            //  */
+            // virtual void displayBoxes(void) = 0;
 
             /**
              * @brief Set the Size of the map
-             * @param x
-             * @param y
+             * @param x horizontal size
+             * @param y vertical size
              * @return void
              */
             virtual void setMapSize(int x, int y) = 0;
 
             /**
+             * @brief Clear the display
+             * @return void
+             */
+            virtual void clear(void) = 0;
+
+            /**
              * @brief Display a tile
-             * @param x
-             * @param y
+             * @param x horizontal position
+             * @param y vertical position
              * @param sprite
              * @return void
              */
-            virtual void displayTile(int x, int y, ISprite* sprite) = 0;
+            virtual void displayTile(int x, int y, ISprite sprite) = 0;
 
-            virtual void setBox(Box box) = 0;
-            virtual void displayBox(void) = 0;
-
+            /**
+             * @brief Return a boolean if a box or a subbox is clicked
+             * @param name the name of the box
+             * @return void
+             */
             virtual bool clickedOnBoxElement(std::string name) = 0;
+
+            /**
+             * @brief Update the display of the game after drawing the map with displayTile
+             * @return void
+             */
+            virtual void displayGame(void) = 0;
 
             /**
              * @brief Display the menu
@@ -264,4 +189,4 @@ namespace Arcade::Displays {
 }
 
 
-#endif /* !IDISPLAYMODULE_HPP_ */
+#endif /* !IDISPLAY_HPP_ */
