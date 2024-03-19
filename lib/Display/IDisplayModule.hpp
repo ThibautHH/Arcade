@@ -162,7 +162,7 @@ namespace Arcade::Displays {
              * @param sprite
              * @return void
              */
-            virtual void displayTile(int x, int y, ISprite sprite) = 0;
+            virtual void displayTile(int x, int y, ISprite *sprite) = 0;
 
             /**
              * @brief Return a boolean if a box or a subbox is clicked
