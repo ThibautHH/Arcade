@@ -13,7 +13,7 @@ vpath %.cpp $(VPATH)
 
 SRC_NC := Ncurses.cpp
 
-CFLAGS = -Wall -Werror
+CFLAGS = -Wall  
 
 BUILD_DIR = build
 OBJ_NC := $(SRC_NC:%.cpp=$(BUILD_DIR)/%.o)

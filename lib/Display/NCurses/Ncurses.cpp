@@ -12,16 +12,7 @@ Ncurses::Ncurses()
 {
 }
 
-std::map<KeyType, bool> Ncurses::getInputs(void) const
-{
-    return std::map<KeyType, bool>();
-}
-
 void Ncurses::init(void)
-{
-}
-
-void Ncurses::clear(void)
 {
 }
 
@@ -29,38 +20,26 @@ void Ncurses::close(void)
 {
 }
 
-std::map<KeyType, bool> Ncurses::getInputs(void) const
-{
-    return std::map<KeyType, bool>();
-}
-
-void Ncurses::setGameName(std::string name)
-{
-}
-
-void Ncurses::resetBoxes(void)
-{
-}
-
-void Ncurses::setBox(Arcade::Displays::Box box)
-{
-}
-
-void Ncurses::setMapSize(int x, int y)
-{
-}
-
 void Ncurses::clear(void)
 {
 }
 
-void Ncurses::displayTile(int x, int y, Arcade::Displays::ISprite *sprite)
+std::map<Arcade::Displays::KeyType, int> Ncurses::getInputs(void) const
+{
+    return std::map<Arcade::Displays::KeyType, int>();
+}
+
+void Ncurses::setGameName(std::string name)
+{
+    _gameName = name;
+}
+
+void Ncurses::setMapSize(Arcade::Displays::Vector2i vector)
 {
 }
 
-bool Ncurses::clickedOnBoxElement(std::string name)
+void Ncurses::updateTile(Arcade::Displays::Vector2i vector, Arcade::Displays::ISprite *sprite)
 {
-    return false;
 }
 
 void Ncurses::displayGame(void)
@@ -71,11 +50,15 @@ void Ncurses::displayMenu(void)
 {
 }
 
-
-extern "C"
+void Ncurses::setAnimationTime(float time)
 {
-    Arcade::Displays::IDisplayModule *createModule()
-    {
-        return new Ncurses();
-    }
+}
+
+float Ncurses::getDeltaT(void)
+{
+    return 0;
+}
+
+void Ncurses::setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Displays::Color color)
+{
 }

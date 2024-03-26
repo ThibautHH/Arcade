@@ -18,20 +18,20 @@ class Ncurses : public Arcade::Displays::IDisplayModule {
         Ncurses();
         ~Ncurses() = default;
 
-        void close(void) override;
         void init(void) override;
-        void clear(void) override;
-        std::map<KeyType, bool> getInputs(void) const override;
+        void close(void) override;
+        std::map<Arcade::Displays::KeyType, int> getInputs(void) const;
         void setGameName(std::string name) override;
-        void resetBoxes(void) override;
-        void setBox(Arcade::Displays::Box box) override;
-        void setMapSize(int x, int y) override;
+        void setMapSize(Arcade::Displays::Vector2i vector) override;
         void clear(void) override;
-        void displayTile(int x, int y, Arcade::Displays::ISprite *sprite) override;
-        bool clickedOnBoxElement(std::string name) override;
+        void updateTile(Arcade::Displays::Vector2i vector, Arcade::Displays::ISprite *sprite) override;
         void displayGame(void) override;
         void displayMenu(void) override;
-
+        void setAnimationTime(float time) override;
+        float getDeltaT(void) override;
+        void setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Displays::Color color) override;
+    private:
+        std::string _gameName;
 };
 
 #endif /* !Ncurses_HPP_ */
