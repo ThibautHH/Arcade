@@ -13,7 +13,7 @@ vpath %.cpp $(VPATH)
 
 SRC_SNAKE := Snake.cpp
 
-CFLAGS = -Wall -Werror
+CFLAGS = -Wall  
 
 BUILD_DIR = build
 OBJ_SNAKE := $(SRC_SNAKE:%.cpp=$(BUILD_DIR)/%.o)

@@ -7,23 +7,49 @@
 
 #include "Snake.hpp"
 
-
-Snake::Snake()
-: _score(0)
+Snake::Snake() : _mapSize({0, 0}), _score(0), _animationTime(0)
 {
 }
 
-void Snake::loadMap()
+
+void Snake::init(std::string args, size_t nb_args)
 {
-    std::cout << "Snake loadMap" << std::endl;
+
 }
 
-size_t Snake::getScore()
+void Snake::close(void)
+{
+
+}
+
+bool Snake::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
+{
+
+}
+
+std::string Snake::getGameName(void)
+{
+    return "Snake";
+}
+
+Arcade::Games::Vector2i Snake::getMapSize(void)
+{
+}
+
+std::vector<std::vector<Arcade::Games::ISprite>> Snake::getMap(void)
+{
+}
+
+unsigned int Snake::getScore(void)
 {
     return _score;
 }
 
-void Snake::setScore(size_t score)
+float Snake::getAnimationTime(void)
 {
-    _score = score;
+}
+
+std::vector<Arcade::Games::IText *> getTexts(void)
+{
+
 }

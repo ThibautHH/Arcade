@@ -1,51 +1,97 @@
 /*
 ** EPITECH PROJECT, 2024
-** Arcade
+** arcade
 ** File description:
-** IGameModule
+** IGame
 */
 
 #ifndef IGAMEMODULE_HPP_
-    #define IGAMEMODULE_HPP_
+#define IGAMEMODULE_HPP_
 
-#include <string>
-#include "IInput.hpp"
-#include <memory>
-#include <vector>
+#include "ISprite.hpp"
 #include <map>
-#include "../Display/ITile.hpp"
-#include "../Display/ISprite.hpp"
+#include <iostream>
+#include <vector>
+#include <memory>
 
 namespace Arcade::Games {
 
-    /***
-     * @brief Interface for game modules
-    */
-    class IGameModule {
-        public:
-            virtual ~IGameModule() = default;
-
-            virtual void loadMap() = 0;
-            virtual size_t getScore() = 0;
-            virtual void setScore(size_t score) = 0;
-            virtual void tick(Arcade::Games::IInput&) = 0;
-
-            /**
-             * @brief Get the Map object
-             * 
-             * @return std::vector<std::vector<std::unique_ptr<Arcade::Displays::ITile>>>& 
-             */
-            virtual std::vector<std::vector<std::unique_ptr<Arcade::Displays::ITile>>> &getMap() = 0;
-
-            /**
-             * @brief Get the Header Data object
-             * 
-             * @return std::map<std::string, std::pair<std::weak_ptr<Arcade::Displays::ISprite>, std::string>>& 
-             */
-            virtual std::map<std::string, std::pair<std::weak_ptr<Arcade::Displays::ISprite>, std::string>> &getHeaderData() = 0;
-        private:
+    enum class KeyType {
+        HOR,
+        VER,
+        ACTION1,
+        ACTION2,
+        ACTION3,
+        ACTION4,
+        QUIT,
+        ESC,
+        NEXT_LIB,
+        PREV_LIB,
+        NEXT_GAME,
+        PREV_GAME,
+        RESTART
     };
 
+    class IText {
+        virtual ~IText() = default;
+
+        virtual void setText(std::string text) = 0;
+        virtual std::string getText(void) = 0;
+
+        virtual void setPos(Vector2i pos) = 0;
+        virtual Vector2i getPos(void) = 0;
+
+        virtual void setColor(Color color) = 0;
+        virtual Color getColor(void) = 0;
+    };
+
+    class IGameModule {
+        public:
+            /**
+             * @brief Destroy the IGameModule object
+             * @return void
+             */
+            virtual ~IGameModule() = default;
+
+            /**
+             * @brief init the game
+             * @return void
+             */
+            virtual void init(std::string args, size_t nb_args) = 0;
+            /**
+             * @brief Close the game
+             * @return void
+             */
+            virtual void close(void) = 0;
+            /**
+             * @brief update the game with inputs
+             * @param inputs map of inputs
+             * @return void
+             */
+            virtual bool update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT) = 0;
+
+            virtual std::string getGameName(void) = 0;
+
+            virtual Vector2i getMapSize(void) = 0;
+
+            /**
+            * @brief Get the map of the game
+            * @return std::vector<std::string>
+            */
+            virtual std::vector<std::vector<Arcade::Games::ISprite>> getMap(void) = 0;
+
+            /**
+             * @brief Get the score of the game
+             * @return unsigned int
+             */
+            virtual unsigned int getScore(void) = 0;
+
+            virtual float getAnimationTime(void) = 0;
+
+            virtual std::vector<IText *> getTexts(void) = 0;
+        protected:
+        private:
+    };
 }
 
 #endif /* !IGAMEMODULE_HPP_ */

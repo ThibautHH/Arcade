@@ -6,6 +6,9 @@
 */
 
 #include "Processor.hpp"
+#include "Core.hpp"
+#include <iostream>
+#include <filesystem>
 
 using namespace Arcade::Core;
 

@@ -5,16 +5,16 @@
 ** ISprite
 */
 
-#ifndef ISPRITE_DISPLAY_HPP_
-#define ISPRITE_DISPLAY_HPP_
+#ifndef ISPRITE_GAMES_HPP_
+#define ISPRITE_GAMES_HPP_
 
 #include <iostream>
 
 /**
- * @namespace Arcade::Displays
+ * @namespace Arcade::Games
  * @brief Contains all the display modules
  */
-namespace Arcade::Displays {
+namespace Arcade::Games {
 
     enum class Color {
         BLACK,
@@ -33,7 +33,6 @@ namespace Arcade::Displays {
         CIRCLE,
         TRIANGLE,
     };
-
     class Vector2i {
         public:
             Vector2i(int x, int y) : x(x), y(y) {};
@@ -42,7 +41,6 @@ namespace Arcade::Displays {
             int x;
             int y;
     };
-
     /**
      * @brief Interface for the sprite
      *
@@ -113,4 +111,4 @@ namespace Arcade::Displays {
     };
 }
 
-#endif /* !ISPRITE_DISPLAY_HPP_ */
+#endif /* !ISPRITE_GAMES_HPP_ */

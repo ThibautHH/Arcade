@@ -17,8 +17,19 @@ class Sdl : public Arcade::Displays::IDisplayModule{
         Sdl();
         ~Sdl() = default;
 
-    protected:
+        void init(void) override;
+        void close(void) override;
+        std::map<Arcade::Displays::KeyType, int> getInputs(void) const;
+        void setGameName(std::string name) override;
+        void setMapSize(Arcade::Displays::Vector2i vector) override;
+        void clear(void) override;
+        void updateTile(Arcade::Displays::Vector2i vector, Arcade::Displays::ISprite *sprite) override;
+        void displayGame(void) override;
+        void setAnimationTime(float time) override;
+        float getDeltaT(void) override;
+        void setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Displays::Color color) override;
     private:
+        std::string _gameName;
 };
 
 #endif /* !SDL_HPP_ */

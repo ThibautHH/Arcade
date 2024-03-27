@@ -7,22 +7,48 @@
 
 #include "Nibbler.hpp"
 
-Nibbler::Nibbler()
-: _score(0)
+Nibbler::Nibbler() : _mapSize({0, 0}), _score(0), _animationTime(0)
 {
 }
 
-void Nibbler::loadMap()
+void Nibbler::init(std::string args, size_t nb_args)
 {
-    std::cout << "Nibbler loadMap" << std::endl;
+
 }
 
-size_t Nibbler::getScore()
+void Nibbler::close(void)
+{
+
+}
+
+bool Nibbler::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
+{
+
+}
+
+std::string Nibbler::getGameName(void)
+{
+    return "Nibbler";
+}
+
+Arcade::Games::Vector2i Nibbler::getMapSize(void)
+{
+}
+
+std::vector<std::vector<Arcade::Games::ISprite>> Nibbler::getMap(void)
+{
+}
+
+unsigned int Nibbler::getScore(void)
 {
     return _score;
 }
 
-void Nibbler::setScore(size_t score)
+float Nibbler::getAnimationTime(void)
 {
-    _score = score;
+}
+
+std::vector<Arcade::Games::IText *> getTexts(void)
+{
+
 }

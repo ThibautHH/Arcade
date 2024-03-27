@@ -10,16 +10,69 @@
 
 #include "../../lib/Display/IDisplayModule.hpp"
 #include "../../lib/Games/IGameModule.hpp"
+#include "ModuleLibrary.hpp"
 
-namespace Arcade {
 
+/**
+ * @namespace Arcade::Core
+ * @brief Contains classes and functions related to the core functionality of the arcade game.
+ */
+namespace Arcade::Core {
+
+    /**
+     * @class Core
+     * @brief Core class of the arcade game.
+     */
     class Core {
         public:
+            /**
+             * @brief Construct a new Core object
+             *
+            */
             Core();
+
+            /**
+             * @brief Destroy the Core object
+             *
+             */
             ~Core();
+
+            /**
+             * @brief Run the arcade game
+             *
+             */
+            void coreLoop();
+
+            /**
+             * @brief Loop for the menu
+             *
+             */
+            void menuLoop();
+
         private:
+            /**
+             * @brief Current library used by the Arcade
+             *
+             */
             Arcade::Displays::IDisplayModule *_currentLib;
+
+            /**
+             * @brief Current game used by the Arcade
+             *
+             */
             Arcade::Games::IGameModule *_currentGame;
+
+            /**
+             * @brief List of available display modules
+             *
+             */
+            std::vector<std::shared_ptr<Displays::IDisplayModule>> _displayModules;
+
+            /**
+             * @brief List of available game modules
+             *
+             */
+            std::vector<std::shared_ptr<Games::IGameModule>> _gameModules;
     };
 }
 

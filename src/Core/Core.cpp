@@ -7,10 +7,16 @@
 
 #include "Core.hpp"
 
-Arcade::Core::Core()
+using namespace Arcade;
+
+Core::Core::Core()
 {
 }
 
-Arcade::Core::~Core()
+Core::Core::~Core()
+{
+}
+
+void Core::Core::menuLoop()
 {
 }

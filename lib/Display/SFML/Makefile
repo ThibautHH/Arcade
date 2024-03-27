@@ -13,7 +13,8 @@ vpath %.cpp $(VPATH)
 
 SRC_SFML := Sfml.cpp
 
-CFLAGS = -Wall -Werror
+CFLAGS = -Wall   -Wextra -std=c++20
+SFML_LIBS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
 
 BUILD_DIR = build
 OBJ_SFML := $(SRC_SFML:%.cpp=$(BUILD_DIR)/%.o)
@@ -23,7 +24,7 @@ all: $(LIB_SFML)
 
 $(BUILD_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
-	@g++ -c -o $@ $< -fPIC
+	@g++ -c -o $@ $< -fPIC $(CFLAGS) $(SFML_LIBS)
 
 $(LIB_SFML): $(OBJ_SFML)
 	@ld -shared -ldl -o $(LIB_SFML) $(OBJ_SFML)

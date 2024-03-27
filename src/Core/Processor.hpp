@@ -36,7 +36,7 @@ namespace Arcade::Core {
             void run();
 
         private:
-            const ModuleLibrary<Displays::IModule> _moduleLibrary;
+            const ModuleLibrary<Displays::IDisplayModule> _moduleLibrary;
     };
 }
 
