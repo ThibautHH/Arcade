@@ -46,10 +46,6 @@ void Ncurses::displayGame(void)
 {
 }
 
-void Ncurses::displayMenu(void)
-{
-}
-
 void Ncurses::setAnimationTime(float time)
 {
 }

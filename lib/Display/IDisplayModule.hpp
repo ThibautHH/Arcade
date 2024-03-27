@@ -98,12 +98,6 @@ namespace Arcade::Displays {
              */
             virtual void displayGame(void) = 0;
 
-            /**
-             * @brief Display the menu
-             * @return void
-             */
-            virtual void displayMenu(void) = 0;
-
             virtual void setAnimationTime(float time) = 0;
 
             virtual float getDeltaT(void) = 0;

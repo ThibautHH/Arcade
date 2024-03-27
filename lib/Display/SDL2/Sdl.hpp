@@ -25,7 +25,6 @@ class Sdl : public Arcade::Displays::IDisplayModule{
         void clear(void) override;
         void updateTile(Arcade::Displays::Vector2i vector, Arcade::Displays::ISprite *sprite) override;
         void displayGame(void) override;
-        void displayMenu(void) override;
         void setAnimationTime(float time) override;
         float getDeltaT(void) override;
         void setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Displays::Color color) override;

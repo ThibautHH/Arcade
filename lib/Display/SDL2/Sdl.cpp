@@ -45,10 +45,6 @@ void Sdl::displayGame(void)
 {
 }
 
-void Sdl::displayMenu(void)
-{
-}
-
 void Sdl::setAnimationTime(float time)
 {
 }
