@@ -11,7 +11,7 @@ Nibbler::Nibbler() : _mapSize({0, 0}), _score(0), _animationTime(0)
 {
 }
 
-void Nibbler::init(void)
+void Nibbler::init(std::string args, size_t nb_args)
 {
 
 }
@@ -21,7 +21,7 @@ void Nibbler::close(void)
 
 }
 
-void Nibbler::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
+bool Nibbler::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
 {
 
 }

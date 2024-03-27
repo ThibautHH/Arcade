@@ -12,7 +12,7 @@ Snake::Snake() : _mapSize({0, 0}), _score(0), _animationTime(0)
 }
 
 
-void Snake::init(void)
+void Snake::init(std::string args, size_t nb_args)
 {
 
 }
@@ -22,7 +22,7 @@ void Snake::close(void)
 
 }
 
-void Snake::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
+bool Snake::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
 {
 
 }

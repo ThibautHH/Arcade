@@ -17,9 +17,9 @@ class Nibbler : public Arcade::Games::IGameModule {
         Nibbler();
         ~Nibbler() = default;
 
-        void init(void) override;
+        void init(std::string args, size_t nb_args) override;
         void close(void) override;
-        void update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT) override;
+        bool update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT) override;
         std::string getGameName(void) override;
         Arcade::Games::Vector2i getMapSize(void) override;
         std::vector<std::vector<Arcade::Games::ISprite>> getMap(void) override;
