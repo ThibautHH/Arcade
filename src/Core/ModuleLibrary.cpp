@@ -20,7 +20,7 @@ void *ModuleLibraryBase::dlexec(std::function<void *(void)> dlfunc)
 }
 
 ModuleLibraryBase::ModuleLibraryBase(const char *path)
-    : _handle(dlexec(std::bind(dlopen, path, RTLD_LAZY)), dlclose)
+    : _handle(dlexec(std::bind(dlopen, path, RTLD_NOW)), dlclose)
 {
 }
 

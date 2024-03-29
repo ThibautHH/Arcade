@@ -21,7 +21,7 @@ SRC += Core.cpp
 SRC += ModuleLibrary.cpp
 SRC += Processor.cpp
 
-CFLAGS = -Wall -Werror -g -std=c++20 -fPIC -fno-gnu-unique
+CFLAGS = -Wall   -g -std=c++20 -fPIC -fno-gnu-unique
 
 BUILD_DIR	= build
 OBJ			:= $(SRC:%.cpp=$(BUILD_DIR)/%.o)
