@@ -13,7 +13,7 @@ vpath %.cpp $(VPATH)
 
 SRC_SDL := Sdl.cpp
 
-CFLAGS = -Wall  
+CFLAGS = -Wall -lSDL2
 
 BUILD_DIR = build
 OBJ_SDL := $(SRC_SDL:%.cpp=$(BUILD_DIR)/%.o)
