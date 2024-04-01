@@ -45,7 +45,7 @@ void Sdl::clear(void)
     SDL_RenderClear(_renderer);
 }
 
-std::map<Arcade::Displays::KeyType, int> Sdl::getInputs(void) const
+std::map<Arcade::Displays::KeyType, int> Sdl::getInputs(void)
 {
     return _inputs;
 }
@@ -128,4 +128,14 @@ void Sdl::setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Disp
     _texttexture = SDL_CreateTextureFromSurface(_renderer, _textsurface);
     SDL_Rect rect = {pos.x, pos.y, _textsurface->w, _textsurface->h};
     SDL_RenderCopy(_renderer, _texttexture, NULL, &rect);
+}
+
+extern "C" Arcade::Displays::IDisplayModule *entryPoint(void)
+{
+    return new Sdl();
+}
+
+extern "C" void deletePoint(Arcade::Displays::IDisplayModule *entry)
+{
+    delete entry;
 }
