@@ -23,7 +23,7 @@ class Snake : public Arcade::Games::IGameModule {
         std::string getGameName(void) override;
         Arcade::Games::Vector2i getMapSize(void) override;
         std::vector<std::vector<Arcade::Games::ISprite>> getMap(void) override;
-        unsigned int getScore(void) override;
+        std::string getScore(void) override;
         float getAnimationTime(void);
         std::vector<Arcade::Games::IText *> getTexts(void);
     private:

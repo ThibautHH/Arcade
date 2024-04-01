@@ -10,6 +10,9 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
 #include "../IDisplayModule.hpp"
 
 class Sfml : public Arcade::Displays::IDisplayModule{
@@ -33,9 +36,9 @@ class Sfml : public Arcade::Displays::IDisplayModule{
         std::map<Arcade::Displays::KeyType, int> _inputs;
         sf::Text _text;
         sf::Font _font;
+        std::string _gameName;
         unsigned int _score;
         std::vector<std::vector<Arcade::Displays::ISprite *>> _map;
-        std::string _gameName;
 };
 
 #endif /* !SFML_HPP_ */

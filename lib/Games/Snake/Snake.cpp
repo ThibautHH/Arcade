@@ -40,9 +40,9 @@ std::vector<std::vector<Arcade::Games::ISprite>> Snake::getMap(void)
 {
 }
 
-unsigned int Snake::getScore(void)
+std::string Snake::getScore(void)
 {
-    return _score;
+    return std::to_string(_score);
 }
 
 float Snake::getAnimationTime(void)
