@@ -13,7 +13,7 @@ vpath %.cpp $(VPATH)
 
 SRC_NIBBLER := Nibbler.cpp
 
-CFLAGS = -Wall  
+CFLAGS = -Wall
 
 BUILD_DIR = build
 OBJ_NIBBLER := $(SRC_NIBBLER:%.cpp=$(BUILD_DIR)/%.o)
