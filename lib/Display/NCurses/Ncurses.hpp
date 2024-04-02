@@ -31,6 +31,7 @@ class Ncurses : public Arcade::Displays::IDisplayModule {
         void setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Displays::Color color) override;
     private:
         std::string _gameName;
+        std::vector<std::vector<Arcade::Displays::ISprite *>> _map;
 };
 
 #endif /* !Ncurses_HPP_ */
