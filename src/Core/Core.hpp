@@ -29,7 +29,10 @@ namespace Arcade::Core {
              * @brief Construct a new Core object
              *
             */
-            Core();
+            Core(std::vector<Arcade::Displays::IDisplayModule *> displayModules,
+                std::vector<Arcade::Games::IGameModule *> gameModules,
+                Arcade::Displays::IDisplayModule *currentLib
+            );
 
             /**
              * @brief Destroy the Core object
@@ -47,8 +50,6 @@ namespace Arcade::Core {
              * @brief Loop for the menu
              *
              */
-            void menuLoop();
-
         private:
             /**
              * @brief Current library used by the Arcade

@@ -26,7 +26,7 @@ $(BUILD_DIR)/%.o: %.cpp
 	@g++ -c -o $@ $< -fPIC
 
 $(LIB_NC): $(OBJ_NC)
-	@ld -shared -ldl -o $(LIB_NC) $(OBJ_NC)
+	@ld -shared -lncurses -ldl -o $(LIB_NC) $(OBJ_NC)
 	@echo "Creating shared library   $(LIB_NC)"
 
 clean:
