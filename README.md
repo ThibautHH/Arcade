@@ -41,6 +41,113 @@ program.
     - [Solarfox](doc/GAMES.md#solarfox)
 
 
+## Mermaid Diagram
+
+```mermaid
+classDiagram
+    class Core {
+        + Core()
+        + ~Core()
+        + coreLoop()
+        + menuLoop()
+        - _currentLib: IDisplayModule*
+        - _currentGame: IGameModule*
+        - _displayModules: vector<shared_ptr<IDisplayModule>>
+        - _gameModules: vector<shared_ptr<IGameModule>>
+    }
+    class IDisplayModule {
+        <<interface>>
+        + void init()
+        + void close()
+        + std::map<KeyType, int> getInputs() const
+        + void setGameName(std::string name)
+        + void setMapSize(Vector2i vector)
+        + void clear()
+        + void updateTile(Vector2i vector, ISprite *sprite)
+        + void displayGame()
+        + void setAnimationTime(float time)
+        + float getDeltaT()
+        + void setText(std::string text, Vector2i pos, Color color)
+    }
+    class IGameModule {
+        <<interface>>
+        + void init(std::string args, size_t nb_args)
+        + void close()
+        + bool update(std::map<KeyType, int> inputs, float deltaT)
+        + std::string getGameName()
+        + Vector2i getMapSize()
+        + std::vector<std::vector<ISprite>> getMap()
+        + unsigned int getScore()
+        + float getAnimationTime()
+        + std::vector<IText *> getTexts()
+    }
+    class Vector2i {
+        - int x
+        - int y
+    }
+    
+    class ISprite {
+        <<interface>>
+        + void setAscii(std::string ascii)
+        + std::string getAscii()
+        + void setPath(char path)
+        + std::string getPath()
+        + void setRotation(int rotation)
+        + int getRotation()
+        + void setDirection(Vector2i direction)
+        + Vector2i getDirection()
+        + void setColor(Color color)
+        + Color getColor()
+        + void setShape(Shape shape)
+        + Shape getShape()
+    }
+    class Color {
+        BLACK,
+        RED,
+        GREEN,
+        YELLOW,
+        BLUE,
+        MAGENTA,
+        CYAN,
+        WHITE,
+        DEFAULT
+    }
+    class Shape {
+        RECTANGLE,
+        CIRCLE,
+        TRIANGLE
+    }
+    class IText {
+        <<interface>>
+        + void setText(std::string text)
+        + std::string getText()
+        + void setPos(Vector2i pos)
+        + Vector2i getPos()
+        + void setColor(Color color)
+        + Color getColor()
+    }
+    class ModuleLibrary {
+        + ModuleLibrary(const char *path)
+        + std::unique_ptr<T> createModule() const
+        - ModuleCreatorSymbol
+        - _moduleCreator: std::function<module_creator>
+    }
+    Core --> IDisplayModule : "_currentLib"
+    Core --> IGameModule : "_currentGame"
+    Core --> ModuleLibrary : "_displayModules"
+    Core --> ModuleLibrary : "_gameModules"
+    IDisplayModule -- Vector2i : "setMapSize"
+    IDisplayModule -- ISprite : "updateTile"
+    IDisplayModule -- Vector2i : "setText"
+    IDisplayModule -- Color : "setText"
+    ISprite -- Vector2i : "setDirection"
+    ISprite -- Color : "setColor"
+    ISprite -- Shape : "setShape"
+    IGameModule -- Vector2i : "getMapSize"
+    IGameModule -- ISprite : "getMap"
+    IGameModule -- IText : "getTexts"
+```
+
 ## Contributing
 
 Project members:
