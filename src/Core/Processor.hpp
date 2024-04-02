@@ -37,10 +37,10 @@ namespace Arcade::Core {
             void run();
 
         private:
-            std::vector<Arcade::Displays::IDisplayModule *> _displayModules;
-            std::vector<Arcade::Games::IGameModule *> _gameModules;
+            std::map<std::string, Arcade::Displays::IDisplayModule *> _displayModules;
+            std::map<std::string, Arcade::Games::IGameModule *> _gameModules;
 
-            Arcade::Displays::IDisplayModule *_currentDisplayModule;
+            std::string _currentDisplayModule;
     };
 }
 

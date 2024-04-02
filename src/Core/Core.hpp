@@ -29,9 +29,9 @@ namespace Arcade::Core {
              * @brief Construct a new Core object
              *
             */
-            Core(std::vector<Arcade::Displays::IDisplayModule *> displayModules,
-                std::vector<Arcade::Games::IGameModule *> gameModules,
-                Arcade::Displays::IDisplayModule *currentLib
+            Core(std::map<std::string, Arcade::Displays::IDisplayModule *> displayModules,
+                std::map<std::string, Arcade::Games::IGameModule *> gameModules,
+                std::string currentDisplayModule
             );
 
             /**
@@ -51,29 +51,10 @@ namespace Arcade::Core {
              *
              */
         private:
-            /**
-             * @brief Current library used by the Arcade
-             *
-             */
-            Arcade::Displays::IDisplayModule *_currentLib;
-
-            /**
-             * @brief Current game used by the Arcade
-             *
-             */
-            Arcade::Games::IGameModule *_currentGame;
-
-            /**
-             * @brief List of available display modules
-             *
-             */
-            std::vector<std::shared_ptr<Displays::IDisplayModule>> _displayModules;
-
-            /**
-             * @brief List of available game modules
-             *
-             */
-            std::vector<std::shared_ptr<Games::IGameModule>> _gameModules;
+            std::map<std::string, Arcade::Displays::IDisplayModule *> _displayModules;
+            std::map<std::string, Arcade::Games::IGameModule *> _gameModules;
+            std::string _currentDisplayModule;
+            std::string _currentGameModule;
     };
 }
 

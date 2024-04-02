@@ -26,49 +26,29 @@ const std::vector<std::string> GAME_LIB_PATH = {
 
 Processor::Processor(const char *av)
 {
-    for (auto &path : GRAPH_LIB_PATH) {
-        if (std::filesystem::exists(path)) {
-            std::cout << "Loading --> " << path << std::endl;
-            DLLoader<Arcade::Displays::IDisplayModule> loader(path);
-            auto lib = loader.getInstance();
-            if (lib != nullptr) {
-                std::cout << "Loaded --> " << path << std::endl;
-                _displayModules.push_back(lib);
-            }
+    for (const auto &path : GRAPH_LIB_PATH) {
+        if (!std::filesystem::exists(path)) {
+            std::cerr << "Error: " << path << " not found" << std::endl;
+            exit(84);
         }
+        DLLoader<Arcade::Displays::IDisplayModule> loader(path);
+        _displayModules[path] = loader.getInstance();
     }
-
-    for (auto &path : GAME_LIB_PATH) {
-        if (std::filesystem::exists(path)) {
-            std::cout << "Loading --> " << path << std::endl;
-            DLLoader<Arcade::Games::IGameModule> loader(path);
-            auto lib = loader.getInstance();
-            if (lib != nullptr) {
-                std::cout << "Loaded --> " << path << std::endl;
-                _gameModules.push_back(lib);
-            }
+    for (const auto &path : GAME_LIB_PATH) {
+        if (!std::filesystem::exists(path)) {
+            std::cerr << "Error: " << path << " not found" << std::endl;
+            exit(84);
         }
+        DLLoader<Arcade::Games::IGameModule> loader(path);
+        _gameModules[path] = loader.getInstance();
     }
-
-    DLLoader<Arcade::Displays::IDisplayModule> loader(av);
-    auto lib = loader.getInstance();
-    if (lib != nullptr) {
-        _currentDisplayModule = lib;
-    }
+    _currentDisplayModule = av;
 }
 
 void Processor::run()
 {
-    if (_displayModules.size() == 0) {
-        std::cerr << "No display module found" << std::endl;
-        return;
-    }
-    if (_gameModules.size() == 0) {
-        std::cerr << "No game module found" << std::endl;
-        return;
-    }
-
     Arcade::Core::Core core(
         _displayModules, _gameModules, _currentDisplayModule
     );
+    core.coreLoop();
 }
