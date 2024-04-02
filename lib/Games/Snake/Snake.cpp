@@ -83,7 +83,7 @@ std::vector<Arcade::Games::IText *> Snake::getTexts(void)
     return std::vector<Arcade::Games::IText *>();
 }
 
-extern "C" Arcade::Games::IGameModule *entryPoint()
+extern "C" Arcade::Games::IGameModule *entryPoint(void)
 {
     return new Snake();
 }

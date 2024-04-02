@@ -51,12 +51,12 @@ float Nibbler::getAnimationTime(void)
     return _animationTime;
 }
 
-std::vector<Arcade::Games::IText *> getTexts(void)
+std::vector<Arcade::Games::IText *> Nibbler::getTexts(void)
 {
-    return {};
+    return std::vector<Arcade::Games::IText *>();
 }
 
-extern "C" Arcade::Games::IGameModule *entryPoint()
+extern "C" Arcade::Games::IGameModule *entryPoint(void)
 {
     return new Nibbler();
 }

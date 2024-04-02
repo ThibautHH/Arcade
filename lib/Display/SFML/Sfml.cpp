@@ -12,7 +12,9 @@
 #include <SFML/Audio.hpp>
 
 Sfml::Sfml()
-: _gameName(nullptr), _score(0)
+: _gameName(nullptr), _score(0), _map(std::vector<std::vector<Arcade::Displays::ISprite *>>()),
+_textures(std::map<std::string, sf::Texture>()), _inputs(std::map<Arcade::Displays::KeyType, int>()),
+_text(sf::Text()), _font(sf::Font())
 {
 }
 
@@ -164,7 +166,7 @@ void Sfml::setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Dis
     _text.setPosition(pos.x, pos.y);
 }
 
-extern "C" Arcade::Displays::IDisplayModule *entryPoint()
+extern "C" Arcade::Displays::IDisplayModule *entryPoint(void)
 {
     return new Sfml();
 }
