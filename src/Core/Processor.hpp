@@ -8,7 +8,8 @@
 #ifndef ARCADE_CORE_PROCESSOR_HPP_
     #define ARCADE_CORE_PROCESSOR_HPP_
 
-    #include "ModuleLibrary.hpp"
+    #include "../../lib/Display/IDisplayModule.hpp"
+    #include "../../lib/Games/IGameModule.hpp"
 
 namespace Arcade::Core {
     /**
@@ -36,7 +37,10 @@ namespace Arcade::Core {
             void run();
 
         private:
-            const ModuleLibrary<Displays::IDisplayModule> _moduleLibrary;
+            std::vector<Arcade::Displays::IDisplayModule *> _displayModules;
+            std::vector<Arcade::Games::IGameModule *> _gameModules;
+
+            Arcade::Displays::IDisplayModule *_currentDisplayModule;
     };
 }
 

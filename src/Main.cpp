@@ -6,16 +6,18 @@
 */
 
 #include "Core/Processor.hpp"
-#include "../lib/Display/IDisplayModule.hpp"
+#include "Core/Core.hpp"
+#include "Core/DLLoader.hpp"
+#include <iostream>
+#include <filesystem>
 
 using namespace Arcade;
 
 int main(int ac, char **av)
 {
-    // if (ac != 2)
-    //     return 84;
-    // printf("Loading %s\n", av[1]);
-    // Core::Processor arcade(av[1]);
-    // arcade.run();
+    if (ac != 2)
+        return 84;
+    Arcade::Core::Processor processor(av[1]);
+    processor.run();
     return 0;
 }
