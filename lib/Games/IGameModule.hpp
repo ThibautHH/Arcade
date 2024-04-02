@@ -82,9 +82,9 @@ namespace Arcade::Games {
 
             /**
              * @brief Get the score of the game
-             * @return unsigned int
+             * @return std::string
              */
-            virtual unsigned int getScore(void) = 0;
+            virtual std::string getScore(void) = 0;
 
             virtual float getAnimationTime(void) = 0;
 

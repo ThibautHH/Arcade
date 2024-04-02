@@ -39,9 +39,9 @@ std::vector<std::vector<Arcade::Games::ISprite>> Nibbler::getMap(void)
 {
 }
 
-unsigned int Nibbler::getScore(void)
+std::string Nibbler::getScore(void)
 {
-    return _score;
+    return std::to_string(_score);
 }
 
 float Nibbler::getAnimationTime(void)
