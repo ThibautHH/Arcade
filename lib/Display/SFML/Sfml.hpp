@@ -23,7 +23,6 @@ class Sfml : public Arcade::Displays::IDisplayModule{
         void init(void) override;
         void close(void) override;
         std::map<Arcade::Displays::KeyType, int> getInputs(void);
-        void setGameName(std::string name) override;
         void setMapSize(Arcade::Displays::Vector2i vector) override;
         void clear(void) override;
         void updateTile(Arcade::Displays::Vector2i vector, Arcade::Displays::ISprite *sprite) override;
@@ -39,6 +38,7 @@ class Sfml : public Arcade::Displays::IDisplayModule{
         std::string _gameName;
         unsigned int _score;
         std::vector<std::vector<Arcade::Displays::ISprite *>> _map;
+        std::map<std::string, sf::Texture> _textures;
 };
 
 #endif /* !SFML_HPP_ */

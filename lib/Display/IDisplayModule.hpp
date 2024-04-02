@@ -63,13 +63,6 @@ namespace Arcade::Displays {
             virtual std::map<Arcade::Displays::KeyType, int> getInputs(void) = 0;
 
             /**
-             * @brief Set the name of the game
-             * @param name the name of the game
-             * @return void
-             */
-            virtual void setGameName(std::string name) = 0;
-
-            /**
              * @brief Set the Size of the map
              * @param x horizontal size
              * @param y vertical size

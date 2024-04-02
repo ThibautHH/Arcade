@@ -16,7 +16,7 @@ void Sdl::init(void)
 {
     SDL_Init(SDL_INIT_VIDEO);
     _score = 0;
-    _window = SDL_CreateWindow("Arcade", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
+    _window = SDL_CreateWindow("Arcade", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_SHOWN);
     _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
     if (!IMG_Init(IMG_INIT_PNG)) {
         std::cerr << "Error: " << IMG_GetError() << std::endl;
@@ -47,12 +47,39 @@ void Sdl::clear(void)
 
 std::map<Arcade::Displays::KeyType, int> Sdl::getInputs(void)
 {
-    return _inputs;
-}
+    SDL_Event event;
 
-void Sdl::setGameName(std::string name)
-{
-    _gameName = name;
+    while (SDL_PollEvent(&event)) {
+        if (event.type == SDL_QUIT)
+            return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::QUIT, 1}};
+        if (event.type == SDL_KEYDOWN) {
+            if (event.key.keysym.sym == SDLK_UP)
+                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::VER, 1}};
+            if (event.key.keysym.sym == SDLK_DOWN)
+                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::VER, -1}};
+            if (event.key.keysym.sym == SDLK_LEFT)
+                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::HOR, 1}};
+            if (event.key.keysym.sym == SDLK_RIGHT)
+                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::HOR, -1}};
+            if (event.key.keysym.sym == SDLK_SPACE)
+                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ACTION1, 1}};
+            if (event.key.keysym.sym == SDLK_RETURN)
+                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ACTION2, 1}};
+            if (event.key.keysym.sym == SDLK_ESCAPE)
+                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ESC, 1}};
+            if (event.key.keysym.sym == SDLK_r)
+                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::RESTART, 1}};
+            if (event.key.keysym.sym == SDLK_n)
+                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::NEXT_LIB, 1}};
+            if (event.key.keysym.sym == SDLK_p)
+                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::PREV_LIB, 1}};
+            if (event.key.keysym.sym == SDLK_m)
+                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::NEXT_GAME, 1}};
+            if (event.key.keysym.sym == SDLK_l)
+                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::PREV_GAME, 1}};
+        }
+    }
+    return _inputs;
 }
 
 void Sdl::setMapSize(Arcade::Displays::Vector2i vector)
@@ -70,13 +97,26 @@ void Sdl::updateTile(Arcade::Displays::Vector2i vector, Arcade::Displays::ISprit
 
 void Sdl::displayGame(void)
 {
+    SDL_Surface *_surface;
+    SDL_Texture *_texture;
+    SDL_Rect _rect;
+
     for (int i = 0; i < _map.size(); i++) {
         for (int j = 0; j < _map[i].size(); j++) {
             if (_map[i][j] != nullptr) {
-                SDL_Rect rect = {j * 32, i * 32, 32, 32};
-                SDL_Surface *surface = IMG_Load(_map[i][j]->getPath().c_str());
-                SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer, surface);
-                SDL_RenderCopy(_renderer, texture, NULL, &rect);
+                if (_textures.find(_map[i][j]->getPath()) == _textures.end()) {
+                    _texture = _textures[_map[i][j]->getPath()];
+                    _rect = {j * 32, i * 32, 32, 32};
+                    _surface = IMG_Load(_map[i][j]->getPath().c_str());
+                    _texture = SDL_CreateTextureFromSurface(_renderer, _surface);
+                    SDL_RenderCopy(_renderer, _texture, NULL, &_rect);
+                } else {
+                    _rect = {j * 32, i * 32, 32, 32};
+                    _surface = IMG_Load(_map[i][j]->getPath().c_str());
+                    _texture = SDL_CreateTextureFromSurface(_renderer, _surface);
+                    _textures[_map[i][j]->getPath()] = _texture;
+                    SDL_RenderCopy(_renderer, _texture, NULL, &_rect);
+                }
             }
         }
     }
