@@ -45,6 +45,20 @@ std::map<Arcade::Displays::KeyType, int> Ncurses::getInputs(void)
     int key = getch();
     std::map<Arcade::Displays::KeyType, int> inputs;
 
+    inputs[Arcade::Displays::KeyType::VER] = 0;
+    inputs[Arcade::Displays::KeyType::HOR] = 0;
+    inputs[Arcade::Displays::KeyType::PREV_LIB] = 0;
+    inputs[Arcade::Displays::KeyType::NEXT_LIB] = 0;
+    inputs[Arcade::Displays::KeyType::PREV_GAME] = 0;
+    inputs[Arcade::Displays::KeyType::NEXT_GAME] = 0;
+    inputs[Arcade::Displays::KeyType::ACTION1] = 0;
+    inputs[Arcade::Displays::KeyType::ACTION2] = 0;
+    inputs[Arcade::Displays::KeyType::ACTION3] = 0;
+    inputs[Arcade::Displays::KeyType::ACTION4] = 0;
+    inputs[Arcade::Displays::KeyType::QUIT] = 0;
+    inputs[Arcade::Displays::KeyType::ESC] = 0;
+    inputs[Arcade::Displays::KeyType::RESTART] = 0;
+
     switch (key) {
     case KEY_UP:
         inputs[Arcade::Displays::KeyType::VER] = 1;
