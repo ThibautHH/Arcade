@@ -16,7 +16,8 @@ Core::Core::Core(
     std::string currentDisplayModule
 ) : _displayModules(displayModules),
     _gameModules(gameModules),
-    _currentDisplayModule(currentDisplayModule)
+    _currentDisplayModule(currentDisplayModule),
+    _currentGameModule("./lib/Games/Snake/arcade_snake.so")
 {
 }
 
@@ -31,7 +32,7 @@ void Core::Core::coreLoop()
     std::map<Arcade::Displays::KeyType, int> inputs;
 
     displayModule->init();
-    //gameModule->init("", 0);
+    gameModule->init("", 0);
 
     while (1) {
         displayModule->clear();
@@ -41,5 +42,5 @@ void Core::Core::coreLoop()
         displayModule->displayGame();
     }
     displayModule->close();
-    //gameModule->close();
+    gameModule->close();
 }
