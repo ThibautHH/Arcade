@@ -55,3 +55,13 @@ std::vector<Arcade::Games::IText *> getTexts(void)
 {
     return {};
 }
+
+extern "C" Arcade::Games::IGameModule *entryPoint()
+{
+    return new Nibbler();
+}
+
+extern "C" void deletePoint(Arcade::Games::IGameModule *entry)
+{
+    delete entry;
+}

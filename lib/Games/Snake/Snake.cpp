@@ -55,12 +55,12 @@ bool Snake::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
 
 std::string Snake::getGameName(void)
 {
-    // return "Snake";
+    return "Snake";
 }
 
 Arcade::Games::Vector2i Snake::getMapSize(void)
 {
-    // return _mapSize;
+    return _mapSize;
 }
 
 std::vector<std::vector<Arcade::Games::ISprite>> Snake::getMap(void)
@@ -70,15 +70,25 @@ std::vector<std::vector<Arcade::Games::ISprite>> Snake::getMap(void)
 
 std::string Snake::getScore(void)
 {
-    // return std::to_string(_score);
+    return std::to_string(_score);
 }
 
 float Snake::getAnimationTime(void)
 {
-    // return _animationTime;
+    return _animationTime;
 }
 
 std::vector<Arcade::Games::IText *> Snake::getTexts(void)
 {
-    // return std::vector<Arcade::Games::IText *>();
+    return std::vector<Arcade::Games::IText *>();
+}
+
+extern "C" Arcade::Games::IGameModule *entryPoint()
+{
+    return new Snake();
+}
+
+extern "C" void deletePoint(Arcade::Games::IGameModule *entry)
+{
+    delete entry;
 }
