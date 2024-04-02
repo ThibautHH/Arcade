@@ -23,7 +23,7 @@ void Nibbler::close(void)
 
 bool Nibbler::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
 {
-
+    return true;
 }
 
 std::string Nibbler::getGameName(void)
@@ -33,11 +33,13 @@ std::string Nibbler::getGameName(void)
 
 Arcade::Games::Vector2i Nibbler::getMapSize(void)
 {
+    return _mapSize;
 }
 
-std::vector<std::vector<Arcade::Games::ISprite>> Nibbler::getMap(void)
-{
-}
+// std::vector<std::vector<Arcade::Games::ISprite>> Nibbler::getMap(void)
+// {
+//     return _map;
+// }
 
 std::string Nibbler::getScore(void)
 {
@@ -46,9 +48,10 @@ std::string Nibbler::getScore(void)
 
 float Nibbler::getAnimationTime(void)
 {
+    return _animationTime;
 }
 
 std::vector<Arcade::Games::IText *> getTexts(void)
 {
-
+    return {};
 }

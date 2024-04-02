@@ -93,6 +93,10 @@ namespace Arcade::Displays {
 
             virtual void setShape(Shape shape) = 0;
             virtual Shape getShape(void) = 0;
+
+            virtual void setAscii(std::string ascii) = 0;
+            virtual std::string getAscii(void) = 0;
+
         protected:
         private:
     };

@@ -40,7 +40,7 @@ void Ncurses::clear(void)
     erase();
 }
 
-std::map<Arcade::Displays::KeyType, int> Ncurses::getInputs(void) const
+std::map<Arcade::Displays::KeyType, int> Ncurses::getInputs(void)
 {
     int key = getch();
     std::map<Arcade::Displays::KeyType, int> inputs;
@@ -95,11 +95,6 @@ std::map<Arcade::Displays::KeyType, int> Ncurses::getInputs(void) const
         break;
     }
     return inputs;
-}
-
-void Ncurses::setGameName(std::string name)
-{
-    _gameName = name;
 }
 
 void Ncurses::setMapSize(Arcade::Displays::Vector2i vector)

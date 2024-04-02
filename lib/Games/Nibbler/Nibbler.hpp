@@ -22,13 +22,13 @@ class Nibbler : public Arcade::Games::IGameModule {
         bool update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT) override;
         std::string getGameName(void) override;
         Arcade::Games::Vector2i getMapSize(void) override;
-        std::vector<std::vector<Arcade::Games::ISprite>> getMap(void) override;
+        // std::vector<std::vector<Arcade::Games::ISprite>> getMap(void) override;
         std::string getScore(void) override;
         float getAnimationTime(void);
         std::vector<Arcade::Games::IText *> getTexts(void);
     private:
         size_t _score;
-        std::vector<std::vector<Arcade::Games::ISprite>> _map;
+        // std::vector<std::vector<Arcade::Games::ISprite>> _map;
         Arcade::Games::Vector2i _mapSize;
         float _animationTime;
 };
