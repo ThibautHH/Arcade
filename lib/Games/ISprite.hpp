@@ -35,7 +35,7 @@ namespace Arcade::Games {
     };
     class Vector2i {
         public:
-            Vector2i(int x, int y) : x(x), y(y) {};
+            Vector2i(int a, int b) : x(a), y(b) {};
             ~Vector2i() = default;
 
             int x;
