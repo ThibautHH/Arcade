@@ -122,11 +122,10 @@ $(BUILD_DIR)%.d:			$(SRC_DIR)%.cpp
 	@mkdir -p $(dir $@)
 	@$(CXX) $< -MM -MF $@ -MT $(@:.d=.o) $(CXXFLAGS)
 
-$(BUILD_DIR)%.hpp.gch:		CXXFLAGS := $(filter-out $(PCHFLAGS),$(CXXFLAGS))
 $(BUILD_DIR)%.hpp.gch:		$(SRC_DIR)%.hpp
 	@-echo 'Precompiling $<...' >&2
 	@mkdir -p $(dir $@)
-	@$(CXX) -c $(CXXFLAGS) $< -o $@
+	@$(CXX) -c $(filter-out $(PCHFLAGS),$(CXXFLAGS)) $< -o $@
 
 $(BUILD_DIR)%.o:			$(SRC_DIR)%.cpp $$(PCH)
 	@-echo 'Compiling $<...' >&2
