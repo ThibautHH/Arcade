@@ -32,7 +32,7 @@ namespace Arcade::Games {
         RESTART
     };
 
-    class IText {
+    struct IText {
         virtual ~IText() = default;
 
         virtual void setText(std::string text) = 0;
