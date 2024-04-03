@@ -8,14 +8,13 @@
 #include "Sdl.hpp"
 
 Sdl::Sdl()
-: _window(nullptr), _renderer(nullptr), _font(nullptr), _textcolor({255, 255, 255}), _texttexture(nullptr), _textsurface(nullptr), _score(0)
+: _window(nullptr), _renderer(nullptr), _font(nullptr), _textcolor({255, 255, 255}), _texttexture(nullptr), _textsurface(nullptr)
 {
 }
 
 void Sdl::init(void)
 {
     SDL_Init(SDL_INIT_VIDEO);
-    _score = 0;
     _window = SDL_CreateWindow("Arcade", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_SHOWN);
     _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
     if (!IMG_Init(IMG_INIT_PNG)) {
@@ -125,6 +124,7 @@ void Sdl::displayGame(void)
 
 void Sdl::setAnimationTime(float time)
 {
+    (void)time;
 }
 
 float Sdl::getDeltaT(void)

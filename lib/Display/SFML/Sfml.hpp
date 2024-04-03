@@ -32,8 +32,6 @@ class Sfml : public Arcade::Displays::IDisplayModule{
         void setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Displays::Color color) override;
     private:
         sf::RenderWindow _window;
-        std::string _gameName;
-        unsigned int _score;
         std::vector<std::vector<Arcade::Displays::ISprite *>> _map;
         std::map<std::string, sf::Texture> _textures;
         std::map<Arcade::Displays::KeyType, int> _inputs;

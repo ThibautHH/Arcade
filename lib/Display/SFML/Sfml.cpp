@@ -12,16 +12,13 @@
 #include <SFML/Audio.hpp>
 
 Sfml::Sfml()
-: _gameName(nullptr), _score(0), _map(std::vector<std::vector<Arcade::Displays::ISprite *>>()),
-_textures(std::map<std::string, sf::Texture>()), _inputs(std::map<Arcade::Displays::KeyType, int>()),
-_text(sf::Text()), _font(sf::Font())
+: _window(sf::VideoMode(1920, 1080), "Arcade")
 {
+    _window.setFramerateLimit(60);
 }
 
 void Sfml::init(void)
 {
-    _window.create(sf::VideoMode(1920, 1080), "Arcade");
-    _window.setFramerateLimit(60);
 }
 
 void Sfml::close(void)

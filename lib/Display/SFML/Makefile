@@ -14,7 +14,7 @@ vpath %.cpp $(VPATH)
 SRC_SFML := Sfml.cpp
 
 CFLAGS = -Wall   -Wextra -std=c++20
-SFML_LIBS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lsfml-network
+SFML_LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 
 BUILD_DIR = build
 OBJ_SFML := $(SRC_SFML:%.cpp=$(BUILD_DIR)/%.o)
