@@ -163,7 +163,7 @@ void Sfml::setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Dis
     _text.setPosition(pos.x, pos.y);
 }
 
-extern "C" Arcade::Displays::IDisplayModule *entryPoint(void)
+extern "C" Arcade::Displays::IDisplayModule *displayEntryPoint(void)
 {
     return new Sfml();
 }

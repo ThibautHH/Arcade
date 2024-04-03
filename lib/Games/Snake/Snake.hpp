@@ -57,31 +57,6 @@ class Snake : public Arcade::Games::IGameModule {
             Arcade::Games::Vector2i _direction;
     };
 
-    class Text : public Arcade::Games::IText {
-        public:
-            Text(std::string fontPath, std::string text, Arcade::Games::Color color, Arcade::Games::Vector2i pos, int size)
-                : _fontPath(fontPath), _text(text), _color(color), _pos(pos), _size(size) {};
-            ~Text() = default;
-
-            std::string getFontPath(void) { return _fontPath; };
-            void setFontPath(std::string fontPath) { _fontPath = fontPath; };
-            std::string getText(void) { return _text; };
-            void setText(std::string text) { _text = text; };
-            Arcade::Games::Color getColor(void) { return _color; };
-            void setColor(Arcade::Games::Color color) { _color = color; };
-            Arcade::Games::Vector2i getPos(void) { return _pos; };
-            void setPos(Arcade::Games::Vector2i pos) { _pos = pos; };
-            int getSize(void) { return _size; };
-            void setSize(int size) { _size = size; };
-
-        private:
-            std::string _fontPath;
-            std::string _text;
-            Arcade::Games::Color _color;
-            Arcade::Games::Vector2i _pos;
-            int _size;
-    };
-
     public:
         Snake();
         ~Snake() = default;
@@ -89,12 +64,11 @@ class Snake : public Arcade::Games::IGameModule {
         void init(std::string args, size_t nb_args) override;
         void close(void) override;
         bool update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT) override;
-        std::string getGameName(void) override;
         Arcade::Games::Vector2i getMapSize(void) override;
         std::vector<std::vector<Arcade::Games::ISprite *>> getMap(void) override;
         std::string getScore(void) override;
         float getAnimationTime(void);
-        std::vector<Arcade::Games::IText *> getTexts(void);
+        std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> getTexts(void);
 
         void generateApple(std::vector<std::vector<Arcade::Games::ISprite *>> map);
         void moveSnake(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
@@ -106,7 +80,7 @@ class Snake : public Arcade::Games::IGameModule {
         std::vector<std::vector<Arcade::Games::ISprite *>> _map;
         Arcade::Games::Vector2i _mapSize;
         float _animationTime;
-        std::vector<Arcade::Games::IText *> _texts;
+        std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> _texts;
 
         std::string _head_up = "../../../assets/snake/head_up.png";
         std::string _head_down = "../../../assets/snake/head_down.png";

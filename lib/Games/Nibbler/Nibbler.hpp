@@ -69,11 +69,12 @@ class Nibbler : public Arcade::Games::IGameModule {
         std::vector<std::vector<Arcade::Games::ISprite *>> getMap(void) override;
         std::string getScore(void) override;
         float getAnimationTime(void);
-        std::vector<Arcade::Games::IText *> getTexts(void);
+        std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> getTexts(void);
     private:
         size_t _score;
         std::vector<std::vector<Arcade::Games::ISprite *>> _map;
         Arcade::Games::Vector2i _mapSize;
+        std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> _texts;
         float _animationTime;
 };
 

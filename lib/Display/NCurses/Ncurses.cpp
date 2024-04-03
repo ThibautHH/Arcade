@@ -183,7 +183,7 @@ void Ncurses::setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::
     attroff(COLOR_PAIR(color_pair));
 }
 
-extern "C" Arcade::Displays::IDisplayModule *entryPoint()
+extern "C" Arcade::Displays::IDisplayModule *displayEntryPoint()
 {
     return new Ncurses();
 }

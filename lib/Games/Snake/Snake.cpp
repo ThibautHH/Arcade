@@ -19,10 +19,6 @@ Snake::Snake()
             _map[i][j] = new SnakeSprite("", Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::DEFAULT, {i, j}, {1, 1});
         }
     }
-
-    _texts.push_back(new Text("../../../assets/arial.ttf", "Score: ", Arcade::Games::Color::WHITE, {0, 0}, 30));
-    _texts.push_back(new Text("../../../assets/arial.ttf", "0", Arcade::Games::Color::WHITE, {0, 30}, 30));
-    _texts.push_back(new Text("../../../assets/arial.ttf", "Game Over", Arcade::Games::Color::WHITE, {1920 / 2, 1080 / 2}, 30));
 }
 
 void Snake::init(std::string args, size_t nb_args)
@@ -36,8 +32,6 @@ void Snake::init(std::string args, size_t nb_args)
 
 void Snake::close(void)
 {
-    for (int i = 0; i < _texts.size(); i++)
-        delete _texts[i];
     for (int i = 0; i < _mapSize.y; i++) {
         for (int j = 0; j < _mapSize.x; j++) {
             delete _map[i][j];
@@ -136,11 +130,6 @@ bool Snake::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
     return true;
 }
 
-std::string Snake::getGameName(void)
-{
-    return "Snake";
-}
-
 Arcade::Games::Vector2i Snake::getMapSize(void)
 {
     return _mapSize;
@@ -161,12 +150,12 @@ float Snake::getAnimationTime(void)
     return _animationTime;
 }
 
-std::vector<Arcade::Games::IText *> Snake::getTexts(void)
+std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> Snake::getTexts(void)
 {
-    return std::vector<Arcade::Games::IText *>();
+    return _texts;
 }
 
-extern "C" Arcade::Games::IGameModule *entryPoint(void)
+extern "C" Arcade::Games::IGameModule *gameEntryPoint(void)
 {
     return new Snake();
 }

@@ -79,7 +79,7 @@ classDiagram
         + std::vector<std::vector<ISprite>> getMap()
         + unsigned int getScore()
         + float getAnimationTime()
-        + std::vector<IText *> getTexts()
+        + std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> getTexts()
     }
     class Vector2i {
         - int x

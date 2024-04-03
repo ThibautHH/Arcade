@@ -170,7 +170,7 @@ void Sdl::setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Disp
     SDL_RenderCopy(_renderer, _texttexture, NULL, &rect);
 }
 
-extern "C" Arcade::Displays::IDisplayModule *entryPoint(void)
+extern "C" Arcade::Displays::IDisplayModule *displayEntryPoint(void)
 {
     return new Sdl();
 }
