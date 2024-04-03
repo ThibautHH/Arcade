@@ -55,7 +55,7 @@ namespace Arcade::Core {
             std::unique_ptr<T> createModule() const;
 
         private:
-            static constexpr const char ModuleCreatorSymbol[] = "createModule";
+            static constexpr const char ModuleCreatorSymbol[] = "entryPoint";
 
             typedef T *(module_creator)(void);
             std::function<module_creator> _moduleCreator;
