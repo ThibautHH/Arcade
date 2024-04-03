@@ -12,7 +12,7 @@
 #include <SFML/Audio.hpp>
 
 Sfml::Sfml()
-: _gameName(nullptr), _score(0)
+    : _gameName(), _score(0)
 {
 }
 
