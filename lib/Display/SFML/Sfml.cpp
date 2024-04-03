@@ -12,14 +12,13 @@
 #include <SFML/Audio.hpp>
 
 Sfml::Sfml()
-    : _gameName(), _score(0)
+: _window(sf::VideoMode(1920, 1080), "Arcade")
 {
+    _window.setFramerateLimit(60);
 }
 
 void Sfml::init(void)
 {
-    _window.create(sf::VideoMode(1920, 1080), "Arcade");
-    _window.setFramerateLimit(60);
 }
 
 void Sfml::close(void)
@@ -154,7 +153,7 @@ void Sfml::setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Dis
             _text.setFillColor(sf::Color::Black);
             break;
         default:
-            _text.setFillColor(sf::Color::White);
+            _text.setFillColor(sf::Color::Transparent);
             break;
     }
     _font.loadFromFile("../../../assets/arial.ttf");
@@ -164,7 +163,7 @@ void Sfml::setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Dis
     _text.setPosition(pos.x, pos.y);
 }
 
-extern "C" Arcade::Displays::IDisplayModule *entryPoint()
+extern "C" Arcade::Displays::IDisplayModule *displayEntryPoint(void)
 {
     return new Sfml();
 }

@@ -81,8 +81,8 @@ void Processor::run()
             this->_displayModule->setAnimationTime(this->_gameModule->getAnimationTime());
             this->_displayModule->setMapSize(translateVector(this->_gameModule->getMapSize()));
             auto texts = this->_gameModule->getTexts();
-            std::for_each(texts.begin(), texts.end(), [this](auto t){
-                this->_displayModule->setText(t->getText(), translateVector(t->getPos()), DisplayColors[t->getColor()]);
+            std::for_each(texts.begin(), texts.end(), [this](const auto  &t){
+                this->_displayModule->setText(std::get<0>(t), translateVector(std::get<1>(t)), DisplayColors[std::get<2>(t)]);
             });
             auto sprites = this->_gameModule->getMap();
             std::size_t i = 0, j = 0;

@@ -28,8 +28,6 @@ namespace Arcade::Displays {
             void setShape(Shape shape) final { _shape = shape; }
             Shape getShape(void) final { return _shape; }
 
-            void setAscii(std::string ascii) final { _ascii = ascii; }
-            std::string getAscii(void) final { return _ascii; }
         private:
             std::string _path, _ascii;
             int _rotation;

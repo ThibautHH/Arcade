@@ -26,20 +26,15 @@ bool Nibbler::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
     return true;
 }
 
-std::string Nibbler::getGameName(void)
-{
-    return "Nibbler";
-}
-
 Arcade::Games::Vector2i Nibbler::getMapSize(void)
 {
     return _mapSize;
 }
 
-// std::vector<std::vector<Arcade::Games::ISprite>> Nibbler::getMap(void)
-// {
-//     return _map;
-// }
+std::vector<std::vector<Arcade::Games::ISprite *>> Nibbler::getMap(void)
+{
+    return _map;
+}
 
 std::string Nibbler::getScore(void)
 {
@@ -51,7 +46,17 @@ float Nibbler::getAnimationTime(void)
     return _animationTime;
 }
 
-std::vector<Arcade::Games::IText *> getTexts(void)
+std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> Nibbler::getTexts(void)
 {
-    return {};
+    return _texts;
+}
+
+extern "C" Arcade::Games::IGameModule *gameEntryPoint(void)
+{
+    return new Nibbler();
+}
+
+extern "C" void deletePoint(Arcade::Games::IGameModule *entry)
+{
+    delete entry;
 }

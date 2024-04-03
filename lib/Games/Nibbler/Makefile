@@ -41,6 +41,7 @@ clean:
 
 fclean: clean
 	@rm -f $(LIB_NIBBLER)
+	@rm -f ../../$(LIB_NIBBLER)
 	@rm -f $(LIB_BAR)
 	@rm -f $(EXEC)
 	@echo "Removed library $(LIB_NIBBLER)"

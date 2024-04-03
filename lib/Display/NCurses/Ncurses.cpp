@@ -45,6 +45,20 @@ std::map<Arcade::Displays::KeyType, int> Ncurses::getInputs(void)
     int key = getch();
     std::map<Arcade::Displays::KeyType, int> inputs;
 
+    inputs[Arcade::Displays::KeyType::VER] = 0;
+    inputs[Arcade::Displays::KeyType::HOR] = 0;
+    inputs[Arcade::Displays::KeyType::PREV_LIB] = 0;
+    inputs[Arcade::Displays::KeyType::NEXT_LIB] = 0;
+    inputs[Arcade::Displays::KeyType::PREV_GAME] = 0;
+    inputs[Arcade::Displays::KeyType::NEXT_GAME] = 0;
+    inputs[Arcade::Displays::KeyType::ACTION1] = 0;
+    inputs[Arcade::Displays::KeyType::ACTION2] = 0;
+    inputs[Arcade::Displays::KeyType::ACTION3] = 0;
+    inputs[Arcade::Displays::KeyType::ACTION4] = 0;
+    inputs[Arcade::Displays::KeyType::QUIT] = 0;
+    inputs[Arcade::Displays::KeyType::ESC] = 0;
+    inputs[Arcade::Displays::KeyType::RESTART] = 0;
+
     switch (key) {
     case KEY_UP:
         inputs[Arcade::Displays::KeyType::VER] = 1;
@@ -116,12 +130,12 @@ void Ncurses::displayGame(void)
         for (int j = 0; j < _map[i].size(); j++) {
             if (_map[i][j] != nullptr) {
                 attron(COLOR_PAIR(_map[i][j]->getColor()));
-                mvprintw(i, j, _map[i][j]->getAscii().c_str());
+                mvprintw(i, j, /*_map[i][j]->getAscii().c_str()*/"");
                 attroff(COLOR_PAIR(_map[i][j]->getColor()));
             }
         }
     }
-    mvprintw(0, 0, _gameName.c_str());
+    mvprintw(0, 0, "%s", _gameName.c_str());
     refresh();
 }
 
@@ -165,11 +179,11 @@ void Ncurses::setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::
         break;
     }
     attron(COLOR_PAIR(color_pair));
-    mvprintw(pos.y, pos.x, text.c_str());
+    mvprintw(pos.y, pos.x, "%s", text.c_str());
     attroff(COLOR_PAIR(color_pair));
 }
 
-extern "C" Arcade::Displays::IDisplayModule *entryPoint()
+extern "C" Arcade::Displays::IDisplayModule *displayEntryPoint()
 {
     return new Ncurses();
 }

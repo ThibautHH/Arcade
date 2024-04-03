@@ -27,7 +27,7 @@ $(BUILD_DIR)/%.o: %.cpp
 	@g++ -c -o $@ $< -fPIC
 
 $(LIB_NC): $(OBJ_NC)
-	@ld -shared -ldl -o $(LIB_NC) $(OBJ_NC) -lncurses
+	@ld -shared -lncurses -ldl -o $(LIB_NC) $(OBJ_NC)
 	@echo "Creating shared library   $(LIB_NC)"
 
 clean:
@@ -41,10 +41,9 @@ clean:
 
 fclean: clean
 	@rm -f $(LIB_NC)
-	@rm -f $(LIB_BAR)
+	@rm -f ../../$(LIB_NC)
 	@rm -f $(EXEC)
 	@echo "Removed library $(LIB_NC)"
-	@echo "Removed library $(LIB_BAR)"
 
 re: fclean all
 
