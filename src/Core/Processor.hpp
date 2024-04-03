@@ -39,8 +39,8 @@ namespace Arcade::Core {
             static std::map<Arcade::Games::Color, Arcade::Displays::Color> DisplayColors;
             static std::map<Arcade::Games::Shape, Arcade::Displays::Shape> DisplayShapes;
 
-            ModuleLibrary<Displays::IDisplayModule> _displayModuleLibrary;
-            ModuleLibrary<Games::IGameModule> _gameModuleLibrary;
+            DisplayLibrary _displayModuleLibrary;
+            GameLibrary _gameModuleLibrary;
             std::unique_ptr<Displays::IDisplayModule> _displayModule;
             std::unique_ptr<Games::IGameModule> _gameModule;
     };
