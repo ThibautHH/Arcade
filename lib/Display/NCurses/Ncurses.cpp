@@ -28,6 +28,8 @@ void Ncurses::init(void)
     init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
     init_pair(6, COLOR_CYAN, COLOR_BLACK);
     init_pair(7, COLOR_WHITE, COLOR_BLACK);
+
+    _map = std::vector<std::vector<Arcade::Displays::ISprite *>>();
 }
 
 void Ncurses::close(void)
@@ -113,10 +115,13 @@ std::map<Arcade::Displays::KeyType, int> Ncurses::getInputs(void)
 
 void Ncurses::setMapSize(Arcade::Displays::Vector2i vector)
 {
-    _map.resize(vector.y);
-    for (int i = 0; i < vector.y; i++) {
-        _map[i].resize(vector.x);
-    }
+    _map = std::vector<std::vector<Arcade::Displays::ISprite *>>(
+        vector.y,
+        std::vector<Arcade::Displays::ISprite *>(
+            vector.x,
+            nullptr
+        )
+    );
 }
 
 void Ncurses::updateTile(Arcade::Displays::Vector2i vector, Arcade::Displays::ISprite *sprite)
@@ -126,16 +131,79 @@ void Ncurses::updateTile(Arcade::Displays::Vector2i vector, Arcade::Displays::IS
 
 void Ncurses::displayGame(void)
 {
-    for (int i = 0; i < _map.size(); i++) {
-        for (int j = 0; j < _map[i].size(); j++) {
-            if (_map[i][j] != nullptr) {
-                attron(COLOR_PAIR(_map[i][j]->getColor()));
-                mvprintw(i, j, /*_map[i][j]->getAscii().c_str()*/"");
-                attroff(COLOR_PAIR(_map[i][j]->getColor()));
+    if (LINES < _map.size() || COLS < _map[0].size()) {
+        attron(COLOR_PAIR(1));
+        mvprintw(0, 0, "Window too small");
+        attroff(COLOR_PAIR(1));
+        refresh();
+        return;
+    }
+    for (int y = 0; y < _map.size(); y++) {
+        for (int x = 0; x < _map[y].size(); x++) {
+            if (_map[y][x] != nullptr) {
+                switch (_map[y][x]->getColor())
+                {
+                case Arcade::Displays::Color::RED:
+                    attron(COLOR_PAIR(1));
+                    break;
+                case Arcade::Displays::Color::GREEN:
+                    attron(COLOR_PAIR(2));
+                    break;
+                case Arcade::Displays::Color::YELLOW:
+                    attron(COLOR_PAIR(3));
+                    break;
+                case Arcade::Displays::Color::BLUE:
+                    attron(COLOR_PAIR(4));
+                    break;
+                case Arcade::Displays::Color::MAGENTA:
+                    attron(COLOR_PAIR(5));
+                    break;
+                case Arcade::Displays::Color::CYAN:
+                    attron(COLOR_PAIR(6));
+                    break;
+                case Arcade::Displays::Color::WHITE:
+                    attron(COLOR_PAIR(7));
+                    break;
+                default:
+                    break;
+                }
+                mvprintw(y, x, "#");
             }
         }
     }
-    mvprintw(0, 0, "%s", _gameName.c_str());
+    attron(COLOR_PAIR(7));
+    for (auto text : _texts) {
+        Arcade::Displays::Vector2i pos = std::get<0>(text);
+        std::string str = std::get<1>(text);
+        Arcade::Displays::Color color = std::get<2>(text);
+        switch (color)
+        {
+        case Arcade::Displays::Color::RED:
+            attron(COLOR_PAIR(1));
+            break;
+        case Arcade::Displays::Color::GREEN:
+            attron(COLOR_PAIR(2));
+            break;
+        case Arcade::Displays::Color::YELLOW:
+            attron(COLOR_PAIR(3));
+            break;
+        case Arcade::Displays::Color::BLUE:
+            attron(COLOR_PAIR(4));
+            break;
+        case Arcade::Displays::Color::MAGENTA:
+            attron(COLOR_PAIR(5));
+            break;
+        case Arcade::Displays::Color::CYAN:
+            attron(COLOR_PAIR(6));
+            break;
+        case Arcade::Displays::Color::WHITE:
+            attron(COLOR_PAIR(7));
+            break;
+        default:
+            break;
+        }
+        mvprintw(pos.y, pos.x, str.c_str());
+    }
     refresh();
 }
 
@@ -151,36 +219,7 @@ float Ncurses::getDeltaT(void)
 
 void Ncurses::setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Displays::Color color)
 {
-    int color_pair = 0;
-
-    switch (color) {
-    case Arcade::Displays::Color::RED:
-        color_pair = 1;
-        break;
-    case Arcade::Displays::Color::GREEN:
-        color_pair = 2;
-        break;
-    case Arcade::Displays::Color::YELLOW:
-        color_pair = 3;
-        break;
-    case Arcade::Displays::Color::BLUE:
-        color_pair = 4;
-        break;
-    case Arcade::Displays::Color::MAGENTA:
-        color_pair = 5;
-        break;
-    case Arcade::Displays::Color::CYAN:
-        color_pair = 6;
-        break;
-    case Arcade::Displays::Color::WHITE:
-        color_pair = 7;
-        break;
-    default:
-        break;
-    }
-    attron(COLOR_PAIR(color_pair));
-    mvprintw(pos.y, pos.x, "%s", text.c_str());
-    attroff(COLOR_PAIR(color_pair));
+    _texts.push_back(std::make_tuple(pos, text, color));
 }
 
 extern "C" Arcade::Displays::IDisplayModule *displayEntryPoint()
