@@ -10,6 +10,9 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <vector>
+#include <map>
+#include <tuple>
 #include "../IGameModule.hpp"
 
 class Snake : public Arcade::Games::IGameModule {
@@ -72,8 +75,8 @@ class Snake : public Arcade::Games::IGameModule {
 
         void generateApple(std::vector<std::vector<Arcade::Games::ISprite *>> map);
         void moveSnake(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
-        void checkWallCollision(std::vector<std::vector<Arcade::Games::ISprite *>> map);
         void checkApple(std::vector<std::vector<Arcade::Games::ISprite *>> map);
+        void moveBody(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
         void AddSnakeLength(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
 
     private:
