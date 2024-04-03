@@ -13,12 +13,13 @@ vpath %.cpp $(VPATH)
 
 SRC_SDL := Sdl.cpp
 
-CFLAGS = -Wall -lSDL2
+CFLAGS = -Wall
 
 BUILD_DIR = build
 OBJ_SDL := $(SRC_SDL:%.cpp=$(BUILD_DIR)/%.o)
 
 all: $(LIB_SDL)
+	@ln -sf Display/SDL2/$(LIB_SDL) ../../$(LIB_SDL)
 	@echo	"Shared library creation done"
 
 $(BUILD_DIR)/%.o: %.cpp
@@ -26,7 +27,7 @@ $(BUILD_DIR)/%.o: %.cpp
 	@g++ -c -o $@ $< -fPIC
 
 $(LIB_SDL): $(OBJ_SDL)
-	@ld -shared -ldl -o $(LIB_SDL) $(OBJ_SDL)
+	@ld -shared -ldl -o $(LIB_SDL) $(OBJ_SDL) -lSDL2 -lSDL2_image -lSDL2_ttf
 	@echo "Creating shared library   $(LIB_SDL)"
 
 clean:
@@ -40,6 +41,7 @@ clean:
 
 fclean: clean
 	@rm -f $(LIB_SDL)
+	@rm -f ../../$(LIB_SDL)
 	@rm -f $(LIB_BAR)
 	@rm -f $(EXEC)
 	@echo "Removed library $(LIB_SDL)"

@@ -32,19 +32,6 @@ namespace Arcade::Games {
         RESTART
     };
 
-    class IText {
-        virtual ~IText() = default;
-
-        virtual void setText(std::string text) = 0;
-        virtual std::string getText(void) = 0;
-
-        virtual void setPos(Vector2i pos) = 0;
-        virtual Vector2i getPos(void) = 0;
-
-        virtual void setColor(Color color) = 0;
-        virtual Color getColor(void) = 0;
-    };
-
     class IGameModule {
         public:
             /**
@@ -70,15 +57,13 @@ namespace Arcade::Games {
              */
             virtual bool update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT) = 0;
 
-            virtual std::string getGameName(void) = 0;
-
             virtual Vector2i getMapSize(void) = 0;
 
             /**
             * @brief Get the map of the game
             * @return std::vector<std::string>
             */
-            virtual std::vector<std::vector<Arcade::Games::ISprite>> getMap(void) = 0;
+            virtual std::vector<std::vector<Arcade::Games::ISprite *>> getMap(void) = 0;
 
             /**
              * @brief Get the score of the game
@@ -88,7 +73,7 @@ namespace Arcade::Games {
 
             virtual float getAnimationTime(void) = 0;
 
-            virtual std::vector<IText *> getTexts(void) = 0;
+            virtual std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> getTexts(void) = 0;
         protected:
         private:
     };

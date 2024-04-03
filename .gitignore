@@ -8,6 +8,7 @@
 # Ignore object files
 obj/Main.o
 obj/Termination.o
+obj/Core/DynamicLibrary.o
 obj/Core/ModuleLibrary.o
 obj/Core/Processor.o
 
@@ -15,6 +16,7 @@ obj/Core/Processor.o
 # Ignore dependency files
 obj/Main.d
 obj/Termination.d
+obj/Core/DynamicLibrary.d
 obj/Core/ModuleLibrary.d
 obj/Core/Processor.d
 
@@ -42,4 +44,5 @@ coding-style-reports.log
 compile_commands.json
 .vscode
 .cache
+doc/html
 

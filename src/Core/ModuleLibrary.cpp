@@ -9,26 +9,29 @@
 
 using namespace Arcade::Core;
 
-void *ModuleLibraryBase::dlexec(std::function<void *(void)> dlfunc)
-{
-    dlerror();
-    void * const result = dlfunc();
-    const char *error = dlerror();
-    if (error)
-        throw DynamicLibraryException(error);
-    return result;
-}
-
-ModuleLibraryBase::ModuleLibraryBase(const char *path)
-    : _handle(dlexec(std::bind(dlopen, path, RTLD_NOW)), dlclose)
+template<typename T>
+ModuleLibrary<T>::ModuleLibrary()
+    : DynamicLibrary(), _moduleCreator(nullptr)
 {
 }
 
 template<typename T>
 ModuleLibrary<T>::ModuleLibrary(const char *path)
-    : ModuleLibraryBase(path),
-    _moduleCreator((module_creator *)dlexec(std::bind(dlsym, _handle.get(), ModuleCreatorSymbol)))
+    : DynamicLibrary(path), _moduleCreator(this->getModuleCreator())
 {
+}
+
+template<typename T>
+ModuleLibrary<T>::module_creator *ModuleLibrary<T>::getModuleCreator() const
+{
+    return (module_creator *)dlexec(std::bind(dlsym, this->_handle.get(), ModuleCreatorSymbol));
+}
+
+template<typename T>
+void ModuleLibrary<T>::reload(const char *path)
+{
+    this->loadLibrary(path);
+    this->_moduleCreator = this->getModuleCreator();
 }
 
 template<typename T>

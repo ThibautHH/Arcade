@@ -35,7 +35,6 @@ class Sdl : public Arcade::Displays::IDisplayModule{
         float getDeltaT(void) override;
         void setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Displays::Color color) override;
     private:
-        std::string _gameName;
         std::map<Arcade::Displays::KeyType, int> _inputs;
         SDL_Window *_window;
         SDL_Renderer *_renderer;
@@ -43,7 +42,6 @@ class Sdl : public Arcade::Displays::IDisplayModule{
         SDL_Color _textcolor;
         SDL_Texture *_texttexture;
         SDL_Surface *_textsurface;
-        unsigned int _score;
         std::vector<std::vector<Arcade::Displays::ISprite *>> _map;
         std::map<std::string, SDL_Texture *> _textures;
 };

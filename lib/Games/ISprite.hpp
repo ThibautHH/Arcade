@@ -35,7 +35,8 @@ namespace Arcade::Games {
     };
     class Vector2i {
         public:
-            Vector2i(int x, int y) : x(x), y(y) {};
+            Vector2i() : x(0), y(0) {};
+            Vector2i(int a, int b) : x(a), y(b) {};
             ~Vector2i() = default;
 
             int x;
@@ -91,8 +92,6 @@ namespace Arcade::Games {
 
             virtual void setShape(Shape shape) = 0;
             virtual Shape getShape(void) = 0;
-        protected:
-        private:
     };
 }
 
