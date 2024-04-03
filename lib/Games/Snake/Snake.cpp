@@ -50,6 +50,28 @@ void Snake::generateApple(std::vector<std::vector<Arcade::Games::ISprite *>> map
         generateApple(map);
 }
 
+void Snake::AddSnakeLength(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction)
+{
+    Arcade::Games::Vector2i tailPos;
+    Arcade::Games::Vector2i bodyPos;
+
+    for (int i = 0; i < _mapSize.y; i++) {
+        for (int j = 0; j < _mapSize.x; j++) {
+            if (map[i][j]->getPath() == _tail) {
+                tailPos = {i, j};
+                bodyPos = {i - direction.y, j - direction.x};
+                if (map[tailPos.y][tailPos.x]->getPath() == _tail) {
+                    map[tailPos.y][tailPos.x] = new SnakeSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, tailPos, {1, 1});
+                    map[bodyPos.y][bodyPos.x] = new SnakeSprite(_tail, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, bodyPos, {1, 1});
+                } else {
+                    map[tailPos.y][tailPos.x] = new SnakeSprite(_tail, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, tailPos, {1, 1});
+                }
+                return;
+            }
+        }
+    }
+}
+
 void Snake::moveSnake(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction)
 {
     Arcade::Games::Vector2i headPos;
@@ -62,7 +84,9 @@ void Snake::moveSnake(std::vector<std::vector<Arcade::Games::ISprite *>> map, Ar
                 nextPos = {i + direction.y, j + direction.x};
                 if (map[nextPos.y][nextPos.x]->getPath() == _apple) {
                     map[nextPos.y][nextPos.x] = new SnakeSprite(_head_right, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, nextPos, {1, 1});
-                    map[headPos.y][headPos.x] = new SnakeSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, headPos, {1, 1});
+                                   map[headPos.y][headPos.x] = new SnakeSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, headPos, {1, 1});
+     map[headPos.y][headPos.x] = new SnakeSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, headPos, {1, 1});
+                    AddSnakeLength(map, direction);
                     _score++;
                     generateApple(map);
                 } else if (map[nextPos.y][nextPos.x]->getPath() == _body) {

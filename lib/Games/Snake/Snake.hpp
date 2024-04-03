@@ -74,6 +74,7 @@ class Snake : public Arcade::Games::IGameModule {
         void moveSnake(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
         void checkWallCollision(std::vector<std::vector<Arcade::Games::ISprite *>> map);
         void checkApple(std::vector<std::vector<Arcade::Games::ISprite *>> map);
+        void AddSnakeLength(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
 
     private:
         size_t _score;
