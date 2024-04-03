@@ -8,6 +8,8 @@
 #include "Ncurses.hpp"
 #include "../IDisplayModule.hpp"
 #include <ncurses.h>
+#include <cstring>
+
 
 Ncurses::Ncurses()
 {
@@ -30,6 +32,7 @@ void Ncurses::init(void)
     init_pair(7, COLOR_WHITE, COLOR_BLACK);
 
     _map = std::vector<std::vector<Arcade::Displays::ISprite *>>();
+    _mapSize = Arcade::Displays::Vector2i(0, 0);
 }
 
 void Ncurses::close(void)
@@ -115,6 +118,7 @@ std::map<Arcade::Displays::KeyType, int> Ncurses::getInputs(void)
 
 void Ncurses::setMapSize(Arcade::Displays::Vector2i vector)
 {
+    _mapSize = vector;
     _map = std::vector<std::vector<Arcade::Displays::ISprite *>>(
         vector.y,
         std::vector<Arcade::Displays::ISprite *>(
@@ -131,15 +135,16 @@ void Ncurses::updateTile(Arcade::Displays::Vector2i vector, Arcade::Displays::IS
 
 void Ncurses::displayGame(void)
 {
-    if (LINES < _map.size() || COLS < _map[0].size()) {
-        attron(COLOR_PAIR(1));
-        mvprintw(0, 0, "Window too small");
-        attroff(COLOR_PAIR(1));
+    if (LINES < _mapSize.y || COLS < _mapSize.x) {
+        attron(COLOR_PAIR(7));
+        mvprintw(LINES / 2 - 2, COLS / 2, "Please resize the window");
+        mvprintw(LINES / 2, COLS / 2, "to at least %d x %d", _mapSize.x, _mapSize.y);
+        attroff(COLOR_PAIR(7));
         refresh();
         return;
     }
-    for (int y = 0; y < _map.size(); y++) {
-        for (int x = 0; x < _map[y].size(); x++) {
+    for (int y = 0; y < _mapSize.y; y++) {
+        for (int x = 0; x < _mapSize.x; x++) {
             if (_map[y][x] != nullptr) {
                 switch (_map[y][x]->getColor())
                 {
