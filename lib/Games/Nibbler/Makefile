@@ -28,6 +28,7 @@ $(BUILD_DIR)/%.o: %.cpp
 $(LIB_NIBBLER): $(OBJ_NIBBLER)
 	@ld -shared -ldl -o $(LIB_NIBBLER) $(OBJ_NIBBLER)
 	@echo "Creating shared library   $(LIB_NIBBLER)"
+	@mv $(LIB_NIBBLER) ../../
 
 clean:
 	@ $(RM) *.gcda
@@ -39,7 +40,7 @@ clean:
 	@echo "Cleaned up build directory"
 
 fclean: clean
-	@rm -f $(LIB_NIBBLER)
+	@rm -f ../../$(LIB_NIBBLER)
 	@rm -f $(LIB_BAR)
 	@rm -f $(EXEC)
 	@echo "Removed library $(LIB_NIBBLER)"

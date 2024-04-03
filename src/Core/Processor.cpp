@@ -14,14 +14,14 @@
 using namespace Arcade::Core;
 
 const std::vector<std::string> GRAPH_LIB_PATH = {
-    "./lib/Display/NCurses/arcade_ncurses.so",
-    "./lib/Display/SFML/arcade_sfml.so",
-    "./lib/Display/SDL2/arcade_sdl2.so",
+    "./lib/arcade_ncurses.so",
+    "./lib/arcade_sfml.so",
+    //"./lib/arcade_sdl2.so",
 };
 
 const std::vector<std::string> GAME_LIB_PATH = {
-    "./lib/Games/Nibbler/arcade_nibbler.so",
-    "./lib/Games/Snake/arcade_snake.so",
+    //"./lib/arcade_nibbler.so",
+    "./lib/arcade_snake.so",
 };
 
 Processor::Processor(const char *av)

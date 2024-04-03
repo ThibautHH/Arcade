@@ -28,6 +28,7 @@ $(BUILD_DIR)/%.o: %.cpp
 $(LIB_SDL): $(OBJ_SDL)
 	@ld -shared -ldl -o $(LIB_SDL) $(OBJ_SDL)
 	@echo "Creating shared library   $(LIB_SDL)"
+	@mv $(LIB_SDL) ../../
 
 clean:
 	@ $(RM) *.gcda
@@ -39,7 +40,7 @@ clean:
 	@echo "Cleaned up build directory"
 
 fclean: clean
-	@rm -f $(LIB_SDL)
+	@rm -f ../../$(LIB_SDL)
 	@rm -f $(LIB_BAR)
 	@rm -f $(EXEC)
 	@echo "Removed library $(LIB_SDL)"

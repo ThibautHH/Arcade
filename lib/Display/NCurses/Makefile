@@ -28,6 +28,7 @@ $(BUILD_DIR)/%.o: %.cpp
 $(LIB_NC): $(OBJ_NC)
 	@ld -shared -lncurses -ldl -o $(LIB_NC) $(OBJ_NC)
 	@echo "Creating shared library   $(LIB_NC)"
+	@mv $(LIB_NC) ../../
 
 clean:
 	@ $(RM) *.gcda
@@ -39,7 +40,7 @@ clean:
 	@echo "Cleaned up build directory"
 
 fclean: clean
-	@rm -f $(LIB_NC)
+	@rm -f ../../$(LIB_NC)
 	@rm -f $(LIB_BAR)
 	@rm -f $(EXEC)
 	@echo "Removed library $(LIB_NC)"

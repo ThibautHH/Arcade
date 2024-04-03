@@ -29,6 +29,7 @@ $(BUILD_DIR)/%.o: %.cpp
 $(LIB_SFML): $(OBJ_SFML)
 	@ld -shared -ldl -o $(LIB_SFML) $(OBJ_SFML)
 	@echo "Creating shared library   $(LIB_SFML)"
+	@mv $(LIB_SFML) ../../
 
 clean:
 	@ $(RM) *.gcda
@@ -40,7 +41,7 @@ clean:
 	@echo "Cleaned up build directory"
 
 fclean: clean
-	@rm -f $(LIB_SFML)
+	@rm -f ../../$(LIB_SFML)
 	@rm -f $(LIB_BAR)
 	@rm -f $(EXEC)
 	@echo "Removed library $(LIB_SFML)"

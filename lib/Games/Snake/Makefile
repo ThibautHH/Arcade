@@ -28,6 +28,7 @@ $(BUILD_DIR)/%.o: %.cpp
 $(LIB_SNAKE): $(OBJ_SNAKE)
 	@ld -shared -ldl -o $(LIB_SNAKE) $(OBJ_SNAKE)
 	@echo "Creating shared library   $(LIB_SNAKE)"
+	@mv $(LIB_SNAKE) ../../
 
 clean:
 	@ $(RM) *.gcda
@@ -39,7 +40,7 @@ clean:
 	@echo "Cleaned up build directory"
 
 fclean: clean
-	@rm -f $(LIB_SNAKE)
+	@rm -f ../../$(LIB_SNAKE)
 	@rm -f $(LIB_BAR)
 	@rm -f $(EXEC)
 	@echo "Removed library $(LIB_SNAKE)"
