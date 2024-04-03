@@ -13,12 +13,13 @@ vpath %.cpp $(VPATH)
 
 SRC_SNAKE := Snake.cpp
 
-CFLAGS = -Wall  
+CFLAGS = -Wall
 
 BUILD_DIR = build
 OBJ_SNAKE := $(SRC_SNAKE:%.cpp=$(BUILD_DIR)/%.o)
 
 all: $(LIB_SNAKE)
+	@ln -sf Games/Snake/$(LIB_SNAKE) ../../$(LIB_SNAKE)
 	@echo	"Shared library creation done"
 
 $(BUILD_DIR)/%.o: %.cpp

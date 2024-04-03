@@ -19,6 +19,7 @@ BUILD_DIR = build
 OBJ_NC := $(SRC_NC:%.cpp=$(BUILD_DIR)/%.o)
 
 all: $(LIB_NC)
+	@ln -sf Display/NCurses/$(LIB_NC) ../../$(LIB_NC)
 	@echo	"Shared library creation done"
 
 $(BUILD_DIR)/%.o: %.cpp

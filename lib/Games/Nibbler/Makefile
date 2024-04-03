@@ -13,12 +13,13 @@ vpath %.cpp $(VPATH)
 
 SRC_NIBBLER := Nibbler.cpp
 
-CFLAGS = -Wall  
+CFLAGS = -Wall
 
 BUILD_DIR = build
 OBJ_NIBBLER := $(SRC_NIBBLER:%.cpp=$(BUILD_DIR)/%.o)
 
 all: $(LIB_NIBBLER)
+	@ln -sf Games/Nibbler/$(LIB_NIBBLER) ../../$(LIB_NIBBLER)
 	@echo	"Shared library creation done"
 
 $(BUILD_DIR)/%.o: %.cpp

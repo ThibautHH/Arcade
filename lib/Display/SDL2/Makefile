@@ -19,6 +19,7 @@ BUILD_DIR = build
 OBJ_SDL := $(SRC_SDL:%.cpp=$(BUILD_DIR)/%.o)
 
 all: $(LIB_SDL)
+	@ln -sf Display/SDL2/$(LIB_SDL) ../../$(LIB_SDL)
 	@echo	"Shared library creation done"
 
 $(BUILD_DIR)/%.o: %.cpp
