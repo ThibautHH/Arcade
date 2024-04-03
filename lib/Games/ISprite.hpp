@@ -31,10 +31,11 @@ namespace Arcade::Games {
     enum class Shape {
         RECTANGLE,
         CIRCLE,
-        TRIANGLE,
+        TRIANGLE
     };
     class Vector2i {
         public:
+            Vector2i() : x(0), y(0) {};
             Vector2i(int x, int y) : x(x), y(y) {};
             ~Vector2i() = default;
 
@@ -91,8 +92,6 @@ namespace Arcade::Games {
 
             virtual void setShape(Shape shape) = 0;
             virtual Shape getShape(void) = 0;
-        protected:
-        private:
     };
 }
 

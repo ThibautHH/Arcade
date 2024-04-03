@@ -36,9 +36,9 @@ Arcade::Games::Vector2i Nibbler::getMapSize(void)
     return _mapSize;
 }
 
-std::vector<std::vector<Arcade::Games::ISprite>> Nibbler::getMap(void)
+std::vector<std::vector<Arcade::Games::ISprite *>> Nibbler::getMap(void)
 {
-    // return _map;
+    return _map;
 }
 
 std::string Nibbler::getScore(void)
