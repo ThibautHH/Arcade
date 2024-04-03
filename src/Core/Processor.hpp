@@ -9,6 +9,7 @@
     #define ARCADE_CORE_PROCESSOR_HPP_
 
     #include "ModuleLibrary.hpp"
+    #include "../Displays/Sprite.hpp"
 
 namespace Arcade::Core {
     /**
@@ -32,6 +33,12 @@ namespace Arcade::Core {
             void run();
 
         private:
+            static std::map<Arcade::Games::KeyType, int> translateInputs(std::map<Arcade::Displays::KeyType, int> inputs);
+            static Displays::Vector2i translateVector(Games::Vector2i inputs);
+            static Displays::Sprite translateSprite(Games::ISprite &inputs);
+            static std::map<Arcade::Games::Color, Arcade::Displays::Color> DisplayColors;
+            static std::map<Arcade::Games::Shape, Arcade::Displays::Shape> DisplayShapes;
+
             ModuleLibrary<Displays::IDisplayModule> _displayModuleLibrary;
             ModuleLibrary<Games::IGameModule> _gameModuleLibrary;
             std::unique_ptr<Displays::IDisplayModule> _displayModule;
