@@ -24,10 +24,10 @@ all: $(LIB_SFML)
 
 $(BUILD_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
-	@g++ -c -o $@ $< -fPIC $(CFLAGS) $(SFML_LIBS)
+	@g++ -c -o $@ $< -fPIC $(CFLAGS)
 
 $(LIB_SFML): $(OBJ_SFML)
-	@ld -shared -ldl -o $(LIB_SFML) $(OBJ_SFML)
+	@gcc -shared -ldl -o $(LIB_SFML) $(OBJ_SFML) $(SFML_LIBS)
 	@echo "Creating shared library   $(LIB_SFML)"
 
 clean:

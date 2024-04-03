@@ -13,7 +13,7 @@ vpath %.cpp $(VPATH)
 
 SRC_NC := Ncurses.cpp
 
-CFLAGS = -Wall  
+CFLAGS = -Wall
 
 BUILD_DIR = build
 OBJ_NC := $(SRC_NC:%.cpp=$(BUILD_DIR)/%.o)
@@ -26,7 +26,7 @@ $(BUILD_DIR)/%.o: %.cpp
 	@g++ -c -o $@ $< -fPIC
 
 $(LIB_NC): $(OBJ_NC)
-	@ld -shared -ldl -o $(LIB_NC) $(OBJ_NC)
+	@ld -shared -ldl -o $(LIB_NC) $(OBJ_NC) -lncurses
 	@echo "Creating shared library   $(LIB_NC)"
 
 clean:
