@@ -78,7 +78,7 @@ namespace Arcade::Games {
             * @brief Get the map of the game
             * @return std::vector<std::string>
             */
-            virtual std::vector<std::vector<Arcade::Games::ISprite>> getMap(void) = 0;
+            virtual std::vector<std::vector<std::unique_ptr<Arcade::Games::ISprite>>> getMap(void) = 0;
 
             /**
              * @brief Get the score of the game
