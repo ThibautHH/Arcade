@@ -86,13 +86,13 @@ class Snake : public Arcade::Games::IGameModule {
         float _animationTime;
         std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> _texts;
 
-        std::string _head_up = "../../../assets/snake/head_up.png";
-        std::string _head_down = "../../../assets/snake/head_down.png";
-        std::string _head_left = "../../../assets/snake/head_left.png";
-        std::string _head_right = "../../../assets/snake/head_right.png";
-        std::string _body = "../../../assets/snake/body.png";
-        std::string _tail = "../../../assets/snake/tail.png";
-        std::string _apple = "../../../assets/snake/apple.png";
+        std::string _head_up = "assets/Graphics/head_up.png";
+        std::string _head_down = "assets/Graphics/head_down.png";
+        std::string _head_left = "assets/Graphics/head_left.png";
+        std::string _head_right = "assets/Graphics/head_right.png";
+        std::string _body = "assets/Graphics/body.png";
+        std::string _tail = "assets/Graphics/tail.png";
+        std::string _apple = "assets/Graphics/apple.png";
 
 };
 #endif /* !SNAKE_HPP_ */

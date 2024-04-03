@@ -12,11 +12,18 @@
 #include <iostream>
 #include "../IGameModule.hpp"
 
+#include <stdio.h>
+#include <iostream>
+#include <vector>
+#include <map>
+#include <tuple>
+#include "../IGameModule.hpp"
+
 class Nibbler : public Arcade::Games::IGameModule {
 
-    class SnakeSprite : public Arcade::Games::ISprite {
+    class NibblerSprite : public Arcade::Games::ISprite {
         public:
-            SnakeSprite(std::string path = "",
+            NibblerSprite(std::string path = "",
             Arcade::Games::Shape shape = Arcade::Games::Shape::RECTANGLE,
             Arcade::Games::Color color = Arcade::Games::Color::WHITE,
             Arcade::Games::Vector2i pos = {0, 0},
@@ -30,7 +37,7 @@ class Nibbler : public Arcade::Games::IGameModule {
                 _size(size),
                 _rotation(rotation),
                 _direction(direction) {};
-            ~SnakeSprite() = default;
+            ~NibblerSprite() = default;
 
             void setPath(std::string path) { _path = path; }
             std::string getPath(void) { return _path; }
@@ -67,14 +74,30 @@ class Nibbler : public Arcade::Games::IGameModule {
         Arcade::Games::Vector2i getMapSize(void) override;
         std::vector<std::vector<Arcade::Games::ISprite *>> getMap(void) override;
         std::string getScore(void) override;
-        float getAnimationTime(void) override;
+        float getAnimationTime(void);
         std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> getTexts(void);
+
+        void generateApple(std::vector<std::vector<Arcade::Games::ISprite *>> map);
+        void moveNibbler(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
+        void checkApple(std::vector<std::vector<Arcade::Games::ISprite *>> map);
+        void moveBody(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
+        void AddNibblerLength(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
+
     private:
         size_t _score;
         std::vector<std::vector<Arcade::Games::ISprite *>> _map;
         Arcade::Games::Vector2i _mapSize;
-        std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> _texts;
         float _animationTime;
+        std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> _texts;
+
+        std::string _head_up = "assets/Graphics/head_up.png";
+        std::string _head_down = "assets/Graphics/head_down.png";
+        std::string _head_left = "assets/Graphics/head_left.png";
+        std::string _head_right = "assets/Graphics/head_right.png";
+        std::string _body = "assets/Graphics/body.png";
+        std::string _tail = "assets/Graphics/tail.png";
+        std::string _apple = "assets/Graphics/apple.png";
+        std::string _wall = "assets/Graphics/wall.png";
 };
 
 #endif /* !NIBBLER_HPP_ */
