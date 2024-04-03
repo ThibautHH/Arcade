@@ -6,14 +6,10 @@
 */
 
 #include "Sfml.hpp"
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
 
 Sfml::Sfml()
-: _window(sf::VideoMode(1920, 1080), "Arcade")
 {
+    _window.create(sf::VideoMode(1920, 1080), "Arcade");
     _window.setFramerateLimit(60);
 }
 
@@ -33,45 +29,30 @@ void Sfml::clear(void)
 
 std::map<Arcade::Displays::KeyType, int> Sfml::getInputs(void)
 {
-    sf::Event event;
-
-    while (_window.pollEvent(event)) {
-        switch (event.type) {
-            case sf::Event::Closed:
-                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::QUIT, 1}};
-            case sf::Event::KeyPressed:
-                switch (event.key.code) {
-                    case sf::Keyboard::Up:
-                        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::VER, -1}};
-                    case sf::Keyboard::Down:
-                        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::VER, 1}};
-                    case sf::Keyboard::Left:
-                        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::HOR, -1}};
-                    case sf::Keyboard::Right:
-                        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::HOR, 1}};
-                    case sf::Keyboard::Space:
-                        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ACTION1, 1}};
-                    case sf::Keyboard::Return:
-                        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ACTION2, 1}};
-                    case sf::Keyboard::Escape:
-                        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ESC, 1}};
-                    case sf::Keyboard::R:
-                        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::RESTART, 1}};
-                    case sf::Keyboard::N:
-                        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::NEXT_LIB, 1}};
-                    case sf::Keyboard::P:
-                        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::PREV_LIB, 1}};
-                    case sf::Keyboard::M:
-                        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::NEXT_GAME, 1}};
-                    case sf::Keyboard::L:
-                        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::PREV_GAME, 1}};
-                    default:
-                        break;
-            }
-            default:
-                break;
-        }
-    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::VER, 1}};
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::VER, -1}};
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::HOR, -1}};
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::HOR, 1}};
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ACTION1, 1}};
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ACTION2, 1}};
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ESC, 1}};
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::RESTART, 1}};
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
+        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::NEXT_LIB, 1}};
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::PREV_LIB, 1}};
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
+        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::NEXT_GAME, 1}};
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::L))
+        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::PREV_GAME, 1}};
     return _inputs;
 }
 
@@ -156,7 +137,7 @@ void Sfml::setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Dis
             _text.setFillColor(sf::Color::Transparent);
             break;
     }
-    _font.loadFromFile("../../../assets/arial.ttf");
+    _font.loadFromFile("assets/arial.ttf");
     _text.setFont(_font);
     _text.setString(text);
     _text.setCharacterSize(24);
