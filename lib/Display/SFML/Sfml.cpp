@@ -153,7 +153,7 @@ void Sfml::setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Dis
             _text.setFillColor(sf::Color::Black);
             break;
         default:
-            _text.setFillColor(sf::Color::White);
+            _text.setFillColor(sf::Color::Transparent);
             break;
     }
     _font.loadFromFile("../../../assets/arial.ttf");

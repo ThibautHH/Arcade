@@ -28,7 +28,7 @@ Snake::Snake()
 void Snake::init(std::string args, size_t nb_args)
 {
     _map[8][10] = new SnakeSprite(_apple, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::RED, {8, 10}, {1, 1});
-    _map[8][8] = new SnakeSprite(_head, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {8, 8}, {1, 1});
+    _map[8][8] = new SnakeSprite(_head_right, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {8, 8}, {1, 1});
     _map[8][7] = new SnakeSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {8, 7}, {1, 1});
     _map[8][6] = new SnakeSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {8, 6}, {1, 1});
     _map[8][5] = new SnakeSprite(_tail, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {8, 5}, {1, 1});
@@ -63,11 +63,11 @@ void Snake::moveSnake(std::vector<std::vector<Arcade::Games::ISprite *>> map, Ar
 
     for (int i = 0; i < _mapSize.y; i++) {
         for (int j = 0; j < _mapSize.x; j++) {
-            if (map[i][j]->getPath() == _head) {
+            if (map[i][j]->getPath() == _head_right) {
                 headPos = {i, j};
                 nextPos = {i + direction.y, j + direction.x};
                 if (map[nextPos.y][nextPos.x]->getPath() == _apple) {
-                    map[nextPos.y][nextPos.x] = new SnakeSprite(_head, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, nextPos, {1, 1});
+                    map[nextPos.y][nextPos.x] = new SnakeSprite(_head_right, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, nextPos, {1, 1});
                     map[headPos.y][headPos.x] = new SnakeSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, headPos, {1, 1});
                     _score++;
                     generateApple(map);
@@ -75,7 +75,7 @@ void Snake::moveSnake(std::vector<std::vector<Arcade::Games::ISprite *>> map, Ar
                     _score = 0;
                     // reset game / game over
                 } else {
-                    map[nextPos.y][nextPos.x] = new SnakeSprite(_head, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, nextPos, {1, 1});
+                    map[nextPos.y][nextPos.x] = new SnakeSprite(_head_right, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, nextPos, {1, 1});
                     map[headPos.y][headPos.x] = new SnakeSprite("", Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, headPos, {1, 1});
                 }
                 return;
@@ -88,7 +88,7 @@ void Snake::checkWallCollision(std::vector<std::vector<Arcade::Games::ISprite *>
 {
     for (int i = 0; i < _mapSize.y; i++) {
         for (int j = 0; j < _mapSize.x; j++) {
-            if (map[i][j]->getPath() == _head) {
+            if (map[i][j]->getPath() == _head_right) {
                 if (i < 0 || i >= _mapSize.y || j < 0 || j >= _mapSize.x) {
                     _score = 0;
                     // reset game / game over
@@ -106,7 +106,7 @@ void Snake::checkApple(std::vector<std::vector<Arcade::Games::ISprite *>> map)
         for (int j = 0; j < _mapSize.x; j++) {
             if (map[i][j]->getPath() == _apple)
                 check++;
-            if (map[i][j]->getPath() == _head) {
+            if (map[i][j]->getPath() == _head_right) {
                 if (map[i][j]->getPath() == _apple) {
                     _score++;
                     generateApple(map);

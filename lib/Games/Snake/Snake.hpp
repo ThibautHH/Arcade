@@ -107,7 +107,11 @@ class Snake : public Arcade::Games::IGameModule {
         Arcade::Games::Vector2i _mapSize;
         float _animationTime;
         std::vector<Arcade::Games::IText *> _texts;
-        std::string _head = "../../../assets/snake/head.png";
+
+        std::string _head_up = "../../../assets/snake/head_up.png";
+        std::string _head_down = "../../../assets/snake/head_down.png";
+        std::string _head_left = "../../../assets/snake/head_left.png";
+        std::string _head_right = "../../../assets/snake/head_right.png";
         std::string _body = "../../../assets/snake/body.png";
         std::string _tail = "../../../assets/snake/tail.png";
         std::string _apple = "../../../assets/snake/apple.png";
