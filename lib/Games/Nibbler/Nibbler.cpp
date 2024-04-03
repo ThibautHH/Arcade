@@ -26,11 +26,6 @@ bool Nibbler::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
     return true;
 }
 
-std::string Nibbler::getGameName(void)
-{
-    return "Nibbler";
-}
-
 Arcade::Games::Vector2i Nibbler::getMapSize(void)
 {
     return _mapSize;
