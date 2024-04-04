@@ -29,6 +29,8 @@ void Sfml::clear(void)
 
 std::map<Arcade::Displays::KeyType, int> Sfml::getInputs(void)
 {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::QUIT, 1}};
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::VER, 1}};
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))

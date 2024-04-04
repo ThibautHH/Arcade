@@ -52,6 +52,8 @@ std::map<Arcade::Displays::KeyType, int> Sdl::getInputs(void)
         if (event.type == SDL_QUIT)
             return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::QUIT, 1}};
         if (event.type == SDL_KEYDOWN) {
+            if (event.key.keysym.sym == SDLK_q)
+                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::QUIT, 1}};
             if (event.key.keysym.sym == SDLK_UP)
                 return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::VER, 1}};
             if (event.key.keysym.sym == SDLK_DOWN)

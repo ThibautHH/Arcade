@@ -19,6 +19,12 @@ Snake::Snake()
             _map[i][j] = new SnakeSprite("", Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::DEFAULT, {i, j}, {1, 1});
         }
     }
+}
+
+void Snake::init(std::string args, size_t nb_args)
+{
+    (void) args;
+    (void) nb_args;
 
     _map[8][10] = new SnakeSprite(_apple, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::RED, {8, 10}, {1, 1});
     _map[8][8] = new SnakeSprite(_head_right, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {8, 8}, {1, 1});
@@ -28,12 +34,6 @@ Snake::Snake()
 
     _texts.push_back(std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>("Score: ", {0, 0}, Arcade::Games::Color::WHITE));
     _texts.push_back(std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>("0", {0, 7}, Arcade::Games::Color::WHITE));
-}
-
-void Snake::init(std::string args, size_t nb_args)
-{
-    (void) args;
-    (void) nb_args;
 }
 
 void Snake::close(void)
