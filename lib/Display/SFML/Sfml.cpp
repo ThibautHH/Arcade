@@ -25,6 +25,7 @@ void Sfml::close(void)
 
 void Sfml::clear(void)
 {
+    _texts.clear();
     _window.clear(sf::Color::Black);
 }
 
