@@ -11,6 +11,7 @@ obj/Termination.o
 obj/Core/DynamicLibrary.o
 obj/Core/ModuleLibrary.o
 obj/Core/Processor.o
+obj/Core/Menu.o
 
 
 # Ignore dependency files
@@ -19,6 +20,7 @@ obj/Termination.d
 obj/Core/DynamicLibrary.d
 obj/Core/ModuleLibrary.d
 obj/Core/Processor.d
+obj/Core/Menu.d
 
 
 # Ignore binary files

@@ -6,6 +6,9 @@
 */
 
 #include <algorithm>
+#include <optional>
+
+#include "Menu.hpp"
 
 #include "Processor.hpp"
 
@@ -66,6 +69,50 @@ Arcade::Displays::Sprite Processor::translateSprite(Games::ISprite &s)
     return sprite;
 }
 
+void Processor::displayGame(Games::IGameModule &game, const std::map<Games::KeyType, int> &inputs)
+{
+    game.update(inputs, this->_displayModule->getDeltaT());
+    this->_displayModule->clear();
+    this->_displayModule->setAnimationTime(game.getAnimationTime());
+    this->_displayModule->setMapSize(translateVector(game.getMapSize()));
+    auto texts = game.getTexts();
+    std::for_each(texts.begin(), texts.end(), [this](const auto  &t){
+        this->_displayModule->setText(std::get<0>(t), translateVector(std::get<1>(t)), DisplayColors[std::get<2>(t)]);
+    });
+    auto sprites = game.getMap();
+    std::size_t i = 0, j = 0;
+    std::for_each(sprites.cbegin(), sprites.cend(), [this, &i, &j](const auto &v){
+        std::for_each(v.cbegin(), v.cend(), [this, &i, &j](const auto &s){
+            auto displaySprite = translateSprite(*s);
+            this->_displayModule->updateTile(Displays::Vector2i(j, i), &displaySprite);
+            j++;
+        });
+        i++;
+    });
+    this->_displayModule->displayGame();
+}
+
+void Processor::displayMenu(const std::map<Arcade::Games::KeyType, int> &inputs)
+{
+    if (!this->_menu)
+        this->_menu = Menu();
+    displayGame(*this->_menu, inputs);
+    std::optional<std::string> newGame = this->_menu->getNewGame(),
+        newDisplay = this->_menu->getNewDisplay();
+    if (newGame) {
+        if (this->_gameModule)
+            this->_gameModule->close();
+        this->_gameModuleLibrary.reload(newGame->c_str());
+        this->_gameModule = this->_gameModuleLibrary.createModule();
+        this->_gameModule->init(*newGame, 1);
+    } else if (newDisplay) {
+        this->_displayModule->close();
+        this->_displayModuleLibrary.reload(newDisplay->c_str());
+        this->_displayModule = this->_displayModuleLibrary.createModule();
+        this->_displayModule->init();
+    }
+}
+
 void Processor::run()
 {
     std::string name = "Player";
@@ -76,26 +123,10 @@ void Processor::run()
         if (inputs[Displays::KeyType::QUIT])
             break;
         if (this->_gameModule) {
-            this->_gameModule->update(translateInputs(inputs), this->_displayModule->getDeltaT());
-            this->_displayModule->clear();
-            this->_displayModule->setAnimationTime(this->_gameModule->getAnimationTime());
-            this->_displayModule->setMapSize(translateVector(this->_gameModule->getMapSize()));
-            auto texts = this->_gameModule->getTexts();
-            std::for_each(texts.begin(), texts.end(), [this](const auto  &t){
-                this->_displayModule->setText(std::get<0>(t), translateVector(std::get<1>(t)), DisplayColors[std::get<2>(t)]);
-            });
-            auto sprites = this->_gameModule->getMap();
-            std::size_t i = 0, j = 0;
-            std::for_each(sprites.cbegin(), sprites.cend(), [this, &i, &j](const auto &v){
-                std::for_each(v.cbegin(), v.cend(), [this, &i, &j](const auto &s){
-                    auto displaySprite = translateSprite(*s);
-                    this->_displayModule->updateTile(Displays::Vector2i(j, i), &displaySprite);
-                    j++;
-                });
-                i++;
-            });
-            this->_displayModule->displayGame();
-        }
+            this->_menu = std::nullopt;
+            displayGame(*this->_gameModule, translateInputs(inputs));
+        } else
+            displayMenu(translateInputs(inputs));
     }
     this->_displayModule->close();
 }
