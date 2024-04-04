@@ -15,6 +15,9 @@
 #include <stdio.h>
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <sstream>
+#include <stdexcept>
 #include <map>
 #include <tuple>
 #include "../IGameModule.hpp"
@@ -82,6 +85,7 @@ class Nibbler : public Arcade::Games::IGameModule {
         void checkApple(std::vector<std::vector<Arcade::Games::ISprite *>> map);
         void moveBody(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
         void AddNibblerLength(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
+        std::vector<std::vector<Arcade::Games::ISprite *>> loadMap(std::string path);
 
     private:
         size_t _score;
@@ -98,6 +102,9 @@ class Nibbler : public Arcade::Games::IGameModule {
         std::string _tail = "assets/Graphics/tail.png";
         std::string _apple = "assets/Graphics/apple.png";
         std::string _wall = "assets/Graphics/wall.png";
+        std::string _map1 = "assets/Maps/map1.txt";
+        std::string _map2 = "assets/Maps/map2.txt";
+        std::string _map3 = "assets/Maps/map3.txt";
 };
 
 #endif /* !NIBBLER_HPP_ */

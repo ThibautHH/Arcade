@@ -8,25 +8,61 @@
 #include "Nibbler.hpp"
 
 Nibbler::Nibbler()
-: _mapSize({18, 16}), _score(0), _animationTime(0)
+: _mapSize({27, 18}), _score(0), _animationTime(0)
 {
     _map.resize(_mapSize.y);
     for (int i = 0; i < _mapSize.y; i++)
         _map[i].resize(_mapSize.x);
 
-    for (int i = 0; i < _mapSize.y; i++) {
-        for (int j = 0; j < _mapSize.x; j++) {
-            _map[i][j] = new NibblerSprite("", Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::DEFAULT, {i, j}, {1, 1});
-        }
+    _map = loadMap(_map1);
+}
+
+std::vector<std::vector<Arcade::Games::ISprite *>> Nibbler::loadMap(std::string map_path)
+{
+    std::vector<std::vector<Arcade::Games::ISprite *>> newMap(_mapSize.y, std::vector<Arcade::Games::ISprite *>(_mapSize.x, nullptr));
+
+    std::ifstream file(map_path);
+    if (!file.is_open()) {
+        throw std::runtime_error("Failed to open map file: " + map_path);
     }
+
+    std::string line;
+    int row = 0;
+    while (std::getline(file, line) && row < _mapSize.y) {
+        if (line.length() != _mapSize.x) {
+            throw std::runtime_error("Invalid map dimensions in file: " + map_path);
+        }
+
+        for (int col = 0; col < _mapSize.x; ++col) {
+            char symbol = line[col];
+            switch (symbol) {
+                case ' ':
+                    newMap[row][col] = new NibblerSprite("", Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::WHITE, {row, col}, {1, 1});
+                    break;
+                case '#':
+                    newMap[row][col] = new NibblerSprite(_wall, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::WHITE, {row, col}, {1, 1});
+                    break;
+                case 'A':
+                    newMap[row][col] = new NibblerSprite(_apple, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::RED, {row, col}, {1, 1});
+                    break;
+                default:
+                    throw std::runtime_error("Unknown symbol in map file: " + std::string(1, symbol));
+            }
+        }
+        ++row;
+    }
+
+    file.close();
+
+    return newMap;
 }
 
 void Nibbler::init(std::string args, size_t nb_args)
 {
-    _map[1][8] = new NibblerSprite(_head_right, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {1, 8}, {1, 1});
-    _map[1][7] = new NibblerSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {1, 7}, {1, 1});
-    _map[1][6] = new NibblerSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {1, 6}, {1, 1});
-    _map[1][5] = new NibblerSprite(_tail, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {1, 5}, {1, 1});
+    _map[26][7] = new NibblerSprite(_head_right, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {26, 7}, {1, 1});
+    _map[26][6] = new NibblerSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {26, 6}, {1, 1});
+    _map[26][5] = new NibblerSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {26, 5}, {1, 1});
+    _map[26][4] = new NibblerSprite(_tail, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {26, 4}, {1, 1});
 
     for (int i = 0; i < 10; i++) {
         generateApple(_map);
