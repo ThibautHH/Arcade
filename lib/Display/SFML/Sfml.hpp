@@ -10,7 +10,10 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <map>
+#include <vector>
 #include <SFML/Graphics.hpp>
+#include <unordered_map>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
@@ -38,6 +41,7 @@ class Sfml : public Arcade::Displays::IDisplayModule{
         std::map<Arcade::Displays::KeyType, int> _inputs;
         sf::Text _text;
         sf::Font _font;
+        std::vector<std::tuple<Arcade::Displays::Vector2i, std::string, Arcade::Displays::Color>> _texts;
 };
 
 #endif /* !SFML_HPP_ */

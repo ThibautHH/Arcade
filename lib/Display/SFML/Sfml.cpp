@@ -94,7 +94,43 @@ void Sfml::displayGame(void)
             }
         }
     }
-    _window.draw(_text);
+    for (auto text : _texts) {
+        _font.loadFromFile("assets/arial.ttf");
+        switch(std::get<2>(text)) {
+            case Arcade::Displays::Color::WHITE:
+                _text.setFillColor(sf::Color::White);
+                break;
+            case Arcade::Displays::Color::RED:
+                _text.setFillColor(sf::Color::Red);
+                break;
+            case Arcade::Displays::Color::GREEN:
+                _text.setFillColor(sf::Color::Green);
+                break;
+            case Arcade::Displays::Color::BLUE:
+                _text.setFillColor(sf::Color::Blue);
+                break;
+            case Arcade::Displays::Color::YELLOW:
+                _text.setFillColor(sf::Color::Yellow);
+                break;
+            case Arcade::Displays::Color::MAGENTA:
+                _text.setFillColor(sf::Color::Magenta);
+                break;
+            case Arcade::Displays::Color::CYAN:
+                _text.setFillColor(sf::Color::Cyan);
+                break;
+            case Arcade::Displays::Color::BLACK:
+                _text.setFillColor(sf::Color::Black);
+                break;
+            default:
+                _text.setFillColor(sf::Color::Transparent);
+                break;
+        }
+        _text.setFont(_font);
+        _text.setString(std::get<1>(text));
+        _text.setCharacterSize(24);
+        _text.setPosition(std::get<0>(text).x, std::get<0>(text).y);
+        _window.draw(_text);
+    }
     _window.display();
 }
 
@@ -110,40 +146,7 @@ float Sfml::getDeltaT(void)
 
 void Sfml::setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Displays::Color color)
 {
-    switch(color) {
-        case Arcade::Displays::Color::WHITE:
-            _text.setFillColor(sf::Color::White);
-            break;
-        case Arcade::Displays::Color::RED:
-            _text.setFillColor(sf::Color::Red);
-            break;
-        case Arcade::Displays::Color::GREEN:
-            _text.setFillColor(sf::Color::Green);
-            break;
-        case Arcade::Displays::Color::BLUE:
-            _text.setFillColor(sf::Color::Blue);
-            break;
-        case Arcade::Displays::Color::YELLOW:
-            _text.setFillColor(sf::Color::Yellow);
-            break;
-        case Arcade::Displays::Color::MAGENTA:
-            _text.setFillColor(sf::Color::Magenta);
-            break;
-        case Arcade::Displays::Color::CYAN:
-            _text.setFillColor(sf::Color::Cyan);
-            break;
-        case Arcade::Displays::Color::BLACK:
-            _text.setFillColor(sf::Color::Black);
-            break;
-        default:
-            _text.setFillColor(sf::Color::Transparent);
-            break;
-    }
-    _font.loadFromFile("assets/arial.ttf");
-    _text.setFont(_font);
-    _text.setString(text);
-    _text.setCharacterSize(24);
-    _text.setPosition(pos.x, pos.y);
+    _texts.push_back(std::make_tuple(pos, text, color));
 }
 
 extern "C" Arcade::Displays::IDisplayModule *displayEntryPoint(void)

@@ -44,6 +44,7 @@ class Sdl : public Arcade::Displays::IDisplayModule{
         SDL_Surface *_textsurface;
         std::vector<std::vector<Arcade::Displays::ISprite *>> _map;
         std::map<std::string, SDL_Texture *> _textures;
+        std::vector<std::tuple<Arcade::Displays::Vector2i, std::string, Arcade::Displays::Color>> _texts;
 };
 
 #endif /* !SDL_HPP_ */
