@@ -15,6 +15,7 @@ Sfml::Sfml()
 
 void Sfml::init(void)
 {
+    _font.loadFromFile("assets/arial.ttf");
 }
 
 void Sfml::close(void)
@@ -95,7 +96,6 @@ void Sfml::displayGame(void)
         }
     }
     for (auto text : _texts) {
-        _font.loadFromFile("assets/arial.ttf");
         switch(std::get<2>(text)) {
             case Arcade::Displays::Color::WHITE:
                 _text.setFillColor(sf::Color::White);
@@ -127,8 +127,9 @@ void Sfml::displayGame(void)
         }
         _text.setFont(_font);
         _text.setString(std::get<1>(text));
-        _text.setCharacterSize(24);
-        _text.setPosition(std::get<0>(text).x, std::get<0>(text).y);
+        static const std::size_t font_size = 24;
+        _text.setCharacterSize(font_size);
+        _text.setPosition(std::get<0>(text).x * font_size, std::get<0>(text).y * font_size);
         _window.draw(_text);
     }
     _window.display();
