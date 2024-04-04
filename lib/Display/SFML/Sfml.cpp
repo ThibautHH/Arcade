@@ -122,7 +122,7 @@ void Sfml::displayGame(void)
                 _text.setFillColor(sf::Color::Black);
                 break;
             default:
-                _text.setFillColor(sf::Color::Transparent);
+                _text.setFillColor(sf::Color::White);
                 break;
         }
         _text.setFont(_font);
