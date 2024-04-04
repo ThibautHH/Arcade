@@ -23,7 +23,7 @@ namespace Arcade::Core {
      *
      * @tparam T The type of module to load, either a display or a game module
      */
-    template<typename T>
+    template<typename T, const char symbol[]>
     class ModuleLibrary : public DynamicLibrary {
         public:
             /**
@@ -55,7 +55,7 @@ namespace Arcade::Core {
             std::unique_ptr<T> createModule() const;
 
         private:
-            static constexpr const char ModuleCreatorSymbol[] = "entryPoint";
+            static constexpr const char *ModuleCreatorSymbol = symbol;
 
             typedef T *(module_creator)(void);
             std::function<module_creator> _moduleCreator;
@@ -63,8 +63,15 @@ namespace Arcade::Core {
             module_creator *getModuleCreator() const;
     };
 
-    template class ModuleLibrary<Displays::IDisplayModule>;
-    template class ModuleLibrary<Games::IGameModule>;
+    struct ModuleLibrarySymbols {
+        static constexpr const char DisplaysSymbol[] = "displayEntryPoint";
+        static constexpr const char GamesSymbol[] = "gameEntryPoint";
+    };
+
+    template class ModuleLibrary<Displays::IDisplayModule, ModuleLibrarySymbols::DisplaysSymbol>;
+    typedef ModuleLibrary<Displays::IDisplayModule, ModuleLibrarySymbols::DisplaysSymbol> DisplayLibrary;
+    template class ModuleLibrary<Games::IGameModule, ModuleLibrarySymbols::GamesSymbol>;
+    typedef ModuleLibrary<Games::IGameModule, ModuleLibrarySymbols::GamesSymbol> GameLibrary;
 }
 
 #endif /* !ARCADE_CORE_MODULELIBRARY_HPP_ */
