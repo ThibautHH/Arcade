@@ -26,6 +26,25 @@ namespace Arcade::Core {
     template<typename T, const char symbol[]>
     class ModuleLibrary : public DynamicLibrary {
         public:
+            class NoEntrySymbolException : public DynamicLibraryException
+            {
+                public:
+                    NoEntrySymbolException(const char *message)
+                        : DynamicLibraryException(message)
+                    {}
+            };
+
+            static bool canLoad(const char *path)
+            {
+                bool canLoad = true;
+                try {
+                    ModuleLibrary<T, symbol> l(path);
+                } catch (const NoEntrySymbolException &e) {
+                    canLoad = false;
+                }
+                return canLoad;
+            }
+
             /**
              * @brief Create an empty ModuleLibrary
              */
