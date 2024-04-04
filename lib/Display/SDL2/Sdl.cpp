@@ -172,7 +172,6 @@ float Sdl::getDeltaT(void)
 
 void Sdl::setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Displays::Color color)
 {
-    printf("pos x: %d, pos y: %d, text: %s, color: %d\n", pos.x, pos.y, text.c_str(), color);
     _texts.push_back(std::make_tuple(pos, text, color));
 }
 
