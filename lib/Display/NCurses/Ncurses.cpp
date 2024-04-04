@@ -42,6 +42,7 @@ void Ncurses::close(void)
 
 void Ncurses::clear(void)
 {
+    _texts.clear();
     erase();
 }
 

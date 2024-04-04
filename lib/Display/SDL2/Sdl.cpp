@@ -41,6 +41,7 @@ void Sdl::close(void)
 
 void Sdl::clear(void)
 {
+    _texts.clear();
     SDL_RenderClear(_renderer);
 }
 
