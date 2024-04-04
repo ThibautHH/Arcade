@@ -46,7 +46,6 @@ fclean: clean
 	@rm -f $(LIB_BAR)
 	@rm -f $(EXEC)
 	@echo "Removed library $(LIB_SFML)"
-	@echo "Removed library $(LIB_BAR)"
 
 re: fclean all
 

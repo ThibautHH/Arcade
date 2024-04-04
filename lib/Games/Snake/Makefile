@@ -45,7 +45,6 @@ fclean: clean
 	@rm -f $(LIB_BAR)
 	@rm -f $(EXEC)
 	@echo "Removed library $(LIB_SNAKE)"
-	@echo "Removed library $(LIB_BAR)"
 
 re: fclean all
 
