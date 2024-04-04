@@ -15,3 +15,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           target_folder: "docs/${{ github.ref_name }}"
+          config_file: "doc/Doxyfile"
+          folder: "doc"
