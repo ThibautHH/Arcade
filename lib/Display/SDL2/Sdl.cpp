@@ -63,10 +63,14 @@ std::map<Arcade::Displays::KeyType, int> Sdl::getInputs(void)
                 return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::HOR, -1}};
             if (event.key.keysym.sym == SDLK_RIGHT)
                 return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::HOR, 1}};
-            if (event.key.keysym.sym == SDLK_SPACE)
+            if (event.key.keysym.sym == SDLK_w)
                 return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ACTION1, 1}};
-            if (event.key.keysym.sym == SDLK_RETURN)
+            if (event.key.keysym.sym == SDLK_x)
                 return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ACTION2, 1}};
+            if (event.key.keysym.sym == SDLK_c)
+                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ACTION3, 1}};
+            if (event.key.keysym.sym == SDLK_v)
+                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ACTION4, 1}};
             if (event.key.keysym.sym == SDLK_ESCAPE)
                 return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ESC, 1}};
             if (event.key.keysym.sym == SDLK_r)

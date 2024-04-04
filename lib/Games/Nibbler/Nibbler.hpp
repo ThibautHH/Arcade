@@ -105,6 +105,9 @@ class Nibbler : public Arcade::Games::IGameModule {
         std::string _map1 = "assets/Maps/map1.txt";
         std::string _map2 = "assets/Maps/map2.txt";
         std::string _map3 = "assets/Maps/map3.txt";
+
+        std::vector<std::tuple<std::string, int>> _maps;
+        int _currentMap;
 };
 
 #endif /* !NIBBLER_HPP_ */

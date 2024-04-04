@@ -32,8 +32,8 @@ void Snake::init(std::string args, size_t nb_args)
     _map[8][6] = new SnakeSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {8, 6}, {1, 1});
     _map[8][5] = new SnakeSprite(_tail, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {8, 5}, {1, 1});
 
-    _texts.push_back(std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>("Score: ", {0, 0}, Arcade::Games::Color::WHITE));
-    _texts.push_back(std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>("0", {0, 7}, Arcade::Games::Color::WHITE));
+    _texts.push_back(std::make_tuple("Score: ", Arcade::Games::Vector2i{0, 0}, Arcade::Games::Color::WHITE));
+    _texts.push_back(std::make_tuple(getScore(), Arcade::Games::Vector2i{0, 7}, Arcade::Games::Color::WHITE));
 }
 
 void Snake::close(void)
