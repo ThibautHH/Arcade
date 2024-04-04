@@ -102,11 +102,13 @@ void Processor::displayMenu(const std::map<Arcade::Games::KeyType, int> &inputs)
     if (newGame) {
         if (this->_gameModule)
             this->_gameModule->close();
+        this->_gameModule.reset();
         this->_gameModuleLibrary.reload(newGame->c_str());
         this->_gameModule = this->_gameModuleLibrary.createModule();
         this->_gameModule->init(*newGame, 1);
     } else if (newDisplay) {
         this->_displayModule->close();
+        this->_displayModule.reset();
         this->_displayModuleLibrary.reload(newDisplay->c_str());
         this->_displayModule = this->_displayModuleLibrary.createModule();
         this->_displayModule->init();
