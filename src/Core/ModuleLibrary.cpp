@@ -5,8 +5,11 @@
 ** ModuleLibrary
 */
 
+#include <string_view>
+
 #include "ModuleLibrary.hpp"
 
+using namespace std::literals;
 using namespace Arcade::Core;
 
 template<typename T, const char symbol[]>
@@ -24,7 +27,14 @@ ModuleLibrary<T, symbol>::ModuleLibrary(const char *path)
 template<typename T, const char symbol[]>
 ModuleLibrary<T, symbol>::module_creator *ModuleLibrary<T, symbol>::getModuleCreator() const
 {
-    return (module_creator *)dlexec(std::bind(dlsym, this->_handle.get(), ModuleCreatorSymbol));
+    try {
+        return (module_creator *)dlexec(std::bind(dlsym, this->_handle.get(), ModuleCreatorSymbol));
+    } catch (const DynamicLibraryException &e) {
+        const std::string_view what(e.what());
+        if (what.ends_with("undefined symbol: "s + ModuleCreatorSymbol))
+            throw NoEntrySymbolException(what.data());
+        throw;
+    }
 }
 
 template<typename T, const char symbol[]>
