@@ -19,10 +19,7 @@ Snake::Snake()
             _map[i][j] = new SnakeSprite("", Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::DEFAULT, {i, j}, {1, 1});
         }
     }
-}
 
-void Snake::init(std::string args, size_t nb_args)
-{
     _map[8][10] = new SnakeSprite(_apple, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::RED, {8, 10}, {1, 1});
     _map[8][8] = new SnakeSprite(_head_right, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {8, 8}, {1, 1});
     _map[8][7] = new SnakeSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {8, 7}, {1, 1});
@@ -31,6 +28,12 @@ void Snake::init(std::string args, size_t nb_args)
 
     _texts.push_back(std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>("Score: ", {0, 0}, Arcade::Games::Color::WHITE));
     _texts.push_back(std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>("0", {0, 7}, Arcade::Games::Color::WHITE));
+}
+
+void Snake::init(std::string args, size_t nb_args)
+{
+    (void) args;
+    (void) nb_args;
 }
 
 void Snake::close(void)
@@ -113,7 +116,7 @@ void Snake::moveSnake(std::vector<std::vector<Arcade::Games::ISprite *>> map, Ar
 
                 if (currentPos.y < 0 || currentPos.y >= _mapSize.y || currentPos.x < 0 || currentPos.x >= _mapSize.x) {
                     _score = 0;
-                    // reset game / game over
+                    exit(0);
                     return;
                 }
 
@@ -161,7 +164,7 @@ void Snake::checkApple(std::vector<std::vector<Arcade::Games::ISprite *>> map)
         }
     }
     if (check == 0) {
-        // reset game / game over
+        exit(0);
     }
 }
 
@@ -170,9 +173,9 @@ bool Snake::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
     (void) deltaT;
 
     if (inputs[Arcade::Games::KeyType::VER] == 1)
-        moveSnake(_map, {0, -1});
-    if (inputs[Arcade::Games::KeyType::VER] == -1)
         moveSnake(_map, {0, 1});
+    if (inputs[Arcade::Games::KeyType::VER] == -1)
+        moveSnake(_map, {0, -1});
     if (inputs[Arcade::Games::KeyType::HOR] == 1)
         moveSnake(_map, {1, 0});
     if (inputs[Arcade::Games::KeyType::HOR] == -1)
