@@ -6,11 +6,15 @@
 */
 
 #include <algorithm>
+#include <chrono>
 #include <optional>
+#include <thread>
 
 #include "Menu.hpp"
 
 #include "Processor.hpp"
+
+using namespace std::chrono_literals;
 
 using namespace Arcade::Core;
 
@@ -120,7 +124,7 @@ void Processor::run()
     std::string name = "Player";
 
     this->_displayModule->init();
-    while (true) {
+    for (auto nextTick = std::chrono::steady_clock::now(); true; nextTick += 20ms) {
         auto inputs = this->_displayModule->getInputs();
         if (inputs[Displays::KeyType::QUIT])
             break;
@@ -129,6 +133,7 @@ void Processor::run()
             displayGame(*this->_gameModule, translateInputs(inputs));
         } else
             displayMenu(translateInputs(inputs));
+        std::this_thread::sleep_until(nextTick);
     }
     this->_displayModule->close();
 }
