@@ -1,5 +1,0 @@
-<map id="Arcade::Core::ModuleLibraryBase" name="Arcade::Core::ModuleLibraryBase">
-<area shape="rect" id="node1" title="An abstract class capable of loading shared libraries." alt="" coords="5,42,244,69"/>
-<area shape="rect" id="node2" href="$dd/df5/classArcade_1_1Core_1_1ModuleLibrary.html" title=" " alt="" coords="303,5,525,47"/>
-<area shape="rect" id="node3" href="$dd/df5/classArcade_1_1Core_1_1ModuleLibrary.html" title="A class to load and create Arcade shared library modules." alt="" coords="292,71,536,98"/>
-</map>
