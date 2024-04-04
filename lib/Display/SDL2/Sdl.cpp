@@ -41,6 +41,7 @@ void Sdl::close(void)
 
 void Sdl::clear(void)
 {
+    _texts.clear();
     SDL_RenderClear(_renderer);
 }
 
@@ -52,14 +53,16 @@ std::map<Arcade::Displays::KeyType, int> Sdl::getInputs(void)
         if (event.type == SDL_QUIT)
             return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::QUIT, 1}};
         if (event.type == SDL_KEYDOWN) {
+            if (event.key.keysym.sym == SDLK_q)
+                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::QUIT, 1}};
             if (event.key.keysym.sym == SDLK_UP)
                 return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::VER, 1}};
             if (event.key.keysym.sym == SDLK_DOWN)
                 return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::VER, -1}};
             if (event.key.keysym.sym == SDLK_LEFT)
-                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::HOR, 1}};
-            if (event.key.keysym.sym == SDLK_RIGHT)
                 return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::HOR, -1}};
+            if (event.key.keysym.sym == SDLK_RIGHT)
+                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::HOR, 1}};
             if (event.key.keysym.sym == SDLK_SPACE)
                 return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ACTION1, 1}};
             if (event.key.keysym.sym == SDLK_RETURN)
@@ -119,6 +122,42 @@ void Sdl::displayGame(void)
             }
         }
     }
+    for (int i = 0; i < _texts.size(); i++) {
+        _font = TTF_OpenFont("assets/arial.ttf", 24);
+        switch(std::get<2>(_texts[i])) {
+            case Arcade::Displays::Color::WHITE:
+                _textcolor = {255, 255, 255};
+                break;
+            case Arcade::Displays::Color::RED:
+                _textcolor = {255, 0, 0};
+                break;
+            case Arcade::Displays::Color::GREEN:
+                _textcolor = {0, 255, 0};
+                break;
+            case Arcade::Displays::Color::BLUE:
+                _textcolor = {0, 0, 255};
+                break;
+            case Arcade::Displays::Color::YELLOW:
+                _textcolor = {255, 255, 0};
+                break;
+            case Arcade::Displays::Color::BLACK:
+                _textcolor = {0, 0, 0};
+                break;
+            case Arcade::Displays::Color::CYAN:
+                _textcolor = {0, 255, 255};
+                break;
+            case Arcade::Displays::Color::MAGENTA:
+                _textcolor = {255, 0, 255};
+                break;
+            default:
+                _textcolor = {255, 255, 255};
+                break;
+        }
+        _textsurface = TTF_RenderText_Solid(_font, std::get<1>(_texts[i]).c_str(), _textcolor);
+        _texttexture = SDL_CreateTextureFromSurface(_renderer, _textsurface);
+        _rect = {std::get<0>(_texts[i]).x * 24, std::get<0>(_texts[i]).y * 24, _textsurface->w, _textsurface->h};
+        SDL_RenderCopy(_renderer, _texttexture, NULL, &_rect);
+    }
     SDL_RenderPresent(_renderer);
 }
 
@@ -134,40 +173,7 @@ float Sdl::getDeltaT(void)
 
 void Sdl::setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Displays::Color color)
 {
-    _font = TTF_OpenFont("assets/arial.ttf", 24);
-    switch(color) {
-        case Arcade::Displays::Color::WHITE:
-            _textcolor = {255, 255, 255};
-            break;
-        case Arcade::Displays::Color::RED:
-            _textcolor = {255, 0, 0};
-            break;
-        case Arcade::Displays::Color::GREEN:
-            _textcolor = {0, 255, 0};
-            break;
-        case Arcade::Displays::Color::BLUE:
-            _textcolor = {0, 0, 255};
-            break;
-        case Arcade::Displays::Color::YELLOW:
-            _textcolor = {255, 255, 0};
-            break;
-        case Arcade::Displays::Color::BLACK:
-            _textcolor = {0, 0, 0};
-            break;
-        case Arcade::Displays::Color::CYAN:
-            _textcolor = {0, 255, 255};
-            break;
-        case Arcade::Displays::Color::MAGENTA:
-            _textcolor = {255, 0, 255};
-            break;
-        default:
-            _textcolor = {255, 255, 255};
-            break;
-    }
-    _textsurface = TTF_RenderText_Solid(_font, text.c_str(), _textcolor);
-    _texttexture = SDL_CreateTextureFromSurface(_renderer, _textsurface);
-    SDL_Rect rect = {pos.x, pos.y, _textsurface->w, _textsurface->h};
-    SDL_RenderCopy(_renderer, _texttexture, NULL, &rect);
+    _texts.push_back(std::make_tuple(pos, text, color));
 }
 
 extern "C" Arcade::Displays::IDisplayModule *displayEntryPoint(void)

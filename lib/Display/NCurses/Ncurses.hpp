@@ -31,6 +31,8 @@ class Ncurses : public Arcade::Displays::IDisplayModule {
     private:
         std::string _gameName;
         std::vector<std::vector<Arcade::Displays::ISprite *>> _map;
+        std::vector<std::tuple<Arcade::Displays::Vector2i, std::string, Arcade::Displays::Color>> _texts;
+        Arcade::Displays::Vector2i _mapSize;
 };
 
 #endif /* !Ncurses_HPP_ */
