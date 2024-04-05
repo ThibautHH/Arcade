@@ -1,0 +1,5 @@
+<map id="Arcade::Core::ModuleLibrary&lt; T, symbol &gt;" name="Arcade::Core::ModuleLibrary&lt; T, symbol &gt;">
+<area shape="rect" id="node1" title="A class to load and create Arcade shared library modules." alt="" coords="10,185,217,227"/>
+<area shape="rect" id="node2" href="$d8/d7a/classArcade_1_1Core_1_1DynamicLibrary.html" title="An abstract class capable of loading shared libraries." alt="" coords="5,109,221,136"/>
+<area shape="rect" id="node3" href="/home/runner/work/Arcade/Arcade/doc/cppreference-doxygen-web.tag.xml$cpp/memory/unique_ptr.html" title=" " alt="" coords="30,5,197,47"/>
+</map>
