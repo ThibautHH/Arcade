@@ -10,13 +10,11 @@
 Snake::Snake()
 : _mapSize({18, 16}), _score(0), _animationTime(0)
 {
-    _map = std::vector<std::vector<Arcade::Games::ISprite *>>(_mapSize.y);
-
-    for (int i = 0; i < _mapSize.y; i++) {
-        _map[i] = std::vector<Arcade::Games::ISprite *>(_mapSize.x);
-        for (int j = 0; j < _mapSize.x; j++)
-            _map[i][j] = nullptr;
-    }
+    _win = false;
+    _gameover = false;
+    _map.resize(_mapSize.y);
+    for (int i = 0; i < _mapSize.y; i++)
+        _map[i].resize(_mapSize.x);
 }
 
 void Snake::init(std::string args, size_t nb_args)
