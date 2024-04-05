@@ -6,16 +6,40 @@
 */
 
 #include "Sfml.hpp"
+#include <unistd.h>
+
+static std::map<Arcade::Displays::Color,sf::Color> colors = {
+    {Arcade::Displays::Color::BLACK, sf::Color::White},
+    {Arcade::Displays::Color::WHITE, sf::Color::White},
+    {Arcade::Displays::Color::RED, sf::Color::Red},
+    {Arcade::Displays::Color::GREEN, sf::Color::Green},
+    {Arcade::Displays::Color::BLUE, sf::Color::Blue},
+    {Arcade::Displays::Color::YELLOW, sf::Color::Yellow},
+    {Arcade::Displays::Color::MAGENTA, sf::Color::Magenta},
+    {Arcade::Displays::Color::CYAN, sf::Color::Cyan},
+    {Arcade::Displays::Color::DEFAULT, sf::Color::White}
+};
+
+static const std::size_t font_size = 24;
 
 Sfml::Sfml()
 {
-    _window.create(sf::VideoMode(1920, 1080), "Arcade");
-    _window.setFramerateLimit(60);
 }
 
 void Sfml::init(void)
 {
-    _font.loadFromFile("assets/arial.ttf");
+    _window.create(sf::VideoMode(1920, 1080), "Arcade", sf::Style::Titlebar | sf::Style::Close);
+    _window.setFramerateLimit(60);
+
+    _map = std::vector<std::vector<Arcade::Displays::ISprite *>>();
+    _mapSize = Arcade::Displays::Vector2i(0, 0);
+
+    if (!_font.loadFromFile("assets/arial.ttf"))
+        throw std::runtime_error("Could not load font");
+    _text.setFont(_font);
+    _text.setCharacterSize(font_size);
+    _text.setFillColor(sf::Color::White);
+    _text.setString("Hello World");
 }
 
 void Sfml::close(void)
@@ -26,46 +50,66 @@ void Sfml::close(void)
 void Sfml::clear(void)
 {
     _texts.clear();
-    _window.clear(sf::Color::Black);
+    _map = std::vector<std::vector<Arcade::Displays::ISprite *>>(
+        _mapSize.y,
+        std::vector<Arcade::Displays::ISprite *>(
+            _mapSize.x, nullptr
+        )
+    );
+    _window.clear();
 }
 
 std::map<Arcade::Displays::KeyType, int> Sfml::getInputs(void)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::QUIT, 1}};
+    std::map<Arcade::Displays::KeyType, int> inputs;
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::VER, 1}};
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::VER, -1}};
+        inputs[Arcade::Displays::KeyType::VER] = 1;
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        inputs[Arcade::Displays::KeyType::VER] = -1;
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::HOR, -1}};
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::HOR, 1}};
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ACTION1, 1}};
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
-        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ACTION2, 1}};
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ESC, 1}};
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::RESTART, 1}};
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::N))
-        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::NEXT_LIB, 1}};
+        inputs[Arcade::Displays::KeyType::HOR] = -1;
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        inputs[Arcade::Displays::KeyType::HOR] = 1;
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::O))
+        inputs[Arcade::Displays::KeyType::PREV_LIB] = 1;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
-        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::PREV_LIB, 1}};
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
-        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::NEXT_GAME, 1}};
+        inputs[Arcade::Displays::KeyType::NEXT_LIB] = 1;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::L))
-        return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::PREV_GAME, 1}};
-    return _inputs;
+        inputs[Arcade::Displays::KeyType::PREV_GAME] = 1;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::M))
+        inputs[Arcade::Displays::KeyType::NEXT_GAME] = 1;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+        inputs[Arcade::Displays::KeyType::ACTION1] = 1;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+        inputs[Arcade::Displays::KeyType::ACTION2] = 1;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+        inputs[Arcade::Displays::KeyType::ACTION3] = 1;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::V))
+        inputs[Arcade::Displays::KeyType::ACTION4] = 1;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+        inputs[Arcade::Displays::KeyType::QUIT] = 1;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+        inputs[Arcade::Displays::KeyType::ESC] = 1;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+        inputs[Arcade::Displays::KeyType::RESTART] = 1;
+
+    return inputs;
 }
 
 void Sfml::setMapSize(Arcade::Displays::Vector2i vector)
 {
-    _map.resize(vector.y);
-    for (int i = 0; i < vector.y; i++) {
-        _map[i].resize(vector.x);
-    }
+    if (_mapSize.x == vector.x && _mapSize.y == vector.y)
+        return;
+    _mapSize = vector;
+    _map = std::vector<std::vector<Arcade::Displays::ISprite *>>(
+        vector.y,
+        std::vector<Arcade::Displays::ISprite *>(
+            vector.x, nullptr
+        )
+    );
 }
 
 void Sfml::updateTile(Arcade::Displays::Vector2i vector, Arcade::Displays::ISprite *sprite)
@@ -97,40 +141,10 @@ void Sfml::displayGame(void)
         }
     }
     for (auto text : _texts) {
-        switch(std::get<2>(text)) {
-            case Arcade::Displays::Color::WHITE:
-                _text.setFillColor(sf::Color::White);
-                break;
-            case Arcade::Displays::Color::RED:
-                _text.setFillColor(sf::Color::Red);
-                break;
-            case Arcade::Displays::Color::GREEN:
-                _text.setFillColor(sf::Color::Green);
-                break;
-            case Arcade::Displays::Color::BLUE:
-                _text.setFillColor(sf::Color::Blue);
-                break;
-            case Arcade::Displays::Color::YELLOW:
-                _text.setFillColor(sf::Color::Yellow);
-                break;
-            case Arcade::Displays::Color::MAGENTA:
-                _text.setFillColor(sf::Color::Magenta);
-                break;
-            case Arcade::Displays::Color::CYAN:
-                _text.setFillColor(sf::Color::Cyan);
-                break;
-            case Arcade::Displays::Color::BLACK:
-                _text.setFillColor(sf::Color::Black);
-                break;
-            default:
-                _text.setFillColor(sf::Color::White);
-                break;
-        }
-        _text.setFont(_font);
         _text.setString(std::get<1>(text));
-        static const std::size_t font_size = 24;
         _text.setCharacterSize(font_size);
         _text.setPosition(std::get<0>(text).x * font_size, std::get<0>(text).y * font_size);
+        _text.setFillColor(colors[std::get<2>(text)]);
         _window.draw(_text);
     }
     _window.display();

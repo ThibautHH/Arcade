@@ -13,7 +13,7 @@ vpath %.cpp $(VPATH)
 
 SRC_SFML := Sfml.cpp
 
-CFLAGS = -Wall   -Wextra -std=c++20
+CFLAGS = -Wall -Wextra -std=c++20
 SFML_LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 
 BUILD_DIR = build
