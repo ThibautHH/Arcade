@@ -165,7 +165,7 @@ void Sfml::setAnimationTime(float time)
 
 float Sfml::getDeltaT(void)
 {
-    return 0;
+    return 0.001f;
 }
 
 void Sfml::setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Displays::Color color)

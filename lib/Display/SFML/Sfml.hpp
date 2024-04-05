@@ -43,7 +43,6 @@ class Sfml : public Arcade::Displays::IDisplayModule{
         std::map<Arcade::Displays::KeyType, int> _inputs;
         sf::Text _text;
         sf::Font _font = sf::Font();
-        clock_t _time;
 };
 
 #endif /* !SFML_HPP_ */
