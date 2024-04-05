@@ -86,9 +86,14 @@ void Processor::displayGame(Games::IGameModule &game, const std::map<Games::KeyT
     auto sprites = game.getMap();
     std::size_t i = 0, j = 0;
     std::for_each(sprites.cbegin(), sprites.cend(), [this, &i, &j](const auto &v){
-        std::for_each(v.cbegin(), v.cend(), [this, &i, &j](const auto &s){
-            auto displaySprite = translateSprite(*s);
-            this->_displayModule->updateTile(Displays::Vector2i(j, i), &displaySprite);
+        std::for_each(v.cbegin(), v.cend(), [this, &i, &j](Games::ISprite * const s){
+            Displays::Sprite displaySprite;
+            auto displayISprite = &displaySprite;
+            if (s)
+                displaySprite = translateSprite(*s);
+            else
+                displayISprite = nullptr;
+            this->_displayModule->updateTile(Displays::Vector2i(j, i), displayISprite);
             j++;
         });
         i++;
