@@ -13,6 +13,7 @@
 #include <vector>
 #include <map>
 #include <tuple>
+#include "Snakemvt.hpp"
 #include "../IGameModule.hpp"
 
 class Snake : public Arcade::Games::IGameModule {
@@ -26,7 +27,7 @@ class Snake : public Arcade::Games::IGameModule {
             Arcade::Games::Vector2i size = {0, 0},
             int rotation = 0,
             Arcade::Games::Vector2i direction = {0, 0})
-                : _path(_path),
+                : _path(path),
                 _shape(shape),
                 _color(color),
                 _pos(pos),
@@ -72,19 +73,20 @@ class Snake : public Arcade::Games::IGameModule {
         std::string getScore(void) override;
         float getAnimationTime(void);
         std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> getTexts(void);
+        void clearMap(void);
 
-        void generateApple(std::vector<std::vector<Arcade::Games::ISprite *>> map);
-        void moveSnake(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
-        void checkApple(std::vector<std::vector<Arcade::Games::ISprite *>> map);
-        void moveBody(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
-        void AddSnakeLength(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
-
+        void handle_mvt(std::map<Arcade::Games::KeyType, int> inputs);
+        void generateApple(bool force = false);
     private:
         size_t _score;
         std::vector<std::vector<Arcade::Games::ISprite *>> _map;
         Arcade::Games::Vector2i _mapSize;
         float _animationTime;
         std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> _texts;
+        bool _gameover;
+        bool _win;
+        Arcade::Games::Snakemvt _snake;
+        Arcade::Games::Vector2i _applePos;
 
         std::string _head_up = "assets/Graphics/head_up.png";
         std::string _head_down = "assets/Graphics/head_down.png";
@@ -94,6 +96,7 @@ class Snake : public Arcade::Games::IGameModule {
         std::string _tail = "assets/Graphics/tail.png";
         std::string _apple = "assets/Graphics/apple.png";
         std::string _wall = "assets/Graphics/wall.png";
+        std::string _background = "assets/Graphics/background.png";
 
 };
 #endif /* !SNAKE_HPP_ */
