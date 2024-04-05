@@ -13,6 +13,7 @@
 #include <vector>
 #include <map>
 #include <tuple>
+#include "Snakemvt.hpp"
 #include "../IGameModule.hpp"
 
 class Snake : public Arcade::Games::IGameModule {
@@ -72,12 +73,7 @@ class Snake : public Arcade::Games::IGameModule {
         std::string getScore(void) override;
         float getAnimationTime(void);
         std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> getTexts(void);
-
-        void generateApple(std::vector<std::vector<Arcade::Games::ISprite *>> map);
-        void moveSnake(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
-        void checkApple(std::vector<std::vector<Arcade::Games::ISprite *>> map);
-        void moveBody(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
-        void AddSnakeLength(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
+        void clearMap(void);
 
     private:
         size_t _score;
@@ -87,6 +83,7 @@ class Snake : public Arcade::Games::IGameModule {
         std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> _texts;
         bool _gameover;
         bool _win;
+        Arcade::Games::Snakemvt _snake;
 
         std::string _head_up = "assets/Graphics/head_up.png";
         std::string _head_down = "assets/Graphics/head_down.png";

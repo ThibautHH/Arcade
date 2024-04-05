@@ -12,6 +12,7 @@ VPATH := ./src
 vpath %.cpp $(VPATH)
 
 SRC_SNAKE := Snake.cpp
+SRC_SNAKE += Snakemvt.cpp
 
 CFLAGS = -Wall
 

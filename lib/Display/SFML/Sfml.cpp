@@ -116,23 +116,16 @@ void Sfml::displayGame(void)
 {
     sf::Texture _texture;
     sf::Sprite _sprite;
+    sf::RectangleShape _rect;
 
     for (long unsigned int i = 0; i < _map.size(); i++) {
         for (long unsigned int j = 0; j < _map[i].size(); j++) {
-            if (_map[i][j] != nullptr) {
-                if (_textures.find(_map[i][j]->getPath()) == _textures.end()) {
-                    _texture = _textures[_map[i][j]->getPath()];
-                    _sprite.setTexture(_texture);
-                    _sprite.setPosition(j * 32, i * 32);
-                    _window.draw(_sprite);
-                } else {
-                    _texture.loadFromFile(_map[i][j]->getPath());
-                    _textures[_map[i][j]->getPath()] = _texture;
-                    _sprite.setTexture(_texture);
-                    _sprite.setPosition(j * 32, i * 32);
-                    _window.draw(_sprite);
-                }
-            }
+            if (_map[i][j] == nullptr)
+                continue;
+            _rect.setSize(sf::Vector2f(32, 32));
+            _rect.setPosition(j * 32, i * 32);
+            _rect.setFillColor(colors[_map[i][j]->getColor()]);
+            _window.draw(_rect);
         }
     }
     for (auto text : _texts) {
