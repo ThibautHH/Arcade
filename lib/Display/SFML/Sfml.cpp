@@ -20,6 +20,8 @@ static std::map<Arcade::Displays::Color,sf::Color> colors = {
     {Arcade::Displays::Color::DEFAULT, sf::Color::White}
 };
 
+static const std::size_t font_size = 24;
+
 Sfml::Sfml()
 {
 }
@@ -35,7 +37,7 @@ void Sfml::init(void)
     if (!_font.loadFromFile("assets/arial.ttf"))
         throw std::runtime_error("Could not load font");
     _text.setFont(_font);
-    _text.setCharacterSize(24);
+    _text.setCharacterSize(font_size);
     _text.setFillColor(sf::Color::White);
     _text.setString("Hello World");
 }
@@ -140,7 +142,8 @@ void Sfml::displayGame(void)
     }
     for (auto text : _texts) {
         _text.setString(std::get<1>(text));
-        _text.setPosition(std::get<0>(text).x * 32, std::get<0>(text).y * 32);
+        _text.setCharacterSize(font_size);
+        _text.setPosition(std::get<0>(text).x * font_size, std::get<0>(text).y * font_size);
         _text.setFillColor(colors[std::get<2>(text)]);
         _window.draw(_text);
     }
