@@ -19,6 +19,8 @@
 #include <SFML/Audio.hpp>
 #include "../IDisplayModule.hpp"
 
+#define HEADER_HEIGHT 1
+
 class Sfml : public Arcade::Displays::IDisplayModule{
     public:
         void init(void) override;
@@ -41,6 +43,7 @@ class Sfml : public Arcade::Displays::IDisplayModule{
         std::map<Arcade::Displays::KeyType, int> _inputs;
         sf::Text _text;
         sf::Font _font = sf::Font();
+        clock_t _time;
 };
 
 #endif /* !SFML_HPP_ */
