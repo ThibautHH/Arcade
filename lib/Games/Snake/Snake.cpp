@@ -63,22 +63,6 @@ void Snake::handle_mvt(std::map<Arcade::Games::KeyType, int> inputs)
         _snake.setDirection(Arcade::Games::Direction::LEFT);
 }
 
-bool Snake::handle_lose(void)
-{
-    Arcade::Games::ISprite *head = _map[_snake.getHeadPos().y][_snake.getHeadPos().x];
-
-    if (_snake.getHeadPos().x < 0 || _snake.getHeadPos().x >= _mapSize.x ||
-    _snake.getHeadPos().y < 0 || _snake.getHeadPos().y >= _mapSize.y) {
-        _gameover = true;
-        return false;
-    }
-    if (head != nullptr && head->getColor() == Arcade::Games::Color::GREEN) {
-        _gameover = true;
-        return false;
-    }
-    return true;
-}
-
 void Snake::generateApple(bool force)
 {
     int x = rand() % _mapSize.x;
@@ -108,6 +92,10 @@ bool Snake::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
     clearMap();
     handle_mvt(inputs);
     _snake.updateSnake(_map, deltaT);
+    if (_snake.getHeadPos().x < 0 || _snake.getHeadPos().x >= _mapSize.x || _snake.getHeadPos().y < 0 || _snake.getHeadPos().y >= _mapSize.y) {
+        _gameover = true;
+        return false;
+    }
     _map[_snake.getHeadPos().y][_snake.getHeadPos().x] = new SnakeSprite(_head_right, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::MAGENTA, _snake.getHeadPos(), {1, 1});
     for (int i = 0; i < _snake.getBodyPos().size(); i++)
         _map[_snake.getBodyPos()[i].y][_snake.getBodyPos()[i].x] = new SnakeSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, _snake.getBodyPos()[i], {1, 1});
@@ -117,9 +105,11 @@ bool Snake::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
         _snake.addBodyPart();
         generateApple(true);
     }
-    generateApple();
-    if (handle_lose() == false)
+    if (_map[_snake.getHeadPos().y][_snake.getHeadPos().x] != nullptr && _map[_snake.getHeadPos().y][_snake.getHeadPos().x]->getColor() == Arcade::Games::Color::GREEN) {
+        _gameover = true;
         return false;
+    }
+    generateApple();
     _texts[1] = std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>(getScore(), {7, 0}, Arcade::Games::Color::WHITE);
     return true;
 }

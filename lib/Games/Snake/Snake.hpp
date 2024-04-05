@@ -76,7 +76,6 @@ class Snake : public Arcade::Games::IGameModule {
         void clearMap(void);
 
         void handle_mvt(std::map<Arcade::Games::KeyType, int> inputs);
-        bool handle_lose(void);
         void generateApple(bool force = false);
     private:
         size_t _score;
