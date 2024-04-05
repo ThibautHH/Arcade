@@ -137,43 +137,56 @@ void Ncurses::updateTile(Arcade::Displays::Vector2i vector, Arcade::Displays::IS
 void Ncurses::displayGame(void)
 {
     if (LINES < _mapSize.y || COLS < _mapSize.x) {
-        attron(COLOR_PAIR(7));
-        mvprintw(LINES / 2 - 2, COLS / 2, "Please resize the window");
-        mvprintw(LINES / 2, COLS / 2, "to at least %d x %d", _mapSize.x, _mapSize.y);
-        attroff(COLOR_PAIR(7));
+        attron(COLOR_PAIR(1));
+        mvprintw(0, 0, "Window too small to display game");
+        mvprintw(1, 0, "Please resize the window");
+        attroff(COLOR_PAIR(1));
         refresh();
         return;
     }
     for (int y = 0; y < _mapSize.y; y++) {
         for (int x = 0; x < _mapSize.x; x++) {
-            if (_map[y][x] != nullptr) {
-                switch (_map[y][x]->getColor())
-                {
-                case Arcade::Displays::Color::RED:
-                    attron(COLOR_PAIR(1));
-                    break;
-                case Arcade::Displays::Color::GREEN:
-                    attron(COLOR_PAIR(2));
-                    break;
-                case Arcade::Displays::Color::YELLOW:
-                    attron(COLOR_PAIR(3));
-                    break;
-                case Arcade::Displays::Color::BLUE:
-                    attron(COLOR_PAIR(4));
-                    break;
-                case Arcade::Displays::Color::MAGENTA:
-                    attron(COLOR_PAIR(5));
-                    break;
-                case Arcade::Displays::Color::CYAN:
-                    attron(COLOR_PAIR(6));
-                    break;
-                case Arcade::Displays::Color::WHITE:
-                    attron(COLOR_PAIR(7));
-                    break;
-                default:
-                    break;
-                }
+            if (_map[y][x] == nullptr)
+                continue;
+            switch (_map[y][x]->getColor())
+            {
+            case Arcade::Displays::Color::RED:
+                attron(COLOR_PAIR(1));
+                break;
+            case Arcade::Displays::Color::GREEN:
+                attron(COLOR_PAIR(2));
+                break;
+            case Arcade::Displays::Color::YELLOW:
+                attron(COLOR_PAIR(3));
+                break;
+            case Arcade::Displays::Color::BLUE:
+                attron(COLOR_PAIR(4));
+                break;
+            case Arcade::Displays::Color::MAGENTA:
+                attron(COLOR_PAIR(5));
+                break;
+            case Arcade::Displays::Color::CYAN:
+                attron(COLOR_PAIR(6));
+                break;
+            case Arcade::Displays::Color::WHITE:
+                attron(COLOR_PAIR(7));
+                break;
+            default:
+                break;
+            }
+            switch (_map[y][x]->getShape())
+            {
+            case Arcade::Displays::Shape::RECTANGLE:
                 mvprintw(y, x, "#");
+            break;
+            case Arcade::Displays::Shape::CIRCLE:
+                mvprintw(y, x, "O");
+            break;
+            case Arcade::Displays::Shape::TRIANGLE:
+                mvprintw(y, x, "^");
+            break;
+            default:
+                break;
             }
         }
     }
