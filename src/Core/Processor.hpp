@@ -11,7 +11,6 @@
     #include <optional>
 
     #include "ModuleLibrary.hpp"
-    #include "../Displays/Sprite.hpp"
     #include "Menu.hpp"
 
 namespace Arcade::Core {
@@ -37,8 +36,8 @@ namespace Arcade::Core {
 
         private:
             static std::map<Games::KeyType, int> translateInputs(std::map<Displays::KeyType, int> inputs);
-            static Displays::Vector2i translateVector(Games::Vector2i inputs);
-            static Displays::Sprite translateSprite(Games::ISprite &inputs);
+            static Displays::Vector2i translateVector(Games::Vector2i vector);
+            static std::unique_ptr<Arcade::Displays::ISprite> translateSprite(Games::ISprite *sprite);
             static std::map<Games::Color, Displays::Color> DisplayColors;
             static std::map<Games::Shape, Displays::Shape> DisplayShapes;
 
