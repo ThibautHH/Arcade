@@ -90,16 +90,25 @@ std::map<Arcade::Displays::KeyType, int> Sdl::getInputs(void)
 
 void Sdl::setMapSize(Arcade::Displays::Vector2i vector)
 {
-    _map.resize(vector.y);
-    for (int i = 0; i < vector.y; i++) {
-        _map[i].resize(vector.x);
+    if (_mapSize.x == vector.x && _mapSize.y == vector.y)
+        return;
+    _mapSize = vector;
+
+    _map.reserve(_mapSize.y);
+    for (int i = 0; i < _mapSize.y; i++) {
+        _map.emplace(_map.begin() + i);
+        _map[i].reserve(_mapSize.x);
+        for (int j = 0; j < _mapSize.x; j++) {
+            _map[i].emplace(_map[i].begin() + j, nullptr);
+        }
     }
 }
 
 void Sdl::updateTile(Arcade::Displays::Vector2i vector, Arcade::Displays::ISprite *sprite)
 {
-    _map[vector.y][vector.x] = sprite;
-}
+    if (vector.x < 0 || vector.y < 0 || vector.x >= _mapSize.x || vector.y >= _mapSize.y)
+        return;
+    _map.at(vector.y).at(vector.x) = sprite;}
 
 void Sdl::displayGame(void)
 {
