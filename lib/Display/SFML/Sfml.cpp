@@ -109,7 +109,6 @@ void Sfml::updateTile(Arcade::Displays::Vector2i vector, Arcade::Displays::ISpri
 {
     if (vector.x < 0 || vector.y < 0 || vector.x >= _mapSize.x || vector.y >= _mapSize.y)
         return;
-    printf("x: %d, y: %d\n", vector.x, vector.y);
     _map.at(vector.y).at(vector.x) = sprite;
 }
 
