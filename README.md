@@ -21,6 +21,18 @@ program.
 > Only your dynamic libraries can do so.
 > This also applies to your games.
 
+## Usage
+
+The program must take as a startup argument the graphics library to use initially. It must nevertheless be possible to change the graphics library at run-time.
+
+```shell
+∼/B-OOP-400> ./arcade ./lib/arcade_ncurses.so
+```
+
+## Implementation of new graphics or game libraries
+
+The Arcade project is designed to be extensible, allowing developers to implement new graphics or game libraries. [Here's how you can implement them.](doc/IMPLEMENT.md)
+
 ## Table of Contents
 
 - [LIBRARIES](doc/LIBRARIES.md)
