@@ -50,6 +50,11 @@ void Arcade::Games::Snakemvt::moveDown(std::vector<std::vector<Arcade::Games::IS
     _headPos.y += 1;
 }
 
+void Arcade::Games::Snakemvt::addBodyPart()
+{
+    _bodyPos.push_back(_bodyPos[_bodyPos.size() - 1]);
+}
+
 void Arcade::Games::Snakemvt::updateSnake(std::vector<std::vector<Arcade::Games::ISprite *>> map, float deltaTime)
 {
     _speed++;

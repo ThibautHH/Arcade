@@ -49,15 +49,8 @@ void Snake::clearMap(void)
             }
 }
 
-bool Snake::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
+void Snake::handle_mvt(std::map<Arcade::Games::KeyType, int> inputs)
 {
-    (void) deltaT;
-
-    if (_gameover) {
-        _texts[1] = std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>("Game Over", {7, 1}, Arcade::Games::Color::WHITE);
-        return false;
-    }
-    clearMap();
     if (inputs[Arcade::Games::KeyType::VER] == 1) {
         _snake.setDirection(Arcade::Games::Direction::UP);
     }
@@ -70,19 +63,67 @@ bool Snake::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
     if (inputs[Arcade::Games::KeyType::HOR] == -1) {
         _snake.setDirection(Arcade::Games::Direction::LEFT);
     }
-    _snake.updateSnake(_map, deltaT);
+}
+
+bool Snake::handle_lose(void)
+{
+    Arcade::Games::ISprite *head = _map[_snake.getHeadPos().y][_snake.getHeadPos().x];
+
     if (_snake.getHeadPos().x < 0 || _snake.getHeadPos().x >= _mapSize.x || _snake.getHeadPos().y < 0 || _snake.getHeadPos().y >= _mapSize.y) {
         _gameover = true;
         return false;
     }
-    if (_map[_snake.getHeadPos().y][_snake.getHeadPos().x] != nullptr && _map[_snake.getHeadPos().y][_snake.getHeadPos().x]->getColor() != Arcade::Games::Color::RED) {
+    if (head != nullptr && head->getColor() == Arcade::Games::Color::GREEN) {
         _gameover = true;
         return false;
+    }
+    return true;
+}
+
+void Snake::generateApple(void)
+{
+    int x = rand() % _mapSize.x;
+    int y = rand() % _mapSize.y;
+
+    if (_map[y][x] == nullptr) {
+        _map[y][x] = new SnakeSprite(_apple, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::RED, {x, y}, {1, 1});
+    } else {
+        generateApple();
+    }
+}
+
+void Snake::checkApple(void)
+{
+    for (int i = 0; i < _mapSize.y; i++)
+        for (int j = 0; j < _mapSize.x; j++)
+            if (_map[i][j] != nullptr && _map[i][j]->getColor() == Arcade::Games::Color::RED)
+                return;
+    generateApple();
+}
+
+bool Snake::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
+{
+    (void) deltaT;
+
+    if (_gameover) {
+        _texts[1] = std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>("Game Over", {7, 1}, Arcade::Games::Color::WHITE);
+        return false;
+    }
+    clearMap();
+    handle_mvt(inputs);
+    _snake.updateSnake(_map, deltaT);
+    checkApple();
+    if (_map[_snake.getHeadPos().y][_snake.getHeadPos().x] != nullptr && _map[_snake.getHeadPos().y][_snake.getHeadPos().x]->getColor() == Arcade::Games::Color::RED) {
+        _score++;
+        _snake.addBodyPart();
+        checkApple();
     }
     _map[_snake.getHeadPos().y][_snake.getHeadPos().x] = new SnakeSprite(_head_right, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::MAGENTA, _snake.getHeadPos(), {1, 1});
     for (int i = 0; i < _snake.getBodyPos().size(); i++) {
         _map[_snake.getBodyPos()[i].y][_snake.getBodyPos()[i].x] = new SnakeSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, _snake.getBodyPos()[i], {1, 1});
     }
+    if (handle_lose() == false)
+        return false;
     _texts[1] = std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>(getScore(), {7, 0}, Arcade::Games::Color::WHITE);
     return true;
 }
