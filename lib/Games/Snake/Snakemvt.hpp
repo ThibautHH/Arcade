@@ -33,6 +33,7 @@ namespace Arcade::Games {
 
             void moveBody();
             void updateSnake(std::vector<std::vector<Arcade::Games::ISprite *>> map, float deltaTime);
+            void addBodyPart();
 
             void setDirection(Direction direction) { _direction = direction; };
             Direction getDirection(void) { return _direction; };
