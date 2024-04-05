@@ -108,33 +108,56 @@ void Sdl::updateTile(Arcade::Displays::Vector2i vector, Arcade::Displays::ISprit
 {
     if (vector.x < 0 || vector.y < 0 || vector.x >= _mapSize.x || vector.y >= _mapSize.y)
         return;
-    _map.at(vector.y).at(vector.x) = sprite;}
+    _map.at(vector.y).at(vector.x) = sprite;
+}
 
 void Sdl::displayGame(void)
 {
     SDL_Surface *_surface;
     SDL_Texture *_texture;
     SDL_Rect _rect;
+    Arcade::Displays::Color _color;
 
     for (int i = 0; i < _map.size(); i++) {
         for (int j = 0; j < _map[i].size(); j++) {
-            if (_map[i][j] != nullptr) {
-                if (_textures.find(_map[i][j]->getPath()) == _textures.end()) {
-                    _texture = _textures[_map[i][j]->getPath()];
-                    _rect = {j * 32, i * 32, 32, 32};
-                    _surface = IMG_Load(_map[i][j]->getPath().c_str());
-                    _texture = SDL_CreateTextureFromSurface(_renderer, _surface);
-                    SDL_RenderCopy(_renderer, _texture, NULL, &_rect);
-                } else {
-                    _rect = {j * 32, i * 32, 32, 32};
-                    _surface = IMG_Load(_map[i][j]->getPath().c_str());
-                    _texture = SDL_CreateTextureFromSurface(_renderer, _surface);
-                    _textures[_map[i][j]->getPath()] = _texture;
-                    SDL_RenderCopy(_renderer, _texture, NULL, &_rect);
+            if (_map[i][j] == nullptr)
+                continue;
+            _rect = {j * 32, i * 32, 32, 32};
+            _color = _map[i][j]->getColor();
+            switch (_color) {
+                case Arcade::Displays::Color::WHITE:
+                    SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
+                    break;
+                case Arcade::Displays::Color::RED:
+                    SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
+                    break;
+                case Arcade::Displays::Color::GREEN:
+                    SDL_SetRenderDrawColor(_renderer, 0, 255, 0, 255);
+                    break;
+                case Arcade::Displays::Color::BLUE:
+                    SDL_SetRenderDrawColor(_renderer, 0, 0, 255, 255);
+                    break;
+                case Arcade::Displays::Color::YELLOW:
+                    SDL_SetRenderDrawColor(_renderer, 255, 255, 0, 255);
+                    break;
+                case Arcade::Displays::Color::BLACK:
+                    SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
+                    break;
+                case Arcade::Displays::Color::CYAN:
+                    SDL_SetRenderDrawColor(_renderer, 0, 255, 255, 255);
+                    break;
+                case Arcade::Displays::Color::MAGENTA:
+                    SDL_SetRenderDrawColor(_renderer, 255, 0, 255, 255);
+                    break;
+                default:
+                    SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
+                    break;
                 }
+            SDL_RenderDrawRect(_renderer, &_rect);
+            SDL_RenderFillRect(_renderer, &_rect);
+            SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
             }
         }
-    }
     for (int i = 0; i < _texts.size(); i++) {
         _font = TTF_OpenFont("assets/arial.ttf", 24);
         switch(std::get<2>(_texts[i])) {
