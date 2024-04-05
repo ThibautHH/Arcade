@@ -117,15 +117,34 @@ void Sfml::displayGame(void)
     sf::Texture _texture;
     sf::Sprite _sprite;
     sf::RectangleShape _rect;
+    sf::CircleShape _circle;
+    sf::ConvexShape _triangle;
+
+    _rect.setSize(sf::Vector2f(32, 32));
+    _circle.setRadius(16);
+    _triangle.setPointCount(3);
 
     for (long unsigned int i = 0; i < _map.size(); i++) {
         for (long unsigned int j = 0; j < _map[i].size(); j++) {
             if (_map[i][j] == nullptr)
                 continue;
-            _rect.setSize(sf::Vector2f(32, 32));
-            _rect.setPosition(j * 32, i * 32);
-            _rect.setFillColor(colors[_map[i][j]->getColor()]);
-            _window.draw(_rect);
+            if (_map[i][j]->getShape() == Arcade::Displays::Shape::RECTANGLE) {
+                _rect.setPosition(j * 32, i * 32);
+                _rect.setFillColor(colors[_map[i][j]->getColor()]);
+                _window.draw(_rect);
+            }
+            if (_map[i][j]->getShape() == Arcade::Displays::Shape::CIRCLE) {
+                _circle.setPosition(j * 32, i * 32);
+                _circle.setFillColor(colors[_map[i][j]->getColor()]);
+                _window.draw(_circle);
+            }
+            if (_map[i][j]->getShape() == Arcade::Displays::Shape::TRIANGLE) {
+                _triangle.setPoint(0, sf::Vector2f(j * 32, i * 32));
+                _triangle.setPoint(1, sf::Vector2f(j * 32 + 32, i * 32));
+                _triangle.setPoint(2, sf::Vector2f(j * 32 + 16, i * 32 + 32));
+                _triangle.setFillColor(colors[_map[i][j]->getColor()]);
+                _window.draw(_triangle);
+            }
         }
     }
     for (auto text : _texts) {
