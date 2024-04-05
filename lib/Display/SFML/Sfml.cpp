@@ -129,19 +129,20 @@ void Sfml::displayGame(void)
             if (_map[i][j] == nullptr)
                 continue;
             if (_map[i][j]->getShape() == Arcade::Displays::Shape::RECTANGLE) {
-                _rect.setPosition(j * 32, i * 32);
+                _rect.setPosition(j * 32, i * 32 + HEADER_HEIGHT * 32);
                 _rect.setFillColor(colors[_map[i][j]->getColor()]);
                 _window.draw(_rect);
             }
             if (_map[i][j]->getShape() == Arcade::Displays::Shape::CIRCLE) {
-                _circle.setPosition(j * 32, i * 32);
+                _circle.setPosition(j * 32, i * 32 + HEADER_HEIGHT * 32);
                 _circle.setFillColor(colors[_map[i][j]->getColor()]);
                 _window.draw(_circle);
             }
             if (_map[i][j]->getShape() == Arcade::Displays::Shape::TRIANGLE) {
-                _triangle.setPoint(0, sf::Vector2f(j * 32, i * 32));
-                _triangle.setPoint(1, sf::Vector2f(j * 32 + 32, i * 32));
-                _triangle.setPoint(2, sf::Vector2f(j * 32 + 16, i * 32 + 32));
+                _triangle.setPosition(j * 32, i * 32 + HEADER_HEIGHT * 32);
+                _triangle.setPoint(0, sf::Vector2f(0, 0));
+                _triangle.setPoint(1, sf::Vector2f(32, 0));
+                _triangle.setPoint(2, sf::Vector2f(16, 32));
                 _triangle.setFillColor(colors[_map[i][j]->getColor()]);
                 _window.draw(_triangle);
             }
