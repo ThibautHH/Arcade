@@ -145,6 +145,7 @@ void Sfml::displayGame(void)
         _text.setCharacterSize(font_size);
         _text.setPosition(std::get<0>(text).x * font_size, std::get<0>(text).y * font_size);
         _text.setFillColor(colors[std::get<2>(text)]);
+    }
 }
 
 void Sfml::setAnimationTime(float time)
