@@ -22,10 +22,6 @@ static std::map<Arcade::Displays::Color,sf::Color> colors = {
 
 static const std::size_t font_size = 24;
 
-Sfml::Sfml()
-{
-}
-
 void Sfml::init(void)
 {
     _window.create(sf::VideoMode(1920, 1080), "Arcade", sf::Style::Titlebar | sf::Style::Close);

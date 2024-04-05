@@ -12,9 +12,11 @@ Snake::Snake()
 {
     _win = false;
     _gameover = false;
-    _map.resize(_mapSize.y);
-    for (int i = 0; i < _mapSize.y; i++)
-        _map[i].resize(_mapSize.x);
+    _map.reserve(_mapSize.y);
+    for (int i = 0; i < _mapSize.y; i++) {
+        _map.emplace(_map.begin() + i);
+        _map[i].reserve(_mapSize.x);
+    }
 }
 
 void Snake::init(std::string args, size_t nb_args)
@@ -189,7 +191,7 @@ bool Snake::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
         moveSnake(_map, {1, 0});
     if (inputs[Arcade::Games::KeyType::HOR] == -1)
         moveSnake(_map, {-1, 0});
-    checkApple(_map);
+    // checkApple(_map);
     _texts[1] = std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>(getScore(), {0, 7}, Arcade::Games::Color::WHITE);
     return true;
 }

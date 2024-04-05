@@ -26,7 +26,7 @@ class Snake : public Arcade::Games::IGameModule {
             Arcade::Games::Vector2i size = {0, 0},
             int rotation = 0,
             Arcade::Games::Vector2i direction = {0, 0})
-                : _path(_path),
+                : _path(path),
                 _shape(shape),
                 _color(color),
                 _pos(pos),
