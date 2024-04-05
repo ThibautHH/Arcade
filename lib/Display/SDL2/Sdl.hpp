@@ -13,12 +13,14 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_shape.h>
 #include <map>
 #include <vector>
 #include <string>
 #include <unistd.h>
 #include "../IDisplayModule.hpp"
 
+#define HEADER_HEIGHT 1
 class Sdl : public Arcade::Displays::IDisplayModule{
     public:
         Sdl();
@@ -46,6 +48,7 @@ class Sdl : public Arcade::Displays::IDisplayModule{
         Arcade::Displays::Vector2i _mapSize;
         std::map<std::string, SDL_Texture *> _textures;
         std::vector<std::tuple<Arcade::Displays::Vector2i, std::string, Arcade::Displays::Color>> _texts;
+        clock_t _time;
 };
 
 #endif /* !SDL_HPP_ */
