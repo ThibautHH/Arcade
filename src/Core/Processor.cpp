@@ -7,9 +7,11 @@
 
 #include <algorithm>
 #include <chrono>
+#include <memory>
 #include <optional>
 #include <thread>
 
+#include "../Displays/Sprite.hpp"
 #include "Menu.hpp"
 
 #include "Processor.hpp"
@@ -61,15 +63,18 @@ std::map<Arcade::Games::Shape, Arcade::Displays::Shape> Processor::DisplayShapes
     {Games::Shape::TRIANGLE, Displays::Shape::TRIANGLE}
 };
 
-Arcade::Displays::Sprite Processor::translateSprite(Games::ISprite &s)
+std::unique_ptr<Arcade::Displays::ISprite> Processor::translateSprite(Games::ISprite *s)
 {
-    Displays::Sprite sprite;
+    if (!s)
+        return nullptr;
 
-    sprite.setPath(s.getPath());
-    sprite.setRotation(s.getRotation());
-    sprite.setDirection(translateVector(s.getDirection()));
-    sprite.setColor(DisplayColors[s.getColor()]);
-    sprite.setShape(DisplayShapes[s.getShape()]);
+    std::unique_ptr<Arcade::Displays::ISprite> sprite = std::make_unique<Arcade::Displays::Sprite>();
+
+    sprite->setPath(s->getPath());
+    sprite->setRotation(s->getRotation());
+    sprite->setDirection(translateVector(s->getDirection()));
+    sprite->setColor(DisplayColors[s->getColor()]);
+    sprite->setShape(DisplayShapes[s->getShape()]);
     return sprite;
 }
 
@@ -78,22 +83,21 @@ void Processor::displayGame(Games::IGameModule &game, const std::map<Games::KeyT
     game.update(inputs, this->_displayModule->getDeltaT());
     this->_displayModule->clear();
     this->_displayModule->setAnimationTime(game.getAnimationTime());
-    this->_displayModule->setMapSize(translateVector(game.getMapSize()));
+    Games::Vector2i mapSize= game.getMapSize();
+    this->_displayModule->setMapSize(translateVector(mapSize));
     auto texts = game.getTexts();
     std::for_each(texts.begin(), texts.end(), [this](const auto  &t){
         this->_displayModule->setText(std::get<0>(t), translateVector(std::get<1>(t)), DisplayColors[std::get<2>(t)]);
     });
     auto sprites = game.getMap();
     std::size_t i = 0, j = 0;
-    std::for_each(sprites.cbegin(), sprites.cend(), [this, &i, &j](const auto &v){
-        std::for_each(v.cbegin(), v.cend(), [this, &i, &j](Games::ISprite * const s){
-            Displays::Sprite displaySprite;
-            auto displayISprite = &displaySprite;
-            if (s)
-                displaySprite = translateSprite(*s);
-            else
-                displayISprite = nullptr;
-            this->_displayModule->updateTile(Displays::Vector2i(j, i), displayISprite);
+    std::vector<std::unique_ptr<Displays::ISprite>> displaySprites(mapSize.y * mapSize.x);
+    std::for_each(sprites.cbegin(), sprites.cend(), [this, &i, &j, &displaySprites](const auto &v){
+        std::for_each(v.cbegin(), v.cend(), [&](Games::ISprite * const s){
+            auto displaySprite = translateSprite(s);
+            this->_displayModule->updateTile(Displays::Vector2i(j, i), displaySprite.get());
+            if (displaySprite)
+                displaySprites.push_back(std::move(displaySprite));
             j++;
         });
         i++;
