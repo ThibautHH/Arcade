@@ -22,10 +22,6 @@ static std::map<Arcade::Displays::Color,sf::Color> colors = {
 
 static const std::size_t font_size = 24;
 
-Sfml::Sfml()
-{
-}
-
 void Sfml::init(void)
 {
     _window.create(sf::VideoMode(1920, 1080), "Arcade", sf::Style::Titlebar | sf::Style::Close);
@@ -50,12 +46,6 @@ void Sfml::close(void)
 void Sfml::clear(void)
 {
     _texts.clear();
-    _map = std::vector<std::vector<Arcade::Displays::ISprite *>>(
-        _mapSize.y,
-        std::vector<Arcade::Displays::ISprite *>(
-            _mapSize.x, nullptr
-        )
-    );
     _window.clear();
 }
 
@@ -104,40 +94,38 @@ void Sfml::setMapSize(Arcade::Displays::Vector2i vector)
     if (_mapSize.x == vector.x && _mapSize.y == vector.y)
         return;
     _mapSize = vector;
-    _map = std::vector<std::vector<Arcade::Displays::ISprite *>>(
-        vector.y,
-        std::vector<Arcade::Displays::ISprite *>(
-            vector.x, nullptr
-        )
-    );
+
+    _map.reserve(_mapSize.y);
+    for (int i = 0; i < _mapSize.y; i++) {
+        _map.emplace(_map.begin() + i);
+        _map[i].reserve(_mapSize.x);
+        for (int j = 0; j < _mapSize.x; j++) {
+            _map[i].emplace(_map[i].begin() + j, nullptr);
+        }
+    }
 }
 
 void Sfml::updateTile(Arcade::Displays::Vector2i vector, Arcade::Displays::ISprite *sprite)
 {
-    _map[vector.y][vector.x] = sprite;
+    if (vector.x < 0 || vector.y < 0 || vector.x >= _mapSize.x || vector.y >= _mapSize.y)
+        return;
+    _map.at(vector.y).at(vector.x) = sprite;
 }
 
 void Sfml::displayGame(void)
 {
     sf::Texture _texture;
     sf::Sprite _sprite;
+    sf::RectangleShape _rect;
 
     for (long unsigned int i = 0; i < _map.size(); i++) {
         for (long unsigned int j = 0; j < _map[i].size(); j++) {
-            if (_map[i][j] != nullptr) {
-                if (_textures.find(_map[i][j]->getPath()) == _textures.end()) {
-                    _texture = _textures[_map[i][j]->getPath()];
-                    _sprite.setTexture(_texture);
-                    _sprite.setPosition(j * 32, i * 32);
-                    _window.draw(_sprite);
-                } else {
-                    _texture.loadFromFile(_map[i][j]->getPath());
-                    _textures[_map[i][j]->getPath()] = _texture;
-                    _sprite.setTexture(_texture);
-                    _sprite.setPosition(j * 32, i * 32);
-                    _window.draw(_sprite);
-                }
-            }
+            if (_map[i][j] == nullptr)
+                continue;
+            _rect.setSize(sf::Vector2f(32, 32));
+            _rect.setPosition(j * 32, i * 32);
+            _rect.setFillColor(colors[_map[i][j]->getColor()]);
+            _window.draw(_rect);
         }
     }
     for (auto text : _texts) {

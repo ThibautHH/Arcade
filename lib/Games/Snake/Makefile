@@ -12,6 +12,7 @@ VPATH := ./src
 vpath %.cpp $(VPATH)
 
 SRC_SNAKE := Snake.cpp
+SRC_SNAKE += Snakemvt.cpp
 
 CFLAGS = -Wall
 
@@ -24,7 +25,7 @@ all: $(LIB_SNAKE)
 
 $(BUILD_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
-	@g++ -c -o $@ $< -fPIC
+	@g++ -c -o $@ $< -fPIC -g
 
 $(LIB_SNAKE): $(OBJ_SNAKE)
 	@ld -shared -ldl -o $(LIB_SNAKE) $(OBJ_SNAKE)

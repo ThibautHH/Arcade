@@ -8,12 +8,17 @@
 #include "Nibbler.hpp"
 
 Nibbler::Nibbler()
-: _mapSize({27, 18}), _score(0), _animationTime(0)
+: _mapSize({19, 27}), _score(0), _animationTime(0)
 {
     _map.resize(_mapSize.y);
     for (int i = 0; i < _mapSize.y; i++)
         _map[i].resize(_mapSize.x);
 
+    _maps.push_back(std::make_tuple(_map1, 1));
+    _maps.push_back(std::make_tuple(_map2, 2));
+    _maps.push_back(std::make_tuple(_map3, 3));
+
+    _currentMap = 1;
     _map = loadMap(_map1);
 }
 
@@ -67,8 +72,8 @@ void Nibbler::init(std::string args, size_t nb_args)
     for (int i = 0; i < 10; i++) {
         generateApple(_map);
     }
-    _texts.push_back(std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>("Score: ", {0, 0}, Arcade::Games::Color::WHITE));
-    _texts.push_back(std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>("0", {0, 7}, Arcade::Games::Color::WHITE));
+    _texts.push_back(std::make_tuple("Score: ", Arcade::Games::Vector2i{0, 0}, Arcade::Games::Color::WHITE));
+    _texts.push_back(std::make_tuple(getScore(), Arcade::Games::Vector2i{0, 7}, Arcade::Games::Color::WHITE));
 }
 
 void Nibbler::close(void)
@@ -219,7 +224,29 @@ void Nibbler::checkApple(std::vector<std::vector<Arcade::Games::ISprite *>> map)
         }
     }
     if (check == 0) {
-        // Go to next map
+        for (int i = 0; i < _mapSize.y; i++) {
+            for (int j = 0; j < _mapSize.x; j++) {
+                delete _map[i][j];
+            }
+        }
+        for (int i = 0; i < _maps.size(); i++) {
+            if (_currentMap == 3) {
+                _currentMap = 1;
+                _map = loadMap(std::get<0>(_maps[0]));
+                return;
+            }
+            if (std::get<1>(_maps[i]) == _currentMap) {
+                if (i == _maps.size() - 1) {
+                    _currentMap = 1;
+                    _map = loadMap(std::get<0>(_maps[0]));
+                    return;
+                } else {
+                    _currentMap = std::get<1>(_maps[i + 1]);
+                    _map = loadMap(std::get<0>(_maps[i + 1]));
+                    return;
+                }
+            }
+        }
     }
 }
 
