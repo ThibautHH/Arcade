@@ -122,7 +122,7 @@ void Sdl::displayGame(void)
         for (int j = 0; j < _map[i].size(); j++) {
             if (_map[i][j] == nullptr)
                 continue;
-            _rect = {j * 32, i * 32, 32, 32};
+            _rect = {j * 32, i * 32 + HEADER_HEIGHT * 32, 32, 32};
             _color = _map[i][j]->getColor();
             switch (_color) {
                 case Arcade::Displays::Color::WHITE:
@@ -204,7 +204,11 @@ void Sdl::setAnimationTime(float time)
 
 float Sdl::getDeltaT(void)
 {
-    return 0;
+    clock_t now = clock();
+    float delta = (float)(now - _time) / CLOCKS_PER_SEC;
+
+    _time = now;
+    return delta;
 }
 
 void Sdl::setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Displays::Color color)
