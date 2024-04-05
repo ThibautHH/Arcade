@@ -177,13 +177,13 @@ void Ncurses::displayGame(void)
             switch (_map[y][x]->getShape())
             {
             case Arcade::Displays::Shape::RECTANGLE:
-                mvprintw(y, x, "#");
+                mvprintw(y + HEADER_HEIGHT, x, "#");
             break;
             case Arcade::Displays::Shape::CIRCLE:
-                mvprintw(y, x, "O");
+                mvprintw(y + HEADER_HEIGHT, x, "O");
             break;
             case Arcade::Displays::Shape::TRIANGLE:
-                mvprintw(y, x, "^");
+                mvprintw(y + HEADER_HEIGHT, x, "^");
             break;
             default:
                 break;
@@ -233,7 +233,11 @@ void Ncurses::setAnimationTime(float time)
 
 float Ncurses::getDeltaT(void)
 {
-    return 0;
+    clock_t now = clock();
+    float dt = (float)(now - _time) / CLOCKS_PER_SEC;
+
+    _time = now;
+    return dt;
 }
 
 void Ncurses::setText(std::string text, Arcade::Displays::Vector2i pos, Arcade::Displays::Color color)
