@@ -97,6 +97,7 @@ void Processor::displayGame(Games::IGameModule &game, const std::map<Games::KeyT
             j++;
         });
         i++;
+        j = 0;
     });
     this->_displayModule->displayGame();
 }
