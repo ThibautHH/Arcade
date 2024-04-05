@@ -96,6 +96,7 @@ class Snake : public Arcade::Games::IGameModule {
         std::string _tail = "assets/Graphics/tail.png";
         std::string _apple = "assets/Graphics/apple.png";
         std::string _wall = "assets/Graphics/wall.png";
+        std::string _background = "assets/Graphics/background.png";
 
 };
 #endif /* !SNAKE_HPP_ */

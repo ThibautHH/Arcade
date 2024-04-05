@@ -16,6 +16,9 @@ Snake::Snake()
     for (int i = 0; i < _mapSize.y; i++) {
         _map.emplace(_map.begin() + i);
         _map[i].reserve(_mapSize.x);
+        for (int j = 0; j < _mapSize.x; j++) {
+            _map[i].emplace(_map[i].begin() + j, nullptr);
+        }
     }
 }
 
@@ -31,7 +34,7 @@ void Snake::init(std::string args, size_t nb_args)
     _map[8][5] = new SnakeSprite(_tail, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {8, 5}, {1, 1});
 
     _texts.push_back(std::make_tuple("Score: ", Arcade::Games::Vector2i{0, 0}, Arcade::Games::Color::WHITE));
-    _texts.push_back(std::make_tuple(getScore(), Arcade::Games::Vector2i{0, 7}, Arcade::Games::Color::WHITE));
+    _texts.push_back(std::make_tuple(getScore(), Arcade::Games::Vector2i{7, 0}, Arcade::Games::Color::WHITE));
 }
 
 void Snake::close(void)
@@ -103,6 +106,10 @@ void Snake::moveSnake(std::vector<std::vector<Arcade::Games::ISprite *>> map, Ar
 
     for (int i = 0; i < _mapSize.y; i++) {
         for (int j = 0; j < _mapSize.x; j++) {
+            std::cout << map.size() << std::endl;
+            std::cout << map[i].size() << std::endl;
+            if (map[i].at(j) == nullptr)
+                continue;
             if (map[i][j]->getPath() == _head_right ||
                 map[i][j]->getPath() == _head_left ||
                 map[i][j]->getPath() == _head_up ||
@@ -183,16 +190,16 @@ bool Snake::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
         _map.clear();
         return false;
     }
-    if (inputs[Arcade::Games::KeyType::VER] == 1)
-        moveSnake(_map, {0, 1});
-    if (inputs[Arcade::Games::KeyType::VER] == -1)
-        moveSnake(_map, {0, -1});
-    if (inputs[Arcade::Games::KeyType::HOR] == 1)
-        moveSnake(_map, {1, 0});
-    if (inputs[Arcade::Games::KeyType::HOR] == -1)
-        moveSnake(_map, {-1, 0});
+    // if (inputs[Arcade::Games::KeyType::VER] == 1)
+    //     moveSnake(_map, {0, 1});
+    // if (inputs[Arcade::Games::KeyType::VER] == -1)
+    //     moveSnake(_map, {0, -1});
+    // if (inputs[Arcade::Games::KeyType::HOR] == 1)
+    //     moveSnake(_map, {1, 0});
+    // if (inputs[Arcade::Games::KeyType::HOR] == -1)
+    //     moveSnake(_map, {-1, 0});
     // checkApple(_map);
-    _texts[1] = std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>(getScore(), {0, 7}, Arcade::Games::Color::WHITE);
+    _texts[1] = std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>(getScore(), {7, 0}, Arcade::Games::Color::WHITE);
     return true;
 }
 
