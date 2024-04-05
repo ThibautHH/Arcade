@@ -85,6 +85,8 @@ class Snake : public Arcade::Games::IGameModule {
         Arcade::Games::Vector2i _mapSize;
         float _animationTime;
         std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> _texts;
+        bool _gameover;
+        bool _win;
 
         std::string _head_up = "assets/Graphics/head_up.png";
         std::string _head_down = "assets/Graphics/head_down.png";

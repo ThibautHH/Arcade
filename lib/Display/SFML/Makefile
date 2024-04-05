@@ -13,7 +13,7 @@ vpath %.cpp $(VPATH)
 
 SRC_SFML := Sfml.cpp
 
-CFLAGS = -Wall -Wextra -std=c++20
+CFLAGS = -Wall -Wextra -std=c++20 -g
 SFML_LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 
 BUILD_DIR = build
@@ -28,7 +28,7 @@ $(BUILD_DIR)/%.o: %.cpp
 	@g++ -c -o $@ $< -fPIC $(CFLAGS)
 
 $(LIB_SFML): $(OBJ_SFML)
-	@gcc -shared -ldl -o $(LIB_SFML) $(OBJ_SFML) $(SFML_LIBS)
+	@gcc -shared -ldl -o $(LIB_SFML) -g $(OBJ_SFML) $(SFML_LIBS)
 	@echo "Creating shared library   $(LIB_SFML)"
 
 clean:

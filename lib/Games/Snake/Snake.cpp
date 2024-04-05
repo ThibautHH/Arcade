@@ -13,12 +13,6 @@ Snake::Snake()
     _map.resize(_mapSize.y);
     for (int i = 0; i < _mapSize.y; i++)
         _map[i].resize(_mapSize.x);
-
-    for (int i = 0; i < _mapSize.y; i++) {
-        for (int j = 0; j < _mapSize.x; j++) {
-            _map[i][j] = new SnakeSprite("", Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::DEFAULT, {i, j}, {1, 1});
-        }
-    }
 }
 
 void Snake::init(std::string args, size_t nb_args)
@@ -50,7 +44,7 @@ void Snake::generateApple(std::vector<std::vector<Arcade::Games::ISprite *>> map
     int x = rand() % _mapSize.x;
     int y = rand() % _mapSize.y;
 
-    if (map[y][x]->getPath() == "") {
+    if (map[y][x] == nullptr) {
         map[y][x] = new SnakeSprite(_apple, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::RED, {y, x}, {1, 1});
     } else
         generateApple(map);
@@ -95,7 +89,7 @@ void Snake::moveBody(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arc
                 }
             }
         }
-        map[direction.y][direction.x] = new SnakeSprite("", Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, direction, {1, 1});
+        map[direction.y][direction.x] = nullptr;
 }
 
 void Snake::moveSnake(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction)
@@ -150,6 +144,8 @@ void Snake::checkApple(std::vector<std::vector<Arcade::Games::ISprite *>> map)
 
     for (int i = 0; i < _mapSize.y; i++) {
         for (int j = 0; j < _mapSize.x; j++) {
+            if (map[i][j] == nullptr)
+                continue;
             if (map[i][j]->getPath() == _apple)
                 check++;
             if (map[i][j]->getPath() == _head_right ||
@@ -164,7 +160,7 @@ void Snake::checkApple(std::vector<std::vector<Arcade::Games::ISprite *>> map)
         }
     }
     if (check == 0) {
-        exit(0);
+        _win = true;
     }
 }
 
@@ -172,6 +168,18 @@ bool Snake::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
 {
     (void) deltaT;
 
+    if (_win) {
+        _texts.clear();
+        _texts.push_back(std::make_tuple("You Win", Arcade::Games::Vector2i{8, 8}, Arcade::Games::Color::WHITE));
+        _map.clear();
+        return false;
+    }
+    if (_gameover) {
+        _texts.clear();
+        _texts.push_back(std::make_tuple("Game Over", Arcade::Games::Vector2i{8, 8}, Arcade::Games::Color::WHITE));
+        _map.clear();
+        return false;
+    }
     if (inputs[Arcade::Games::KeyType::VER] == 1)
         moveSnake(_map, {0, 1});
     if (inputs[Arcade::Games::KeyType::VER] == -1)
