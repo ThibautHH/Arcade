@@ -108,8 +108,6 @@ void Processor::displayGame(Games::IGameModule &game, const std::map<Games::KeyT
 
 void Processor::displayMenu(const std::map<Arcade::Games::KeyType, int> &inputs)
 {
-    if (!this->_menu)
-        this->_menu = Menu();
     displayGame(*this->_menu, inputs);
     std::optional<std::string> newGame = this->_menu->getNewGame(),
         newDisplay = this->_menu->getNewDisplay();
@@ -141,8 +139,11 @@ void Processor::run()
         if (this->_gameModule) {
             this->_menu = std::nullopt;
             displayGame(*this->_gameModule, translateInputs(inputs));
-        } else
+        } else {
+            if (!this->_menu)
+                this->_menu.emplace(name);
             displayMenu(translateInputs(inputs));
+        }
         std::this_thread::sleep_until(nextTick);
     }
     this->_displayModule->close();
