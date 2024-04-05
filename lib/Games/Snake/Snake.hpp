@@ -77,8 +77,7 @@ class Snake : public Arcade::Games::IGameModule {
 
         void handle_mvt(std::map<Arcade::Games::KeyType, int> inputs);
         bool handle_lose(void);
-        void generateApple(void);
-        void checkApple(void);
+        void generateApple(bool force = false);
     private:
         size_t _score;
         std::vector<std::vector<Arcade::Games::ISprite *>> _map;
@@ -88,6 +87,7 @@ class Snake : public Arcade::Games::IGameModule {
         bool _gameover;
         bool _win;
         Arcade::Games::Snakemvt _snake;
+        Arcade::Games::Vector2i _applePos;
 
         std::string _head_up = "assets/Graphics/head_up.png";
         std::string _head_down = "assets/Graphics/head_down.png";
