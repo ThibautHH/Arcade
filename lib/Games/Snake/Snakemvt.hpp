@@ -48,7 +48,7 @@ namespace Arcade::Games {
             Direction _direction;
             Vector2i _headPos;
             std::vector<Vector2i> _bodyPos;
-            std::size_t _speed;
+            float _speed;
 
     };
 }

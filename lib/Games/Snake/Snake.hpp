@@ -16,6 +16,11 @@
 #include "Snakemvt.hpp"
 #include "../IGameModule.hpp"
 
+#define GET_HEAD_COLOR(map, snake) ((map)[(snake).getHeadPos().y][(snake).getHeadPos().x]->getColor())
+#define GET_HEAD_TILE(map, snake) ((map)[(snake).getHeadPos().y][(snake).getHeadPos().x])
+
+#define NEW_APPLE_SPRITE(apple, color, applePos) new SnakeSprite((apple), (Arcade::Games::Shape::CIRCLE), (color), (applePos), {1, 1})
+
 class Snake : public Arcade::Games::IGameModule {
 
     class SnakeSprite : public Arcade::Games::ISprite {
@@ -77,6 +82,9 @@ class Snake : public Arcade::Games::IGameModule {
 
         void handle_mvt(std::map<Arcade::Games::KeyType, int> inputs);
         void generateApple(bool force = false);
+        void generateTimedApple(float deltaT);
+
+        std::string getHeadDirection(void);
     private:
         size_t _score;
         std::vector<std::vector<Arcade::Games::ISprite *>> _map;
@@ -87,6 +95,8 @@ class Snake : public Arcade::Games::IGameModule {
         bool _win;
         Arcade::Games::Snakemvt _snake;
         Arcade::Games::Vector2i _applePos;
+        Arcade::Games::Vector2i _timedApplePos;
+        float _appleTimer;
 
         std::string _head_up = "assets/Graphics/head_up.png";
         std::string _head_down = "assets/Graphics/head_down.png";
