@@ -55,15 +55,24 @@ void Nibbler::clearMap(void)
             }
 }
 
+bool Nibbler::thereIsWall(Arcade::Games::Vector2i pos)
+{
+    for (int i = 0; i < _walls.size(); i++) {
+        if (_walls[i].x == pos.x && _walls[i].y == pos.y)
+            return true;
+    }
+    return false;
+}
+
 void Nibbler::handle_mvt(std::map<Arcade::Games::KeyType, int> inputs)
 {
-    if (inputs[Arcade::Games::KeyType::VER] == 1 && _snake.getDirection() != Arcade::Games::Direction::DOWN)
+    if (inputs[Arcade::Games::KeyType::VER] == 1 && _snake.getDirection() != Arcade::Games::Direction::DOWN && thereIsWall({ _snake.getHeadPos().x, _snake.getHeadPos().y - 1 }) == false)
         _snake.setDirection(Arcade::Games::Direction::UP);
-    if (inputs[Arcade::Games::KeyType::VER] == -1 && _snake.getDirection() != Arcade::Games::Direction::UP)
+    if (inputs[Arcade::Games::KeyType::VER] == -1 && _snake.getDirection() != Arcade::Games::Direction::UP && thereIsWall({ _snake.getHeadPos().x, _snake.getHeadPos().y + 1 }) == false)
         _snake.setDirection(Arcade::Games::Direction::DOWN);
-    if (inputs[Arcade::Games::KeyType::HOR] == 1 && _snake.getDirection() != Arcade::Games::Direction::LEFT)
+    if (inputs[Arcade::Games::KeyType::HOR] == 1 && _snake.getDirection() != Arcade::Games::Direction::LEFT && thereIsWall({ _snake.getHeadPos().x + 1, _snake.getHeadPos().y }) == false)
         _snake.setDirection(Arcade::Games::Direction::RIGHT);
-    if (inputs[Arcade::Games::KeyType::HOR] == -1 && _snake.getDirection() != Arcade::Games::Direction::RIGHT)
+    if (inputs[Arcade::Games::KeyType::HOR] == -1 && _snake.getDirection() != Arcade::Games::Direction::RIGHT && thereIsWall({ _snake.getHeadPos().x - 1, _snake.getHeadPos().y }) == false)
         _snake.setDirection(Arcade::Games::Direction::LEFT);
 }
 
@@ -101,64 +110,64 @@ void Nibbler::load_map(void)
 
 void Nibbler::handle_collision_wall(void)
 {
-    // for (int i = 0; i < _walls.size(); i++) {
-    //     if (_snake.getDirection() == Arcade::Games::Direction::RIGHT) {
-    //         if (_snake.getHeadPos().x + 1 == _walls[i].x && _snake.getHeadPos().y == _walls[i].y) {
-    //             if (_snake.getHeadPos().y < _mapSize.y && _map[_snake.getHeadPos().y - 1][_snake.getHeadPos().x] == nullptr) {
-    //                 printf("DOWN\n");
-    //                 _snake.setDirection(Arcade::Games::Direction::UP);
-    //             } else if (_snake.getHeadPos().y > 0 && _map[_snake.getHeadPos().y + 1][_snake.getHeadPos().x] == nullptr) {
-    //                 printf("UP\n");
-    //                 _snake.setDirection(Arcade::Games::Direction::DOWN);
-    //             } else if (_snake.getHeadPos().x > 0 && _map[_snake.getHeadPos().y][_snake.getHeadPos().x + 1] == nullptr) {
-    //                 printf("LEFT\n");
-    //                 _snake.setDirection(Arcade::Games::Direction::LEFT);
-    //             }
-    //         }
-    //     }
-    //     if (_snake.getDirection() == Arcade::Games::Direction::DOWN) {
-    //         if (_snake.getHeadPos().y + 1 == _walls[i].y && _snake.getHeadPos().x == _walls[i].x) {
-    //             if (_snake.getHeadPos().x < _mapSize.x && _map[_snake.getHeadPos().y][_snake.getHeadPos().x + 1] == nullptr) {
-    //                 printf("LEFT\n");
-    //                 _snake.setDirection(Arcade::Games::Direction::RIGHT);
-    //             } else if (_snake.getHeadPos().x > 0 && _map[_snake.getHeadPos().y][_snake.getHeadPos().x + 1] == nullptr) {
-    //                 printf("RIGHT\n");
-    //                 _snake.setDirection(Arcade::Games::Direction::LEFT);
-    //             } else if (_snake.getHeadPos().y > 0 && _map[_snake.getHeadPos().y + 1][_snake.getHeadPos().x] == nullptr) {
-    //                 printf("UP\n");
-    //                 _snake.setDirection(Arcade::Games::Direction::UP);
-    //             }
-    //         }
-    //     }
-    //     if (_snake.getDirection() == Arcade::Games::Direction::LEFT) {
-    //         if (_snake.getHeadPos().x - 1 == _walls[i].x && _snake.getHeadPos().y == _walls[i].y) {
-    //             if (_snake.getHeadPos().y < _mapSize.y && _map[_snake.getHeadPos().y - 1][_snake.getHeadPos().x] == nullptr) {
-    //                 printf("DOWN\n");
-    //                 _snake.setDirection(Arcade::Games::Direction::DOWN);
-    //             } else if (_snake.getHeadPos().y > 0 && _map[_snake.getHeadPos().y + 1][_snake.getHeadPos().x] == nullptr) {
-    //                 printf("UP\n");
-    //                 _snake.setDirection(Arcade::Games::Direction::UP);
-    //             } else if (_snake.getHeadPos().x < _mapSize.x && _map[_snake.getHeadPos().y][_snake.getHeadPos().x - 1] == nullptr) {
-    //                 printf("RIGHT\n");
-    //                 _snake.setDirection(Arcade::Games::Direction::RIGHT);
-    //             }
-    //         }
-    //     }
-    //     if (_snake.getDirection() == Arcade::Games::Direction::UP) {
-    //         if (_snake.getHeadPos().y - 1 == _walls[i].y && _snake.getHeadPos().x == _walls[i].x) {
-    //             if (_snake.getHeadPos().x < _mapSize.x && _map[_snake.getHeadPos().y][_snake.getHeadPos().x - 1] == nullptr) {
-    //                 printf("LEFT\n");
-    //                 _snake.setDirection(Arcade::Games::Direction::LEFT);
-    //             } else if (_snake.getHeadPos().x > 0 && _map[_snake.getHeadPos().y][_snake.getHeadPos().x + 1] == nullptr) {
-    //                 printf("RIGHT\n");
-    //                 _snake.setDirection(Arcade::Games::Direction::RIGHT);
-    //             } else if (_snake.getHeadPos().y < _mapSize.y && _map[_snake.getHeadPos().y - 1][_snake.getHeadPos().x] == nullptr) {
-    //                 printf("DOWN\n");
-    //                 _snake.setDirection(Arcade::Games::Direction::DOWN);
-    //             }
-    //         }
-    //     }
-    // }
+    for (int i = 0; i < _walls.size(); i++) {
+        if (_snake.getDirection() == Arcade::Games::Direction::RIGHT) {
+            if (_snake.getHeadPos().x + 1 == _walls[i].x && _snake.getHeadPos().y == _walls[i].y) {
+                if (_snake.getHeadPos().y < _mapSize.y && _map[_snake.getHeadPos().y - 1][_snake.getHeadPos().x] == nullptr) {
+                    printf("DOWN\n");
+                    _snake.setDirection(Arcade::Games::Direction::UP);
+                } else if (_snake.getHeadPos().y > 0 && _map[_snake.getHeadPos().y + 1][_snake.getHeadPos().x] == nullptr) {
+                    printf("UP\n");
+                    _snake.setDirection(Arcade::Games::Direction::DOWN);
+                } else if (_snake.getHeadPos().x > 0 && _map[_snake.getHeadPos().y][_snake.getHeadPos().x + 1] == nullptr) {
+                    printf("LEFT\n");
+                    _snake.setDirection(Arcade::Games::Direction::LEFT);
+                }
+            }
+        }
+        if (_snake.getDirection() == Arcade::Games::Direction::DOWN) {
+            if (_snake.getHeadPos().y + 1 == _walls[i].y && _snake.getHeadPos().x == _walls[i].x) {
+                if (_snake.getHeadPos().x < _mapSize.x && _map[_snake.getHeadPos().y][_snake.getHeadPos().x + 1] == nullptr) {
+                    printf("LEFT\n");
+                    _snake.setDirection(Arcade::Games::Direction::RIGHT);
+                } else if (_snake.getHeadPos().x > 0 && _map[_snake.getHeadPos().y][_snake.getHeadPos().x + 1] == nullptr) {
+                    printf("RIGHT\n");
+                    _snake.setDirection(Arcade::Games::Direction::LEFT);
+                } else if (_snake.getHeadPos().y > 0 && _map[_snake.getHeadPos().y + 1][_snake.getHeadPos().x] == nullptr) {
+                    printf("UP\n");
+                    _snake.setDirection(Arcade::Games::Direction::UP);
+                }
+            }
+        }
+        if (_snake.getDirection() == Arcade::Games::Direction::LEFT) {
+            if (_snake.getHeadPos().x - 1 == _walls[i].x && _snake.getHeadPos().y == _walls[i].y) {
+                if (_snake.getHeadPos().y < _mapSize.y && _map[_snake.getHeadPos().y - 1][_snake.getHeadPos().x] == nullptr) {
+                    printf("DOWN\n");
+                    _snake.setDirection(Arcade::Games::Direction::DOWN);
+                } else if (_snake.getHeadPos().y > 0 && _map[_snake.getHeadPos().y + 1][_snake.getHeadPos().x] == nullptr) {
+                    printf("UP\n");
+                    _snake.setDirection(Arcade::Games::Direction::UP);
+                } else if (_snake.getHeadPos().x < _mapSize.x && _map[_snake.getHeadPos().y][_snake.getHeadPos().x - 1] == nullptr) {
+                    printf("RIGHT\n");
+                    _snake.setDirection(Arcade::Games::Direction::RIGHT);
+                }
+            }
+        }
+        if (_snake.getDirection() == Arcade::Games::Direction::UP) {
+            if (_snake.getHeadPos().y - 1 == _walls[i].y && _snake.getHeadPos().x == _walls[i].x) {
+                if (_snake.getHeadPos().x < _mapSize.x && _map[_snake.getHeadPos().y][_snake.getHeadPos().x - 1] == nullptr) {
+                    printf("LEFT\n");
+                    _snake.setDirection(Arcade::Games::Direction::LEFT);
+                } else if (_snake.getHeadPos().x > 0 && _map[_snake.getHeadPos().y][_snake.getHeadPos().x + 1] == nullptr) {
+                    printf("RIGHT\n");
+                    _snake.setDirection(Arcade::Games::Direction::RIGHT);
+                } else if (_snake.getHeadPos().y < _mapSize.y && _map[_snake.getHeadPos().y - 1][_snake.getHeadPos().x] == nullptr) {
+                    printf("DOWN\n");
+                    _snake.setDirection(Arcade::Games::Direction::DOWN);
+                }
+            }
+        }
+    }
 }
 
 bool Nibbler::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
@@ -180,8 +189,8 @@ bool Nibbler::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
         _snake = Arcade::Games::Nibblermvt();
         return false;
     }
-    handle_collision_wall();
     handle_mvt(inputs);
+    handle_collision_wall();
     _snake.updateSnake(_map, deltaT);
     if (_snake.getHeadPos().x < 0 || _snake.getHeadPos().x >= _mapSize.x || _snake.getHeadPos().y < 0 || _snake.getHeadPos().y >= _mapSize.y) {
         _gameover = true;

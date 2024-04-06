@@ -85,6 +85,7 @@ class Nibbler : public Arcade::Games::IGameModule {
         void handle_mvt(std::map<Arcade::Games::KeyType, int> inputs);
         void load_map(void);
         void handle_collision_wall(void);
+        bool thereIsWall(Arcade::Games::Vector2i pos);
     private:
         size_t _score;
         std::vector<std::vector<Arcade::Games::ISprite *>> _map;
