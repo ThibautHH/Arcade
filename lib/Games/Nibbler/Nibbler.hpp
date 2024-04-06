@@ -86,6 +86,7 @@ class Nibbler : public Arcade::Games::IGameModule {
         void load_map(void);
         void handle_collision_wall(void);
         bool thereIsWall(Arcade::Games::Vector2i pos);
+        bool isSnakeBody(Arcade::Games::Vector2i pos);
     private:
         size_t _score;
         std::vector<std::vector<Arcade::Games::ISprite *>> _map;
@@ -96,6 +97,8 @@ class Nibbler : public Arcade::Games::IGameModule {
         bool _win;
         Arcade::Games::Nibblermvt _snake;
         Arcade::Games::Vector2i _applePos;
+        std::vector<Arcade::Games::Direction> _directions;
+        bool _stop;
 
         std::string _head_up = "assets/Graphics/head_up.png";
         std::string _head_down = "assets/Graphics/head_down.png";
