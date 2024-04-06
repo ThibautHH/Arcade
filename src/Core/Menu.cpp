@@ -76,7 +76,7 @@ static inline std::size_t getLongestString(const std::vector<std::string> &vec)
 std::size_t Menu::getHeight(void) const noexcept
 {
     if (this->_isEditingName)
-        return 9;
+        return 6;
     return std::max(this->_games.size(), this->_displays.size()) + 6;
 }
 
@@ -139,6 +139,11 @@ void Menu::updateName(const std::map<Games::KeyType, int> &inputs)
 
 bool Menu::update(std::map<Games::KeyType, int> inputs, float)
 {
+    static unsigned short tick = 0;
+    if (tick++ == 20) {
+        tick = 0;
+        this->_isCharDisplayed = !this->_isCharDisplayed;
+    }
     if (inputs.at(Games::KeyType::ACTION4) != 0)
         this->_isEditingName = !this->_isEditingName;
     if (this->_isEditingName)
@@ -197,16 +202,16 @@ void Menu::setNameTexts(std::vector<Text> &texts) const
     static const char caseTooltip[] = "Press ACTION2 to change case",
         validateTooltip[] = "Press ACTION1 to validate";
     texts.push_back({caseTooltip,
-        {3, 7},
+        {3, 3},
         Arcade::Games::Color::DEFAULT});
     texts.push_back({"Press ACTION4 to validate",
-        {3, 9},
+        {3, 5},
         Arcade::Games::Color::DEFAULT});
     texts.push_back({"\tPress HOR to delete or insert letter",
-        {sizeof(caseTooltip) + 3, 7},
+        {sizeof(caseTooltip) + 3, 3},
         Arcade::Games::Color::DEFAULT});
     texts.push_back({"\t\tPress VER to change letter",
-        {sizeof(validateTooltip) + 3, 9},
+        {sizeof(validateTooltip) + 3, 5},
         Arcade::Games::Color::DEFAULT});
 }
 
@@ -215,12 +220,12 @@ std::vector<Text> Menu::getTexts(void)
     std::vector<Text> texts{};
     std::string nameText = "Name: " + this->_name;
     if (this->_isEditingName) {
-        nameText.push_back('_');
+        nameText.push_back(this->_isCharDisplayed ? this->_currentChar : '_');
         this->setNameTexts(texts);
     } else {
         nameText += "\t(Press ACTION4 to edit)";
         this->setModuleTexts(texts);
     }
-    texts.push_back({nameText, {1, 1}, Arcade::Games::Color::DEFAULT});
+    texts.push_back({nameText, {3, 1}, Arcade::Games::Color::DEFAULT});
     return texts;
 }

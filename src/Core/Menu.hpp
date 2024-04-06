@@ -40,8 +40,7 @@ namespace Arcade::Core {
             std::vector<std::string> _displays;
             std::vector<std::string>::const_iterator _selectedElement;
             std::optional<std::string> _newModule;
-            bool _isGameSelected = true;
-            bool _isEditingName = false;
+            bool _isGameSelected = true, _isEditingName = false, _isCharDisplayed = false;
             char _currentChar = 'A';
 
             std::size_t getHeight(void) const noexcept;
