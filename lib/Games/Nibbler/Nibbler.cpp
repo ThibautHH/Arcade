@@ -10,260 +10,224 @@
 Nibbler::Nibbler()
 : _mapSize({19, 27}), _score(0), _animationTime(0)
 {
-    _map.resize(_mapSize.y);
-    for (int i = 0; i < _mapSize.y; i++)
-        _map[i].resize(_mapSize.x);
-
-    _maps.push_back(std::make_tuple(_map1, 1));
-    _maps.push_back(std::make_tuple(_map2, 2));
-    _maps.push_back(std::make_tuple(_map3, 3));
-
-    _currentMap = 1;
-    _map = loadMap(_map1);
-}
-
-std::vector<std::vector<Arcade::Games::ISprite *>> Nibbler::loadMap(std::string map_path)
-{
-    std::vector<std::vector<Arcade::Games::ISprite *>> newMap(_mapSize.y, std::vector<Arcade::Games::ISprite *>(_mapSize.x, nullptr));
-
-    std::ifstream file(map_path);
-    if (!file.is_open()) {
-        throw std::runtime_error("Failed to open map file: " + map_path);
-    }
-
-    std::string line;
-    int row = 0;
-    while (std::getline(file, line) && row < _mapSize.y) {
-        if (line.length() != _mapSize.x) {
-            throw std::runtime_error("Invalid map dimensions in file: " + map_path);
+    _gameover = false;
+    _mapIndex = 0;
+    _maps.push_back(_map1);
+    _maps.push_back(_map2);
+    _maps.push_back(_map3);
+    _map.reserve(_mapSize.y);
+    for (int i = 0; i < _mapSize.y; i++) {
+        _map.emplace(_map.begin() + i);
+        _map[i].reserve(_mapSize.x);
+        for (int j = 0; j < _mapSize.x; j++) {
+            _map[i].emplace(_map[i].begin() + j, nullptr);
         }
-
-        for (int col = 0; col < _mapSize.x; ++col) {
-            char symbol = line[col];
-            switch (symbol) {
-                case ' ':
-                    newMap[row][col] = new NibblerSprite("", Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::WHITE, {row, col}, {1, 1});
-                    break;
-                case '#':
-                    newMap[row][col] = new NibblerSprite(_wall, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::WHITE, {row, col}, {1, 1});
-                    break;
-                case 'A':
-                    newMap[row][col] = new NibblerSprite(_apple, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::RED, {row, col}, {1, 1});
-                    break;
-                default:
-                    throw std::runtime_error("Unknown symbol in map file: " + std::string(1, symbol));
-            }
-        }
-        ++row;
     }
-
-    file.close();
-
-    return newMap;
+    load_map();
 }
 
 void Nibbler::init(std::string args, size_t nb_args)
 {
-    _map[26][7] = new NibblerSprite(_head_right, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {26, 7}, {1, 1});
-    _map[26][6] = new NibblerSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {26, 6}, {1, 1});
-    _map[26][5] = new NibblerSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {26, 5}, {1, 1});
-    _map[26][4] = new NibblerSprite(_tail, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, {26, 4}, {1, 1});
+    (void) args;
+    (void) nb_args;
 
-    for (int i = 0; i < 10; i++) {
-        generateApple(_map);
-    }
     _texts.push_back(std::make_tuple("Score: ", Arcade::Games::Vector2i{0, 0}, Arcade::Games::Color::WHITE));
-    _texts.push_back(std::make_tuple(getScore(), Arcade::Games::Vector2i{0, 7}, Arcade::Games::Color::WHITE));
+    _texts.push_back(std::make_tuple(getScore(), Arcade::Games::Vector2i{7, 0}, Arcade::Games::Color::WHITE));
+
+    _applePos = {8, 10};
+    _stop = false;
 }
 
 void Nibbler::close(void)
 {
-    for (int i = 0; i < _mapSize.y; i++) {
-        for (int j = 0; j < _mapSize.x; j++) {
-            delete _map[i][j];
-        }
-    }
-}
-
-void Nibbler::generateApple(std::vector<std::vector<Arcade::Games::ISprite *>> map)
-{
-    int x = rand() % _mapSize.x;
-    int y = rand() % _mapSize.y;
-
-    if (map[y][x]->getPath() == "") {
-        map[y][x] = new NibblerSprite(_apple, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::RED, {y, x}, {1, 1});
-    } else
-        generateApple(map);
-}
-
-void Nibbler::AddNibblerLength(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction)
-{
-    Arcade::Games::Vector2i tailPos;
-    Arcade::Games::Vector2i bodyPos;
-
-    for (int i = 0; i < _mapSize.y; i++) {
-        for (int j = 0; j < _mapSize.x; j++) {
-            if (map[i][j]->getPath() == _tail) {
-                tailPos = {i, j};
-                bodyPos = {i - direction.y, j - direction.x};
-                map[tailPos.y][tailPos.x] = new NibblerSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, tailPos, {1, 1});
-                map[bodyPos.y][bodyPos.x] = new NibblerSprite(_tail, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, bodyPos, {1, 1});
-                return;
-            }
-        }
-    }
-}
-
-void Nibbler::moveBody(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction)
-{
-    for (int k = 0; k < _mapSize.y; k++) {
-            for (int l = 0; l < _mapSize.x; l++) {
-                if (map[k][l]->getPath() == _body) {
-                    Arcade::Games::Vector2i temp2 = {k, l};
-                    map[direction.y][direction.x] = new NibblerSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, direction, {1, 1});
-                    direction = temp2;
-                }
-            }
-        }
-
-        for (int k = 0; k < _mapSize.y; k++) {
-            for (int l = 0; l < _mapSize.x; l++) {
-                if (map[k][l]->getPath() == _tail) {
-                    Arcade::Games::Vector2i temp2 = {k, l};
-                    map[direction.y][direction.x] = new NibblerSprite(_tail, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, direction, {1, 1});
-                    direction = temp2;
-                }
-            }
-        }
-        map[direction.y][direction.x] = new NibblerSprite("", Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, direction, {1, 1});
-}
-
-void Nibbler::moveNibbler(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction)
-{
-    Arcade::Games::Vector2i prevPos;
-    Arcade::Games::Vector2i currentPos;
-    Arcade::Games::Vector2i temp;
-
-    for (int i = 0; i < _mapSize.y; i++) {
-        for (int j = 0; j < _mapSize.x; j++) {
-            if (map[i][j]->getPath() == _head_right ||
-                map[i][j]->getPath() == _head_left ||
-                map[i][j]->getPath() == _head_up ||
-                map[i][j]->getPath() == _head_down) {
-
-                prevPos = {i, j};
-                currentPos = {i + direction.y, j + direction.x};
-
-                if (map[currentPos.y][currentPos.x]->getPath() == _apple) {
-                    _score++;
-                    AddNibblerLength(map, direction);
-                    generateApple(map);
-                }
-
-                if (map[currentPos.y][currentPos.x]->getPath() == _wall) {
-                    if (direction.x == 1 && direction.y == 0) {
-                        if (map[prevPos.y - 1][prevPos.x]->getPath() == "") {
-                            currentPos = {prevPos.y - 1, prevPos.x};
-                        } else if (map[prevPos.y + 1][prevPos.x]->getPath() == "") {
-                            currentPos = {prevPos.y + 1, prevPos.x};
-                        }
-                    } else if (direction.x == -1 && direction.y == 0) {
-                        if (map[prevPos.y - 1][prevPos.x]->getPath() == "") {
-                            currentPos = {prevPos.y - 1, prevPos.x};
-                        } else if (map[prevPos.y + 1][prevPos.x]->getPath() == "") {
-                            currentPos = {prevPos.y + 1, prevPos.x};
-                        }
-                    } else if (direction.x == 0 && direction.y == 1) {
-                        if (map[prevPos.y][prevPos.x - 1]->getPath() == "") {
-                            currentPos = {prevPos.y, prevPos.x - 1};
-                        } else if (map[prevPos.y][prevPos.x + 1]->getPath() == "") {
-                            currentPos = {prevPos.y, prevPos.x + 1};
-                        }
-                    } else if (direction.x == 0 && direction.y == -1) {
-                        if (map[prevPos.y][prevPos.x - 1]->getPath() == "") {
-                            currentPos = {prevPos.y, prevPos.x - 1};
-                        } else if (map[prevPos.y][prevPos.x + 1]->getPath() == "") {
-                            currentPos = {prevPos.y, prevPos.x + 1};
-                        }
-                    }
-                }
-                if (direction.x == 1 && direction.y == 0)
-                    map[currentPos.y][currentPos.x] = new NibblerSprite(_head_right, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, currentPos, {1, 1});
-                else if (direction.x == -1 && direction.y == 0)
-                    map[currentPos.y][currentPos.x] = new NibblerSprite(_head_left, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, currentPos, {1, 1});
-                else if (direction.x == 0 && direction.y == 1)
-                    map[currentPos.y][currentPos.x] = new NibblerSprite(_head_down, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, currentPos, {1, 1});
-                else if (direction.x == 0 && direction.y == -1)
-                    map[currentPos.y][currentPos.x] = new NibblerSprite(_head_up, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, currentPos, {1, 1});
-                map[prevPos.y][prevPos.x] = new NibblerSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, prevPos, {1, 1});
-
-                temp = prevPos;
-                moveBody(map, temp);
-                return;
-            }
-        }
-    }
-}
-
-void Nibbler::checkApple(std::vector<std::vector<Arcade::Games::ISprite *>> map)
-{
-    int check = 0;
-
-    for (int i = 0; i < _mapSize.y; i++) {
-        for (int j = 0; j < _mapSize.x; j++) {
-            if (map[i][j]->getPath() == _apple)
-                check++;
-            if (map[i][j]->getPath() == _head_right ||
-            map[i][j]->getPath() == _head_left ||
-            map[i][j]->getPath() == _head_up ||
-            map[i][j]->getPath() == _head_down) {
-                if (map[i][j]->getPath() == _apple) {
-                    _score++;
-                }
-            }
-        }
-    }
-    if (check == 0) {
-        for (int i = 0; i < _mapSize.y; i++) {
-            for (int j = 0; j < _mapSize.x; j++) {
+    for (int i = 0; i < _mapSize.y; i++)
+        for (int j = 0; j < _mapSize.x; j++)
+            if (_map[i][j] != nullptr)
                 delete _map[i][j];
+}
+
+void Nibbler::clearMap(void)
+{
+    for (int i = 0; i < _mapSize.y; i++)
+        for (int j = 0; j < _mapSize.x; j++)
+            if (_map[i][j] != nullptr) {
+                delete _map[i][j];
+                _map[i][j] = nullptr;
+            }
+}
+
+bool Nibbler::thereIsWall(Arcade::Games::Vector2i pos)
+{
+    for (int i = 0; i < _walls.size(); i++) {
+        if (_walls[i].x == pos.x && _walls[i].y == pos.y)
+            return true;
+    }
+    return false;
+}
+
+void Nibbler::handle_mvt(std::map<Arcade::Games::KeyType, int> inputs)
+{
+    if (inputs[Arcade::Games::KeyType::VER] == 1 && _snake.getDirection() != Arcade::Games::Direction::DOWN && thereIsWall({ _snake.getHeadPos().x, _snake.getHeadPos().y - 1 }) == false)
+        _snake.setDirection(Arcade::Games::Direction::UP);
+    if (inputs[Arcade::Games::KeyType::VER] == -1 && _snake.getDirection() != Arcade::Games::Direction::UP && thereIsWall({ _snake.getHeadPos().x, _snake.getHeadPos().y + 1 }) == false)
+        _snake.setDirection(Arcade::Games::Direction::DOWN);
+    if (inputs[Arcade::Games::KeyType::HOR] == 1 && _snake.getDirection() != Arcade::Games::Direction::LEFT && thereIsWall({ _snake.getHeadPos().x + 1, _snake.getHeadPos().y }) == false)
+        _snake.setDirection(Arcade::Games::Direction::RIGHT);
+    if (inputs[Arcade::Games::KeyType::HOR] == -1 && _snake.getDirection() != Arcade::Games::Direction::RIGHT && thereIsWall({ _snake.getHeadPos().x - 1, _snake.getHeadPos().y }) == false)
+        _snake.setDirection(Arcade::Games::Direction::LEFT);
+
+    if (inputs[Arcade::Games::KeyType::VER] == 1 ||
+        inputs[Arcade::Games::KeyType::VER] == -1 ||
+        inputs[Arcade::Games::KeyType::HOR] == 1 ||
+        inputs[Arcade::Games::KeyType::HOR] == -1)
+        _stop = false;
+}
+
+void Nibbler::load_map(void)
+{
+    std::ifstream file;
+    std::string line;
+    std::vector<std::string> map;
+    int i = 0;
+
+    file.open(_maps[_mapIndex]);
+    if (!file.is_open())
+        return;
+    while (std::getline(file, line)) {
+        map.push_back(line);
+    }
+    file.close();
+    for (int i = 0; i < _mapSize.y; i++) {
+        for (int j = 0; j < _mapSize.x; j++) {
+            switch (map[i][j])
+            {
+                case '#':
+                    _walls.push_back({j, i});
+                    break;
+                case ' ':
+                    _map[i][j] = nullptr;
+                    break;
+                case 'A':
+                    _apples.push_back({j, i});
+                    break;
             }
         }
-        for (int i = 0; i < _maps.size(); i++) {
-            if (_currentMap == 3) {
-                _currentMap = 1;
-                _map = loadMap(std::get<0>(_maps[0]));
-                return;
-            }
-            if (std::get<1>(_maps[i]) == _currentMap) {
-                if (i == _maps.size() - 1) {
-                    _currentMap = 1;
-                    _map = loadMap(std::get<0>(_maps[0]));
-                    return;
-                } else {
-                    _currentMap = std::get<1>(_maps[i + 1]);
-                    _map = loadMap(std::get<0>(_maps[i + 1]));
-                    return;
-                }
-            }
+    }
+}
+
+bool Nibbler::isSnakeBody(Arcade::Games::Vector2i pos)
+{
+    for (int i = 0; i < _snake.getBodyPos().size(); i++) {
+        if (_snake.getBodyPos()[i].x == pos.x && _snake.getBodyPos()[i].y == pos.y)
+            return true;
+    }
+    return false;
+}
+
+void Nibbler::handle_collision_wall(void)
+{
+    _directions.clear();
+    for (int i = 0; i < _walls.size(); i++) {
+        if (_snake.getDirection() == Arcade::Games::Direction::RIGHT) {
+            if (_snake.getHeadPos().x + 1 != _walls[i].x || _snake.getHeadPos().y != _walls[i].y)
+                continue;
+            if (_snake.getHeadPos().y < _mapSize.y && isSnakeBody({ _snake.getHeadPos().x, _snake.getHeadPos().y - 1 }) == false && thereIsWall({ _snake.getHeadPos().x, _snake.getHeadPos().y - 1 }) == false)
+                _directions.push_back(Arcade::Games::Direction::UP);
+            if (_snake.getHeadPos().y > 0 && isSnakeBody({ _snake.getHeadPos().x, _snake.getHeadPos().y + 1 }) == false && thereIsWall({ _snake.getHeadPos().x, _snake.getHeadPos().y + 1 }) == false)
+                _directions.push_back(Arcade::Games::Direction::DOWN);
+            if (_snake.getHeadPos().x > 0 && isSnakeBody({ _snake.getHeadPos().x - 1, _snake.getHeadPos().y }) == false && thereIsWall({ _snake.getHeadPos().x - 1, _snake.getHeadPos().y }) == false)
+                _directions.push_back(Arcade::Games::Direction::LEFT);
         }
+        if (_snake.getDirection() == Arcade::Games::Direction::DOWN) {
+            if (_snake.getHeadPos().y + 1 != _walls[i].y || _snake.getHeadPos().x != _walls[i].x)
+                continue;
+            if (_snake.getHeadPos().x < _mapSize.x && isSnakeBody({ _snake.getHeadPos().x + 1, _snake.getHeadPos().y }) == false && thereIsWall({ _snake.getHeadPos().x + 1, _snake.getHeadPos().y }) == false)
+                _directions.push_back(Arcade::Games::Direction::RIGHT);
+            if (_snake.getHeadPos().x > 0 && isSnakeBody({ _snake.getHeadPos().x - 1, _snake.getHeadPos().y }) == false && thereIsWall({ _snake.getHeadPos().x - 1, _snake.getHeadPos().y }) == false)
+                _directions.push_back(Arcade::Games::Direction::LEFT);
+            if (_snake.getHeadPos().y > 0 && isSnakeBody({ _snake.getHeadPos().x, _snake.getHeadPos().y - 1 }) == false && thereIsWall({ _snake.getHeadPos().x, _snake.getHeadPos().y - 1 }) == false)
+                _directions.push_back(Arcade::Games::Direction::UP);
+        }
+        if (_snake.getDirection() == Arcade::Games::Direction::LEFT) {
+            if (_snake.getHeadPos().x - 1 != _walls[i].x || _snake.getHeadPos().y != _walls[i].y)
+                continue;
+            if (_snake.getHeadPos().y < _mapSize.y && isSnakeBody({ _snake.getHeadPos().x, _snake.getHeadPos().y - 1 }) == false && thereIsWall({ _snake.getHeadPos().x, _snake.getHeadPos().y - 1 }) == false)
+                _directions.push_back(Arcade::Games::Direction::DOWN);
+            if (_snake.getHeadPos().y > 0 && isSnakeBody({ _snake.getHeadPos().x, _snake.getHeadPos().y + 1 }) == false && thereIsWall({ _snake.getHeadPos().x, _snake.getHeadPos().y + 1 }) == false)
+                _directions.push_back(Arcade::Games::Direction::UP);
+            if (_snake.getHeadPos().x < _mapSize.x && isSnakeBody({ _snake.getHeadPos().x + 1, _snake.getHeadPos().y }) == false && thereIsWall({ _snake.getHeadPos().x + 1, _snake.getHeadPos().y }) == false)
+                _directions.push_back(Arcade::Games::Direction::RIGHT);
+        }
+        if (_snake.getDirection() == Arcade::Games::Direction::UP) {
+            if (_snake.getHeadPos().y - 1 != _walls[i].y || _snake.getHeadPos().x != _walls[i].x)
+                continue;
+            if (_snake.getHeadPos().x < _mapSize.x && isSnakeBody({ _snake.getHeadPos().x + 1, _snake.getHeadPos().y }) == false && thereIsWall({ _snake.getHeadPos().x + 1, _snake.getHeadPos().y }) == false)
+                _directions.push_back(Arcade::Games::Direction::LEFT);
+            if (_snake.getHeadPos().x > 0 && isSnakeBody({ _snake.getHeadPos().x - 1, _snake.getHeadPos().y }) == false && thereIsWall({ _snake.getHeadPos().x - 1, _snake.getHeadPos().y }) == false)
+                _directions.push_back(Arcade::Games::Direction::RIGHT);
+            if (_snake.getHeadPos().y < _mapSize.y && isSnakeBody({ _snake.getHeadPos().x, _snake.getHeadPos().y + 1 }) == false && thereIsWall({ _snake.getHeadPos().x, _snake.getHeadPos().y + 1 }) == false)
+                _directions.push_back(Arcade::Games::Direction::DOWN);
+        }
+    }
+    if (_directions.size() == 1) {
+        _snake.setDirection(_directions[0]);
+        return;
+    }
+    if (_directions.size() > 1) {
+        _stop = true;
+        return;
     }
 }
 
 bool Nibbler::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
 {
-    (void) deltaT;
+    if (_gameover) {
+        _texts[1] = std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>("Game Over", {7, 1}, Arcade::Games::Color::WHITE);
+        return false;
+    }
+    clearMap();
+    if (_apples.size() == 0) {
+        _walls.clear();
+        _mapIndex++;
+        load_map();
+        if (_mapIndex == 2)
+            _mapIndex = 0;
+        _snake = Arcade::Games::Nibblermvt();
+        return false;
+    }
+    handle_mvt(inputs);
+    handle_collision_wall();
+    if (_stop == false)
+        _snake.updateSnake(_map, deltaT);
+    if (_snake.getHeadPos().x < 0 || _snake.getHeadPos().x >= _mapSize.x || _snake.getHeadPos().y < 0 || _snake.getHeadPos().y >= _mapSize.y) {
+        _gameover = true;
+        return false;
+    }
+    for (int i = 0; i < _walls.size(); i++)
+        _map[_walls[i].y][_walls[i].x] = new NibblerSprite(_wall, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::WHITE, _walls[i], {1, 1});
+    _map[_snake.getHeadPos().y][_snake.getHeadPos().x] = new NibblerSprite(_head_right, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::MAGENTA, _snake.getHeadPos(), {1, 1});
+    for (int i = 0; i < _snake.getBodyPos().size(); i++)
+        _map[_snake.getBodyPos()[i].y][_snake.getBodyPos()[i].x] = new NibblerSprite(_body, Arcade::Games::Shape::RECTANGLE, Arcade::Games::Color::GREEN, _snake.getBodyPos()[i], {1, 1});
 
-    if (inputs[Arcade::Games::KeyType::VER] == 1)
-        moveNibbler(_map, {0, -1});
-    if (inputs[Arcade::Games::KeyType::VER] == -1)
-        moveNibbler(_map, {0, 1});
-    if (inputs[Arcade::Games::KeyType::HOR] == 1)
-        moveNibbler(_map, {1, 0});
-    if (inputs[Arcade::Games::KeyType::HOR] == -1)
-        moveNibbler(_map, {-1, 0});
-    checkApple(_map);
-    _texts[1] = std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>(getScore(), {0, 7}, Arcade::Games::Color::WHITE);
+    for (int i = 0; i < _apples.size(); i++)
+        _map[_apples[i].y][_apples[i].x] = new NibblerSprite(_apple, Arcade::Games::Shape::CIRCLE, Arcade::Games::Color::RED, _apples[i], {1, 1});
+
+
+    if (_map[_snake.getHeadPos().y][_snake.getHeadPos().x] != nullptr && _map[_snake.getHeadPos().y][_snake.getHeadPos().x]->getColor() == Arcade::Games::Color::RED) {
+        _score++;
+        _snake.addBodyPart();
+        for (int i = 0; i < _apples.size(); i++) {
+            if (_apples[i].x == _snake.getHeadPos().x && _apples[i].y == _snake.getHeadPos().y) {
+                _apples.erase(_apples.begin() + i);
+                break;
+            }
+        }
+    }
+    if (_map[_snake.getHeadPos().y][_snake.getHeadPos().x] != nullptr && _map[_snake.getHeadPos().y][_snake.getHeadPos().x]->getColor() == Arcade::Games::Color::GREEN) {
+        _gameover = true;
+        return false;
+    }
+    _texts[1] = std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>(getScore(), {7, 0}, Arcade::Games::Color::WHITE);
     return true;
 }
 

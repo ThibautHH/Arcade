@@ -12,6 +12,7 @@ VPATH := ./src
 vpath %.cpp $(VPATH)
 
 SRC_NIBBLER := Nibbler.cpp
+SRC_NIBBLER += Nibblermvt.cpp
 
 CFLAGS = -Wall
 
@@ -24,7 +25,7 @@ all: $(LIB_NIBBLER)
 
 $(BUILD_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
-	@g++ -c -o $@ $< -fPIC
+	@g++ -c -o $@ $< -fPIC -g
 
 $(LIB_NIBBLER): $(OBJ_NIBBLER)
 	@ld -shared -ldl -o $(LIB_NIBBLER) $(OBJ_NIBBLER)
