@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <iostream>
 #include "../IGameModule.hpp"
+#include "Nibblermvt.hpp"
 
 #include <stdio.h>
 #include <iostream>
@@ -33,7 +34,7 @@ class Nibbler : public Arcade::Games::IGameModule {
             Arcade::Games::Vector2i size = {0, 0},
             int rotation = 0,
             Arcade::Games::Vector2i direction = {0, 0})
-                : _path(_path),
+                : _path(path),
                 _shape(shape),
                 _color(color),
                 _pos(pos),
@@ -79,20 +80,21 @@ class Nibbler : public Arcade::Games::IGameModule {
         std::string getScore(void) override;
         float getAnimationTime(void);
         std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> getTexts(void);
+        void clearMap(void);
 
-        void generateApple(std::vector<std::vector<Arcade::Games::ISprite *>> map);
-        void moveNibbler(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
-        void checkApple(std::vector<std::vector<Arcade::Games::ISprite *>> map);
-        void moveBody(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
-        void AddNibblerLength(std::vector<std::vector<Arcade::Games::ISprite *>> map, Arcade::Games::Vector2i direction);
-        std::vector<std::vector<Arcade::Games::ISprite *>> loadMap(std::string path);
-
+        void handle_mvt(std::map<Arcade::Games::KeyType, int> inputs);
+        void load_map(void);
+        void handle_collision_wall(void);
     private:
         size_t _score;
         std::vector<std::vector<Arcade::Games::ISprite *>> _map;
         Arcade::Games::Vector2i _mapSize;
         float _animationTime;
         std::vector<std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>> _texts;
+        bool _gameover;
+        bool _win;
+        Arcade::Games::Nibblermvt _snake;
+        Arcade::Games::Vector2i _applePos;
 
         std::string _head_up = "assets/Graphics/head_up.png";
         std::string _head_down = "assets/Graphics/head_down.png";
@@ -102,12 +104,16 @@ class Nibbler : public Arcade::Games::IGameModule {
         std::string _tail = "assets/Graphics/tail.png";
         std::string _apple = "assets/Graphics/apple.png";
         std::string _wall = "assets/Graphics/wall.png";
+        std::string _background = "assets/Graphics/background.png";
+
         std::string _map1 = "assets/Maps/map1.txt";
         std::string _map2 = "assets/Maps/map2.txt";
         std::string _map3 = "assets/Maps/map3.txt";
 
-        std::vector<std::tuple<std::string, int>> _maps;
-        int _currentMap;
+        int _mapIndex;
+        std::vector<std::string> _maps;
+        std::vector<Arcade::Games::Vector2i> _apples;
+        std::vector<Arcade::Games::Vector2i> _walls;
 };
 
 #endif /* !NIBBLER_HPP_ */
