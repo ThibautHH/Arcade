@@ -182,7 +182,7 @@ void Nibbler::handle_collision_wall(void)
 bool Nibbler::update(std::map<Arcade::Games::KeyType, int> inputs, float deltaT)
 {
     if (_gameover) {
-        _texts[1] = std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>("Game Over", {7, 1}, Arcade::Games::Color::WHITE);
+        _texts[1] = std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>("Game Over", {7, 0}, Arcade::Games::Color::WHITE);
         return false;
     }
     clearMap();

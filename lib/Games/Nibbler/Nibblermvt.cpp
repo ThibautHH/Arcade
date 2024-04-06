@@ -58,7 +58,7 @@ void Arcade::Games::Nibblermvt::addBodyPart()
 void Arcade::Games::Nibblermvt::updateSnake(std::vector<std::vector<Arcade::Games::ISprite *>> map, float deltaTime)
 {
     _speed += deltaTime * 1000;
-    if (_speed < 25)
+    if (_speed < 15)
         return;
     _speed = 0;
     switch (_direction) {

@@ -205,7 +205,7 @@ void Sdl::setAnimationTime(float time)
 float Sdl::getDeltaT(void)
 {
     clock_t now = clock();
-    float delta = (float)(now - _time) / CLOCKS_PER_SEC;
+    float delta = (float)(now - _time) / (CLOCKS_PER_SEC * 3);
 
     _time = now;
     return delta;
