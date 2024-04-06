@@ -21,6 +21,42 @@ program.
 > Only your dynamic libraries can do so.
 > This also applies to your games.
 
+## Usage
+
+The program must take as a startup argument the graphics library to use initially. It must nevertheless be possible to change the graphics library at run-time.
+
+```shell
+∼/B-OOP-400> ./arcade ./lib/arcade_ncurses.so
+```
+
+## Implementation of new graphics or game libraries
+
+The Arcade project is designed to be extensible, allowing developers to implement new graphics or game libraries. [Here's how you can implement them.](doc/IMPLEMENT.md)
+
+## Key bindings
+
+Here's a Markdown table to explain the keys and their corresponding actions:
+
+| Key   | Action                       | Arcade::Displays::KeyType |
+|-------|------------------------------|---------------------------|
+| KEY_UP| Move Up                      | VER                       |
+| KEY_DOWN | Move Down                  | VER                       |
+| KEY_LEFT | Move Left                  | HOR                       |
+| KEY_RIGHT | Move Right                | HOR                       |
+| 'O'   | Previous Library             | PREV_LIB                  |
+| 'P'   | Next Library                 | NEXT_LIB                  |
+| 'L'   | Previous Game                | PREV_GAME                 |
+| 'M'   | Next Game                    | NEXT_GAME                 |
+| 'W'   | Action 1                     | ACTION1                   |
+| 'X'   | Action 2                     | ACTION2                   |
+| 'C'   | Action 3                     | ACTION3                   |
+| 'V'   | Action 4                     | ACTION4                   |
+| 'Q'   | Quit                         | QUIT                      |
+| ESCAPE    | Escape                       | ESC                       |
+| 'R'   | Restart                      | RESTART                   |
+
+This table provides a clear overview of the keys and their associated actions mapped to the `Arcade::Displays::KeyType`.
+
 ## Table of Contents
 
 - [LIBRARIES](doc/LIBRARIES.md)
