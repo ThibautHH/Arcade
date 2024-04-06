@@ -90,6 +90,44 @@ Usage</h1>
 Implementation of new graphics or game libraries</h1>
 <p>The <a class="el" href="../../d3/d37/namespaceArcade.html">Arcade</a> project is designed to be extensible, allowing developers to implement new graphics or game libraries. Here's how you can implement them.</p>
 <h1><a class="anchor" id="autotoc_md3"></a>
+Key bindings</h1>
+<p>Here's a Markdown table to explain the keys and their corresponding actions:</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Key   </th><th class="markdownTableHeadNone">Action   </th><th class="markdownTableHeadNone">Arcade::Displays::KeyType    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">KEY_UP   </td><td class="markdownTableBodyNone">Move Up   </td><td class="markdownTableBodyNone">VER    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">KEY_DOWN   </td><td class="markdownTableBodyNone">Move Down   </td><td class="markdownTableBodyNone">VER    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">KEY_LEFT   </td><td class="markdownTableBodyNone">Move Left   </td><td class="markdownTableBodyNone">HOR    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">KEY_RIGHT   </td><td class="markdownTableBodyNone">Move Right   </td><td class="markdownTableBodyNone">HOR    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">'O'   </td><td class="markdownTableBodyNone">Previous Library   </td><td class="markdownTableBodyNone">PREV_LIB    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">'P'   </td><td class="markdownTableBodyNone">Next Library   </td><td class="markdownTableBodyNone">NEXT_LIB    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">'L'   </td><td class="markdownTableBodyNone">Previous Game   </td><td class="markdownTableBodyNone">PREV_GAME    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">'M'   </td><td class="markdownTableBodyNone">Next Game   </td><td class="markdownTableBodyNone">NEXT_GAME    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">'W'   </td><td class="markdownTableBodyNone">Action 1   </td><td class="markdownTableBodyNone">ACTION1    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">'X'   </td><td class="markdownTableBodyNone">Action 2   </td><td class="markdownTableBodyNone">ACTION2    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">'C'   </td><td class="markdownTableBodyNone">Action 3   </td><td class="markdownTableBodyNone">ACTION3    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">'V'   </td><td class="markdownTableBodyNone">Action 4   </td><td class="markdownTableBodyNone">ACTION4    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">'Q'   </td><td class="markdownTableBodyNone">Quit   </td><td class="markdownTableBodyNone">QUIT    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">ESCAPE   </td><td class="markdownTableBodyNone">Escape   </td><td class="markdownTableBodyNone">ESC    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">'R'   </td><td class="markdownTableBodyNone">Restart   </td><td class="markdownTableBodyNone">RESTART   </td></tr>
+</table>
+<p>This table provides a clear overview of the keys and their associated actions mapped to the <code>Arcade::Displays::KeyType</code>.</p>
+<h1><a class="anchor" id="autotoc_md4"></a>
 Table of Contents</h1>
 <ul>
 <li><a class="el" href="../../de/da1/md__home_runner_work_Arcade_Arcade_doc_LIBRARIES.html">LIBRARIES</a><ul>
@@ -114,7 +152,7 @@ Table of Contents</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md4"></a>
+<h1><a class="anchor" id="autotoc_md5"></a>
 Mermaid Diagram</h1>
 <div class="fragment"><div class="line">classDiagram</div>
 <div class="line">    class Core {</div>
@@ -218,7 +256,7 @@ Mermaid Diagram</h1>
 <div class="line">    IGameModule -- Vector2i : &quot;getMapSize&quot;</div>
 <div class="line">    IGameModule -- ISprite : &quot;getMap&quot;</div>
 <div class="line">    IGameModule -- IText : &quot;getTexts&quot;</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md5"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md6"></a>
 Contributions</h1>
 <p>Project members:</p>
 <ul>
