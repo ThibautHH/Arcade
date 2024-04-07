@@ -34,6 +34,8 @@ namespace Arcade::Core {
             std::optional<std::string> getNewGame(void) const noexcept;
             std::optional<std::string> getNewDisplay(void) const noexcept;
 
+            const std::vector<std::string> &getDisplays(void) const noexcept;
+
         private:
             std::string &_name;
             std::vector<std::string> _games;

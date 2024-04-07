@@ -43,7 +43,10 @@ namespace Arcade::Core {
 
             void displayGame(Games::IGameModule &game, const std::map<Games::KeyType, int> &inputs);
             void displayMenu(const std::map<Arcade::Games::KeyType, int> &inputs);
+            void switchDisplayModule(const std::string &path);
+            void changeDisplayModule(bool previous = false);
             std::optional<Menu> _menu;
+            std::size_t _currentDisplayIndex = 0;
             DisplayLibrary _displayModuleLibrary;
             GameLibrary _gameModuleLibrary;
             std::unique_ptr<Displays::IDisplayModule> _displayModule;
