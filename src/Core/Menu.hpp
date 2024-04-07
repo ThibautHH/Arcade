@@ -31,8 +31,8 @@ namespace Arcade::Core {
             float getAnimationTime(void) final;
             std::vector<std::tuple<std::string, Games::Vector2i, Games::Color>> getTexts(void) final;
 
-            std::optional<std::string> getNewGame(void) const noexcept;
-            std::optional<std::string> getNewDisplay(void) const noexcept;
+            const std::optional<const std::string> getNewGame(void) const noexcept;
+            const std::optional<const std::string> getNewDisplay(void) const noexcept;
 
             const std::vector<std::string> &getDisplays(void) const noexcept;
 
@@ -41,7 +41,7 @@ namespace Arcade::Core {
             std::vector<std::string> _games;
             std::vector<std::string> _displays;
             std::vector<std::string>::const_iterator _selectedElement;
-            std::optional<std::string> _newModule;
+            std::optional<const std::string> _newModule;
             bool _isGameSelected = true, _isEditingName = false, _isCharDisplayed = false;
             char _currentChar = 'A';
 

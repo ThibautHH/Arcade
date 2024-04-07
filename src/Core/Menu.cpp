@@ -114,7 +114,7 @@ void Menu::updateModule(const std::map<Games::KeyType, int> &inputs)
         || (inputs.at(Games::KeyType::VER) > 0 && this->_selectedElement != selected.cbegin()))
         this->_selectedElement--;
     if (inputs.at(Games::KeyType::ACTION1) != 0)
-        this->_newModule = *this->_selectedElement;
+        this->_newModule.emplace(*this->_selectedElement);
     else
         this->_newModule = std::nullopt;
 }
@@ -153,14 +153,14 @@ bool Menu::update(std::map<Games::KeyType, int> inputs, float)
     return true;
 }
 
-std::optional<std::string> Menu::getNewGame(void) const noexcept
+const std::optional<const std::string> Menu::getNewGame(void) const noexcept
 {
     if (this->_isGameSelected)
         return this->_newModule;
     return std::nullopt;
 }
 
-std::optional<std::string> Menu::getNewDisplay(void) const noexcept
+const std::optional<const std::string> Menu::getNewDisplay(void) const noexcept
 {
     if (!this->_isGameSelected)
         return this->_newModule;

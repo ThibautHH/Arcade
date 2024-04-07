@@ -117,23 +117,23 @@ void Processor::switchDisplayModule(const std::string &path)
 
 void Processor::changeDisplayModule(bool previous)
 {
-    std::string dummy;
-    const auto &displays = this->_menu ? this->_menu->getDisplays() : Menu(dummy).getDisplays();
-    const std::size_t size = displays.size();
-    if (previous) this->_currentDisplayIndex--;
-    else this->_currentDisplayIndex++;
-    if (this->_currentDisplayIndex > size)
-        this->_currentDisplayIndex = size - 1;
-    else if (this->_currentDisplayIndex == size)
+    const auto &displays = this->_menu.getDisplays();
+    if (displays.size() == 0)
+        return;
+    if (this->_currentDisplayIndex == 0 && previous)
+        this->_currentDisplayIndex = displays.size() - 1;
+    else if (this->_currentDisplayIndex == displays.size() - 1 && !previous)
         this->_currentDisplayIndex = 0;
+    else
+        this->_currentDisplayIndex += (previous ? -1 : 1);
     this->switchDisplayModule(displays[this->_currentDisplayIndex]);
 }
 
 void Processor::displayMenu(const std::map<Arcade::Games::KeyType, int> &inputs)
 {
-    displayGame(*this->_menu, inputs);
-    std::optional<std::string> newGame = this->_menu->getNewGame(),
-        newDisplay = this->_menu->getNewDisplay();
+    displayGame(this->_menu, inputs);
+    std::optional<std::string> newGame = this->_menu.getNewGame(),
+        newDisplay = this->_menu.getNewDisplay();
     if (newGame) {
         if (this->_gameModule)
             this->_gameModule->close();
@@ -147,8 +147,6 @@ void Processor::displayMenu(const std::map<Arcade::Games::KeyType, int> &inputs)
 
 void Processor::run()
 {
-    std::string name = "Player";
-
     this->_displayModule->init();
     for (auto nextTick = std::chrono::steady_clock::now(); true; nextTick += 20ms) {
         auto inputs = this->_displayModule->getInputs();
@@ -169,11 +167,8 @@ void Processor::run()
         else if (inputs[Displays::KeyType::PREV_LIB])
             this->changeDisplayModule(true);
         if (this->_gameModule) {
-            this->_menu = std::nullopt;
             displayGame(*this->_gameModule, translateInputs(inputs));
         } else {
-            if (!this->_menu)
-                this->_menu.emplace(name);
             displayMenu(translateInputs(inputs));
         }
         std::this_thread::sleep_until(nextTick);
