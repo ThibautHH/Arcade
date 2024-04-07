@@ -8,8 +8,6 @@
 #ifndef ARCADE_CORE_PROCESSOR_HPP_
     #define ARCADE_CORE_PROCESSOR_HPP_
 
-    #include <optional>
-
     #include "ModuleLibrary.hpp"
     #include "Menu.hpp"
 
@@ -44,10 +42,12 @@ namespace Arcade::Core {
             void displayGame(Games::IGameModule &game, const std::map<Games::KeyType, int> &inputs);
             void displayMenu(const std::map<Arcade::Games::KeyType, int> &inputs);
             void switchDisplayModule(const std::string &path);
+            void switchGameModule(const std::string &path);
             void changeDisplayModule(bool previous = false);
+            void changeGameModule(bool previous = false);
             std::string _name = "Player";
             Menu _menu = Menu(_name);
-            std::size_t _currentDisplayIndex = 0;
+            std::size_t _currentDisplayIndex = 0, _currentGameIndex = 0;
             DisplayLibrary _displayModuleLibrary;
             GameLibrary _gameModuleLibrary;
             std::unique_ptr<Displays::IDisplayModule> _displayModule;
