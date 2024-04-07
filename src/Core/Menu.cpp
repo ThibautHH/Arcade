@@ -172,6 +172,11 @@ const std::vector<std::string> &Menu::getDisplays(void) const noexcept
     return this->_displays;
 }
 
+const std::vector<std::string> &Menu::getGames(void) const noexcept
+{
+    return this->_games;
+}
+
 using Text = std::tuple<std::string, Arcade::Games::Vector2i, Arcade::Games::Color>;
 
 void Menu::setModuleTexts(std::vector<Text> &texts) const

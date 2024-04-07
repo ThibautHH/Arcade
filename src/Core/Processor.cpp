@@ -115,6 +115,16 @@ void Processor::switchDisplayModule(const std::string &path)
     this->_displayModule->init();
 }
 
+void Processor::switchGameModule(const std::string &path)
+{
+    if (this->_gameModule)
+        this->_gameModule->close();
+    this->_gameModule.reset();
+    this->_gameModuleLibrary.reload(path.c_str());
+    this->_gameModule = this->_gameModuleLibrary.createModule();
+    this->_gameModule->init(path, 1);
+}
+
 void Processor::changeDisplayModule(bool previous)
 {
     const auto &displays = this->_menu.getDisplays();
@@ -129,20 +139,29 @@ void Processor::changeDisplayModule(bool previous)
     this->switchDisplayModule(displays[this->_currentDisplayIndex]);
 }
 
+void Processor::changeGameModule(bool previous)
+{
+    const auto &games = this->_menu.getGames();
+    if (games.size() == 0)
+        return;
+    if (this->_currentGameIndex == 0 && previous)
+        this->_currentGameIndex = games.size() - 1;
+    else if (this->_currentGameIndex == games.size() - 1 && !previous)
+        this->_currentGameIndex = 0;
+    else
+        this->_currentGameIndex += (previous ? -1 : 1);
+    this->switchGameModule(games[this->_currentGameIndex]);
+}
+
 void Processor::displayMenu(const std::map<Arcade::Games::KeyType, int> &inputs)
 {
     displayGame(this->_menu, inputs);
     std::optional<std::string> newGame = this->_menu.getNewGame(),
         newDisplay = this->_menu.getNewDisplay();
-    if (newGame) {
-        if (this->_gameModule)
-            this->_gameModule->close();
-        this->_gameModule.reset();
-        this->_gameModuleLibrary.reload(newGame->c_str());
-        this->_gameModule = this->_gameModuleLibrary.createModule();
-        this->_gameModule->init(*newGame, 1);
-    } else if (newDisplay)
-        switchDisplayModule(*newDisplay);
+    if (newGame)
+        this->switchGameModule(*newGame);
+    else if (newDisplay)
+        this->switchDisplayModule(*newDisplay);
 }
 
 void Processor::run()
@@ -166,6 +185,10 @@ void Processor::run()
             this->changeDisplayModule();
         else if (inputs[Displays::KeyType::PREV_LIB])
             this->changeDisplayModule(true);
+        if (inputs[Displays::KeyType::NEXT_GAME])
+            this->changeGameModule();
+        else if (inputs[Displays::KeyType::PREV_GAME])
+            this->changeGameModule(true);
         if (this->_gameModule) {
             displayGame(*this->_gameModule, translateInputs(inputs));
         } else {
