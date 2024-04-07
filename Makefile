@@ -71,11 +71,13 @@ CXXFLAGS				=	$(PCHFLAGS) $(PROJECT_INCLUDE_DIRS:%=-iquote %)	\
 LDLIBS					=	$(LIBS:%=-l%)
 LDFLAGS					=	$(LIB_DIRS:%=-L%)
 
-all:						$(IGNORE_FILE) games graphicals $($(NAME)_TARGET)
+all:						core games graphicals
 	@:
 
 debug:						CXXFLAGS += -g
 debug:						all
+
+core:						$(IGNORE_FILE) $($(NAME)_TARGET)
 
 games:
 	@-echo "Creating shared library Snake..." >&2
