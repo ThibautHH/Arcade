@@ -45,7 +45,8 @@ namespace Arcade::Core {
             void displayMenu(const std::map<Arcade::Games::KeyType, int> &inputs);
             void switchDisplayModule(const std::string &path);
             void changeDisplayModule(bool previous = false);
-            std::optional<Menu> _menu;
+            std::string _name = "Player";
+            Menu _menu = Menu(_name);
             std::size_t _currentDisplayIndex = 0;
             DisplayLibrary _displayModuleLibrary;
             GameLibrary _gameModuleLibrary;
