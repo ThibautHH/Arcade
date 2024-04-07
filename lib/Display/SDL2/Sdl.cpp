@@ -48,44 +48,63 @@ void Sdl::clear(void)
 std::map<Arcade::Displays::KeyType, int> Sdl::getInputs(void)
 {
     SDL_Event event;
-
+    std::map<Arcade::Displays::KeyType, int> inputs;
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT)
-            return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::QUIT, 1}};
-        if (event.type == SDL_KEYDOWN) {
-            if (event.key.keysym.sym == SDLK_q)
-                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::QUIT, 1}};
-            if (event.key.keysym.sym == SDLK_UP)
-                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::VER, 1}};
-            if (event.key.keysym.sym == SDLK_DOWN)
-                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::VER, -1}};
-            if (event.key.keysym.sym == SDLK_LEFT)
-                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::HOR, -1}};
-            if (event.key.keysym.sym == SDLK_RIGHT)
-                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::HOR, 1}};
-            if (event.key.keysym.sym == SDLK_w)
-                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ACTION1, 1}};
-            if (event.key.keysym.sym == SDLK_x)
-                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ACTION2, 1}};
-            if (event.key.keysym.sym == SDLK_c)
-                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ACTION3, 1}};
-            if (event.key.keysym.sym == SDLK_v)
-                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ACTION4, 1}};
-            if (event.key.keysym.sym == SDLK_ESCAPE)
-                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::ESC, 1}};
-            if (event.key.keysym.sym == SDLK_r)
-                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::RESTART, 1}};
-            if (event.key.keysym.sym == SDLK_n)
-                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::NEXT_LIB, 1}};
-            if (event.key.keysym.sym == SDLK_p)
-                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::PREV_LIB, 1}};
-            if (event.key.keysym.sym == SDLK_m)
-                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::NEXT_GAME, 1}};
-            if (event.key.keysym.sym == SDLK_l)
-                return std::map<Arcade::Displays::KeyType, int>{{Arcade::Displays::KeyType::PREV_GAME, 1}};
+            inputs[Arcade::Displays::KeyType::QUIT] = 1;
+        else if (event.type == SDL_KEYDOWN) {
+            switch (event.key.keysym.sym) {
+                case SDLK_UP:
+                    inputs[Arcade::Displays::KeyType::VER] = 1;
+                    break;
+                case SDLK_DOWN:
+                    inputs[Arcade::Displays::KeyType::VER] = -1;
+                    break;
+                case SDLK_LEFT:
+                    inputs[Arcade::Displays::KeyType::HOR] = -1;
+                    break;
+                case SDLK_RIGHT:
+                    inputs[Arcade::Displays::KeyType::HOR] = 1;
+                    break;
+                case SDLK_o:
+                    inputs[Arcade::Displays::KeyType::PREV_LIB] = 1;
+                    break;
+                case SDLK_p:
+                    inputs[Arcade::Displays::KeyType::NEXT_LIB] = 1;
+                    break;
+                case SDLK_l:
+                    inputs[Arcade::Displays::KeyType::PREV_GAME] = 1;
+                    break;
+                case SDLK_m:
+                    inputs[Arcade::Displays::KeyType::NEXT_GAME] = 1;
+                    break;
+                case SDLK_w:
+                    inputs[Arcade::Displays::KeyType::ACTION1] = 1;
+                    break;
+                case SDLK_x:
+                    inputs[Arcade::Displays::KeyType::ACTION2] = 1;
+                    break;
+                case SDLK_c:
+                    inputs[Arcade::Displays::KeyType::ACTION3] = 1;
+                    break;
+                case SDLK_v:
+                    inputs[Arcade::Displays::KeyType::ACTION4] = 1;
+                    break;
+                case SDLK_q:
+                    inputs[Arcade::Displays::KeyType::QUIT] = 1;
+                    break;
+                case SDLK_ESCAPE:
+                    inputs[Arcade::Displays::KeyType::ESC] = 1;
+                    break;
+                case SDLK_r:
+                    inputs[Arcade::Displays::KeyType::RESTART] = 1;
+                    break;
+                default:
+                    break;
+            }
         }
     }
-    return _inputs;
+    return inputs;
 }
 
 void Sdl::setMapSize(Arcade::Displays::Vector2i vector)
