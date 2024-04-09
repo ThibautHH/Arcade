@@ -197,7 +197,7 @@ clean:
 	@-echo 'Deleting build directory...' >&2
 	@$(RM) -f $(BUILD_DIR)
 	@-echo 'Cleaning up unecessary files...' >&2
-	@find \( -name '*~' -o -name 'vgcore.*' -o -name '*.gc*'	\
+	@-find \( -name '*~' -o -name 'vgcore.*' -o -name '*.gc*'	\
 	-o -name 'a.out' -o -name '$(CODING_STYLE_LOG)' \) -delete
 
 fclean:						clean
