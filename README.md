@@ -1,8 +1,8 @@
 # Arcade
 
-<b>binary name:</b> arcade
-<b>language:</b> C++
-<b>compilation:</b> via Makefile (`all`, `clean`, `fclean`, `re`) or CMake
+<b>binary name:</b> arcade  
+<b>language:</b> C++  
+<b>compilation:</b> via Makefile (`all`, `clean`, `fclean`, `re`) or CMake  
 
 > [!CAUTION]
 >
